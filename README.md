@@ -2,16 +2,16 @@
 [//]: # (Please refer the instructions in below URL for the configurations)
 [//]: # (https://projects.ce.pdn.ac.lk/docs/how-to-add-a-project)
 
-# Project Name
+# E-Parking System
 
 ## Description
 
 This is a short desciption of the project. This section should be around 3 sentences.
 
 ## Team Members
-1. E/15/001 Student Name [[Website](http://www.ce.pdn.ac.lk/e15-batch/), [Email](mailto:e5001@ce.pdn.ac.lk)]
-2. E/15/002 Student Name [[Website](http://www.ce.pdn.ac.lk/e15-batch/), [Email](mailto:e5001@ce.pdn.ac.lk)]
-3. E/15/003 Student Name [[Website](http://www.ce.pdn.ac.lk/e15-batch/), [Email](mailto:e5001@ce.pdn.ac.lk)]
+1. E/17/001 Student Name [[Website](http://www.ce.pdn.ac.lk/e15-batch/), [Email](mailto:e5001@ce.pdn.ac.lk)]
+2. E/17/251 Sandun Sanjaya Perera [[Website](http://www.ce.pdn.ac.lk/e17-batch/), [Email](mailto:e17251@ce.pdn.ac.lk)]
+3. E/17/003 Student Name [[Website](http://www.ce.pdn.ac.lk/e15-batch/), [Email](mailto:e5001@ce.pdn.ac.lk)]
 
 
 ## Supervisors
