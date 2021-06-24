@@ -6,7 +6,7 @@
 
 ## Description
 
-This is a short desciption of the project. This section should be around 3 sentences.
+An autonomous system for assigning and managing parking spots and payments in a car park.
 
 ## Team Members
 1. E/17/296 Ravisha Rupasinghe [[Website](http://www.ce.pdn.ac.lk/e17-batch/), [Email](mailto:e17296@ce.pdn.ac.lk)]
