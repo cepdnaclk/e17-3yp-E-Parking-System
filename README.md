@@ -16,7 +16,7 @@ This is a short desciption of the project. This section should be around 3 sente
 
 ## Supervisors
 1. Prof. Staff Name [[Website](http://www.ce.pdn.ac.lk/academic-staff/), [Email](mailto:lecturer@ce.pdn.ac.lk)]
-2. Dr. Satff Name [[Website](http://www.ce.pdn.ac.lk/academic-staff/), [Email](mailto:lecturer@ce.pdn.ac.lk)]
+2. Dr. Staff Name [[Website](http://www.ce.pdn.ac.lk/academic-staff/), [Email](mailto:lecturer@ce.pdn.ac.lk)]
 
 
 ## Links
