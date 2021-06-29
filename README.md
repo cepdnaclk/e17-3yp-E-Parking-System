@@ -18,7 +18,7 @@
 ## Related Links
 
 - [Project Page](https://cepdnaclk.github.io/e17-3yp-E-Parking-System/)
-- [Department Website](https://ce.pdn.ac.lk/)
+- [Department Website](http://www.ce.pdn.ac.lk/)
 - [Faculty Website](https://eng.pdn.ac.lk/)
 
 ## Overview
