@@ -5,7 +5,7 @@
             "email": "e17018@eng.pdn.ac.lk",
             "eNumber": "E/17/018",
             "github_profile":"https://github.com/ImeshBalasuriya",
-            "linkedin_profile":"#",
+            "linkedin_profile":"https://www.linkedin.com/in/imesh-balasuriya/",
             "website": "#"
         },
         {
@@ -27,16 +27,16 @@
     ],
     "supervisors": [
         {
-            "name": "Dr. Supervisor 1",
-            "email": "email@eng.pdn.ac.lk",
-            "linkedin_profile":"#",
+            "name": "Dr. Isuru Nawinne",
+            "email": "isurunawinne@eng.pdn.ac.lk",
+            "linkedin_profile":"https://lk.linkedin.com/in/isuru-nawinne-73302833",
             "researchgate_profile":"#",
             "website": "#"
         },
         {
-            "name": "Supervisor 2",
-            "email": "email@eng.pdn.ac.lk",
-            "linkedin_profile":"#",
+            "name": "Dr. Mahanama Wickramasinghe",
+            "email": "mahanamaw@eng.pdn.ac.lk",
+            "linkedin_profile":"https://www.linkedin.com/in/mahanama",
             "researchgate_profile":"#",
             "website": "#"
         }
