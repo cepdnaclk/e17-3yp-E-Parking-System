@@ -8,7 +8,7 @@ ____
 
 ### Content
 * [Introduction](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#introduction)
-* [Overview](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#overview)
+  * [Overview](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#overview)
   * [Real world problem](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#real-world-problem)
   * [Project objective](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#project-objective)
 * [Team Members](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#team-members)
@@ -29,6 +29,7 @@ ____
 
 ### Project objective
 This project aims at **eliminating the overheads**and inefficiencies associated with manual parking systems in order to **provide a comprehensive solution**  that addresses the **concerns of** both the **consumers** as well as the **owners** of the parking lot.
+
 
 ## Team Members
 1. E/17/296 Ravisha Rupasinghe [[Website](http://www.ce.pdn.ac.lk/e17-batch/), [Email](mailto:e17296@ce.pdn.ac.lk)]
