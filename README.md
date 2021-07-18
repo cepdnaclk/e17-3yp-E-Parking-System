@@ -6,17 +6,28 @@
 
 ____
 
-## Overview
+### Content
+* Introduction
+* Overview
+  * Real world problem
+  * Project objective
+* Team Members
+* Supervisors
+* Related Links
+
+## Introduction
+
+### Overview
 * Urbanization has led to quick and efficient parking being vital. 
 * Human-operated parking lots have a lot of inherent flaws.
 * An autonomous parking system could address these issues effectively.
 
-## Real world problem
+### Real world problem
 * Manual systems are highly inefficient and Leads to long queues and waiting times.
 * It is difficult to manage the allocation of parking spaces.
 * Owners cannot easily get an idea of the overall status.
 
-## Project objective
+### Project objective
 This project aims at **eliminating the overheads**and inefficiencies associated with manual parking systems in order to **provide a comprehensive solution**  that addresses the **concerns of** both the **consumers** as well as the **owners** of the parking lot.
 
 ## Team Members
