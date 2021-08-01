@@ -4,6 +4,8 @@
     <title>E-parking system</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
     
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
 
@@ -39,9 +41,9 @@
 	        <ul class="navbar-nav ml-auto">
 	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
 	          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-            <li class="nav-item"><a href="design.html" class="nav-link">Design</a></li>
+			  <li class="nav-item"><a href="design.html" class="nav-link">Design</a></li>
 	          <li class="nav-item"><a href="progress.html" class="nav-link">Progress</a></li>          
-	          <li class="nav-item"><a href="3D_model.html" class="nav-link">3D Model</a></li>
+	          <li class="nav-item"><a href="3D_model.html" class="nav-link">3D Models</a></li>
 	        </ul>
 	      </div>
 	    </div>
@@ -155,13 +157,19 @@
 
     <section class="ftco-section testimony-section bg-light">
       <div class="container">
+	  
         <div class="row justify-content-center mb-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
           	<span class="subheading">Progress</span>
             <h2 class="mb-3">Product Timeline</h2>
           </div>
         </div>
-        <div class="progress" style="height: 100px;" >
+		
+		<div class="progress mb-1" style="height: 5px;" >
+          <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="20"></div>
+		</div>
+		
+        <div class="progress d-flex" style="height: 100px;" >
           <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Week 7-8:<br>Backend Design</div>
 		  <div class="progress-bar bg-success" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Week 9-10:<br>Hardware design</div>
 		  <div class="progress-bar bg-info" role="progressbar" style="width: 14%" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">Week 11:<br>App development</div>
@@ -169,50 +177,11 @@
 		  <div class="progress-bar bg-success" role="progressbar" style="width: 13%" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100">Week 14:<br>Integration</div>
 		  <div class="progress-bar bg-info" role="progressbar" style="width: 13%" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100">Week 15:<br>Testing</div>
 		</div>
+		
      </div>
     </section>
 
-<!--     <section class="ftco-section">
-      <div class="container">
-        <div class="row justify-content-center mb-5">
-          <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading">3D Model</span>
-            <h2>A Preview Of Our Product</h2>
-          </div>
-        </div>
-      </div>
-    </section> -->
-    
-    <!-- <section class="ftco-section">
-      <div class="row justify-content-center mb-5">
-        <div class="col-md-7 heading-section text-center ftco-animate">
-          <span class="subheading">Gallery</span>
-          <h2>Explore The Progress</h2>
-        </div>
-      </div>
-      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-        
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="images/car-2.jpg" class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="images/car-10.jpg" class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="images/car-11.jpg" class="d-block w-100" alt="...">
-          </div>
-        </div>
-        <button class="carousel-control-prev border border-4" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next border border-4" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-    </section> -->
+
 
     <footer class="ftco-footer ftco-bg-dark ftco-section">
       <div class="container">
@@ -220,7 +189,7 @@
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2"><a href="#" class="logo">Quick<span>Park</span></a></h2>
-              <p>An autonomous system for assigning and managing parking spots and payments in a car park.</p>
+              <p>An autonomous system for assigning, managing parking spots and processing payments in a car park.</p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                 <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
                 <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
