@@ -28,7 +28,7 @@ ____
 * Owners cannot easily get an idea of the overall status.
 
 ### Project objective
-This project aims at **eliminating the overheads**and inefficiencies associated with manual parking systems in order to **provide a comprehensive solution**  that addresses the **concerns of** both the **consumers** as well as the **owners** of the parking lot.
+This project aims at **eliminating the overheads** and inefficiencies associated with manual parking systems in order to **provide a comprehensive solution**  that addresses the **concerns of** both the **consumers** as well as the **owners** of the parking lot.
 
 
 ## Team Members
