@@ -56,7 +56,7 @@ if __name__ == '__main__':
     #
     ######################################################################################
     #PART1
-    #Initialize graph
+    #Initialize graph - Run this only once
     n = 11
     edges = [[] for i in range(n)] #Array of arrays
     
@@ -87,27 +87,46 @@ if __name__ == '__main__':
         arr_of_dicts.append([i, node])
                 
 
-    print("Array of [spot,dictionary]: ", arr_of_dicts)
+    #print("Array of [spot,dictionary]: ", arr_of_dicts)
 
     ######################################################################################
     #PART2
     #To find the next parking spot
     #The actual values should be retreived from the database
+    
     #Spots and their status
     status = {3:0,4:1,5:1,7:1,8:1,9:0,10:0} #1-->Available, 0-->Occupied
     last_res = 3 #Last occupied spot
-    next_spot = 0
+    
 
     for spot in arr_of_dicts:
         if(spot[0]==last_res):
             dict_copy = spot[1]
-            furthest_spot = max(dict_copy, key=dict_copy.get) #Find the furthest spot from the dictionary
-            while(status[furthest_spot] == 0):
-                dict_copy.pop(furthest_spot)
-                furthest_spot = max(dict_copy, key=dict_copy.get) #Look for the next furthest
+            if(max(status.values())== 0): #Parking lot is full
+                print("Parking lot is full")
+                break
+            
+            else: #Parking lot is not full
+                
+                furthest_spot = max(dict_copy, key=dict_copy.get) #Find the furthest spot from the dictionary
+                while(status[furthest_spot] == 0 and len(dict_copy) > 0):
+                    dict_copy.pop(furthest_spot)
+                    furthest_spot = max(dict_copy, key=dict_copy.get) #Look for the next furthest
+                        
+
+                print("Next spot:",furthest_spot)
+                    
+                
+
+
+
+            
+            
                 
                 
-            print("Next spot:",furthest_spot)    
+                
+            
+            
 
     
     
