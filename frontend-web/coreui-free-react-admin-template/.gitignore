@@ -14,6 +14,7 @@ package-lock.json
 .eslintcache
 .DS_Store
 .idea
+.env
 .env.local
 .env.development.local
 .env.test.local
