@@ -18,11 +18,12 @@ module.exports = function(app){
     app.use(
         proxy("/user", {
             target: "http://localhost:5000/registeredcustomers",
-            secure: faulse,
+            secure: false,
             changeOrigin: true
         })
     );
 };
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
