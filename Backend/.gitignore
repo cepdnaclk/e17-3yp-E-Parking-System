@@ -1,0 +1,8 @@
+//.env files
+config.env
+
+//Node modules folder
+/node_modules/
+
+//SSL certificates
+/certificate/
