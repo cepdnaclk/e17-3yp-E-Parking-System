@@ -17,12 +17,12 @@ router.route('/user').get(protect, (req, res, next) =>{
 
 });
 
-router.route('/:id').get((req, res) =>{
+// router.route('/:id').get((req, res) =>{
     
-    RegUser.findById(req.params.id)
-    .then(RegisteredCustomers => res.json(RegisteredCustomers))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+//     RegUser.findById(req.params.id)
+//     .then(RegisteredCustomers => res.json(RegisteredCustomers))
+//     .catch(err => res.status(400).json('Error: ' + err));
+// });
 
 //Registration
 router.route("/add").post((req, res, next) => {
@@ -52,23 +52,25 @@ router.route("/signin").post(async(req, res, next) => {
     const password = req.body.password;
 
     if(!email || !password){
-        res.status(400).json("Please provide email and password")
+        return res.status(400).json({success: false, error: "Please provide email and password"})
     }
     try{
         const user = await RegUser.findOne({ email }).select("+password");
         if(!user){
-            res.status(404).jason("Invalid credentials");
+            return res.status(404).json({success: false, error: "Invalid credentials"});
         }
+        console.log(user.password)
         const isMatch = await user.matchPasswords(password);
+        console.log(isMatch);
         
         if(!isMatch){
-            res.status(404).jason("Invalid credentials");
+            return res.status(405).json({success: false, error: "Invalid credentials"});
         }
 
         sendToken(user, 200, res);
 
     }catch(error){
-        res.status(500).json("hi");
+        res.status(406).json({success: false, error: error.message});
     }
 });
 
