@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ReservationSchema = new Schema({
+    ResevationID:{type: String},
     customerID:{type: String, required: false},
     parkingspotID:{type: String, required: false},
     floornumber:{type: String, required: false},

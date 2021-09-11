@@ -28,15 +28,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "",
-    "infoPlist": {
-      "NSAppTransportSecurity": {
-        "NSExceptionDomains": {
-          "something.com": {
-            "NSTemporaryExceptionAllowsInsecureHTTPLoads": true
-          }
-        }
-      }
-    }
+    "description": ""
   }
 }

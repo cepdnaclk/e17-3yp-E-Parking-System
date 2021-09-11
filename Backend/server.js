@@ -10,20 +10,20 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 
+
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
-module.exports = function(app){
-    app.use(
-        proxy("/user", {
-            target: "http://localhost:5000/registeredcustomers",
-            secure: false,
-            changeOrigin: true
-        })
-    );
-};
-
+// module.exports = function(app){
+//     app.use(
+//         proxy("/user", {
+//             target: "https://192.168.1.101:5000/registeredcustomers",
+//             secure: faulse,
+//             changeOrigin: true
+//         })
+//     );
+// };
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -39,16 +39,25 @@ const GuestCustomersRout = require('./routes/GuestCustomers.js');
 const ParkingSpotsRout = require('./routes/ParkingSpots.js');
 const AssignToRout = require('./routes/AssignTo.js');
 const { Certificate } = require('crypto');
+const errorHandler = require('./middlewere/error.js');
 
 app.use('/registeredcustomers', RegisteredCustomersRout);
 app.use('/guestcustomers', GuestCustomersRout);
 app.use('/parkingspots', ParkingSpotsRout);
 app.use('/assignto', AssignToRout);
-
-const sslserver = https.createServer({
-    key: fs.readFileSync(path.join(__dirname, 'certificate', 'key.pem')),
-    cert: fs.readFileSync(path.join(__dirname, 'certificate', 'certificate.pem'))
-}, app);
-sslserver.listen(port, () => {
-    console.log(`Express server is running on port: ${port}`);
+app.use("/", (req, res, next) => {
+    res.send("hi");
 });
+app.use(errorHandler);
+
+// const sslserver = https.createServer({
+//     key: fs.readFileSync(path.join(__dirname, 'certificate', 'key.pem')),
+//     cert: fs.readFileSync(path.join(__dirname, 'certificate', 'certificate.pem'))
+// }, app);
+// sslserver.listen(port, () => {
+//     console.log(`Express server is running on port: ${port}`);
+// });
+
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+  })

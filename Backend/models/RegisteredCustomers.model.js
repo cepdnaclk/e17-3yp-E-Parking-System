@@ -27,7 +27,10 @@ RegisteredCustomersSchema.pre("save", async function (next) {
 });
 
 RegisteredCustomersSchema.methods.matchPasswords = async function(password){
-    return await bcrypt.compare(password, this.password);
+    console.log(password, this.password);
+    const val = await bcrypt.compare(password, this.password);
+    console.log(val);
+    return val
 };
 
 RegisteredCustomersSchema.methods.getSignedToken = function(){

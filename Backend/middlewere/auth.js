@@ -9,7 +9,7 @@ exports.protect = async (req, res, next) => {
     const id = token.split(" ")[1];
     if(!token){
         
-        return res.status(400).json('Error:1 ');
+        res.status(400).json({sucsess: false, error: 'Error:1 '});
     }
     
     try{
@@ -19,13 +19,13 @@ exports.protect = async (req, res, next) => {
         const user = await RegUser.findById(decoded.id);
 
         if(!user){
-            return res.status(402).json('Error: 2');
+            res.status(400).json({sucsess: false, error: 'Error:2 '});
         }
 
         req.user = user;
         next();
         
     }catch (error){
-        return res.status(406).json('Error3: ');
+        res.status(400).json({sucsess: false, error: error.message});
     }
 }
