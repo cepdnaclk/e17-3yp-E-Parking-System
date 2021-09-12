@@ -1,3 +1,4 @@
 import sys
-print("Hi1")
-#print(sys.argv[1])
+result = int(sys.argv[1])+1
+result = str(result)
+print(result)
