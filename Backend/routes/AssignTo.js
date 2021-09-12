@@ -2,6 +2,7 @@ const router = require('express').Router();
 const path = require('path');
 let AssignSpot = require('../models/AssignTo.model.js');
 let ParkingSpot = require('../models/ParkingSpot.model.js');
+let RegisteredCustomers = require('../models/RegisteredCustomers.model.js');
 
 router.route('/').get((req, res) =>{
     AssignSpot.find()
@@ -16,6 +17,22 @@ router.route('/:id').get((req, res) =>{
 });
 
 router.route("/add").post(async(req, res) => {
+	/*TODO::
+		req payload contains vehicle number
+		Look up vehicle number in RegisteredCustomers.
+		
+		If found  =>
+			customerID = RegisteredCustomers.customerID;
+			
+			If customerID in Reservations & 'Reserved' => get ParkingSpotID => Find that id in ParkingSpots and return
+			
+			Else => Spawn python child process to generate spot
+			
+		Else =>
+			customerID = random number
+			spawn python child process to generate spot
+			
+	*/
 
     // const LastAssignedSpot = await AssignSpot.find({}).sort({_id:-1}).limit(1);
     // console.log(LastAssignedSpot);

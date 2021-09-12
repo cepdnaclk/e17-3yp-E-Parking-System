@@ -87,7 +87,7 @@ if __name__ == '__main__':
         arr_of_dicts.append([i, node])
                 
 
-    #print("Array of [spot,dictionary]: ", arr_of_dicts)
+    print("Array of [spot,dictionary]: ", arr_of_dicts)
 
     ######################################################################################
     #PART2
