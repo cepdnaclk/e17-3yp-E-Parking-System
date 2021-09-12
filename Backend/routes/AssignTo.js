@@ -15,36 +15,50 @@ router.route('/:id').get((req, res) =>{
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route("/add").post((req, res) => {
-    const { spawn } = require('child_process');
+router.route("/add").post(async(req, res) => {
 
-    const childPy = spawn('python', [path.join(__dirname, '../algorithms/parkingspot_assign_algo.py'), ]);
-    childPy.stdout.on('data', (data) => {
-        console.log(`str: ${data}`);
-    });
+    // const LastAssignedSpot = await AssignSpot.find({}).sort({_id:-1}).limit(1);
+    // console.log(LastAssignedSpot);
+    const LastAssignedSpot = await AssignSpot.find({}).sort({_id:-1}).limit(1);
+    const AllParkingSpots = await ParkingSpot.find();
+    console.log(LastAssignedSpot[0]['parkingspotID']);
+    try{
 
-    childPy.on('close', (code) => {
-        console.log("0");
-    });
+        const { spawn } = require('child_process');    
+        const childPy = spawn('python', [path.join(__dirname, '../algorithms/parkingspot_assign_algo.py'), LastAssignedSpot[0]['parkingspotID'], AllParkingSpots]);
+        childPy.stdout.on('data', (data) => {
+            console.log(`str: ${data}`);
 
-    const customerID = req.body.customerID;
-    const parkingspotID = "1";
-    const cost = Number(req.body.cost);
-    const checkin = req.body.checkin;
-    const checkout = req.body.checkout;
-    const duration = req.body.duration;
+            const customerID = req.body.customerID;
+            const parkingspotID = data.toString();
+            const cost = Number(req.body.cost);
+            const checkin = req.body.checkin;
+            const checkout = req.body.checkout;
+            const duration = req.body.duration;
+        
+            const newAssign = new AssignSpot({
+                customerID,
+                parkingspotID,
+                cost,
+                checkin,
+                checkout,
+                duration
+            });
+        
+            newAssign.save().then(() => res.json('User assigned!!!'))
+            .catch(err => res.status(400).json('Error: '+ err));
 
-    const newAssign = new AssignSpot({
-        customerID,
-        parkingspotID,
-        cost,
-        checkin,
-        checkout,
-        duration
-    });
+        });
+    
+        childPy.on('close', (code) => {
+           // console.log("0");
+        });
+    }
+    catch(error){
+        return res.status(406).json({success: false, error: error.message});
+    }
 
-    newAssign.save().then(() => res.json('User assigned!!!'))
-    .catch(err => res.status(400).json('Error: '+ err));
+
 });
 
 router.route('/:id').delete((req, res) =>{
