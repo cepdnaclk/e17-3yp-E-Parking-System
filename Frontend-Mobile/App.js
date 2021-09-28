@@ -13,6 +13,7 @@ import RootStackScreen from './components/RootStack.component';
 import { AuthContext } from './components/context';
 import HomeScreen from './components/HomeScreen'; 
 import Datascreen from './components/DataScreen';
+import HistoryScreen from './components/HistoryScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -87,12 +88,13 @@ export default function App() {
   return (
     <AuthContext.Provider value = {authContext}>
       <NavigationContainer>
-        {loginState.userToken != null ? (
-          <Drawer.Navigator drawerContent={props => <Drawercontent{...props}/>}>
-            <Drawer.Screen name="HomeScreen" component={HomeScreen}/>
-            <Drawer.Screen name="DataScreen" component={Datascreen}/>
+        {loginState.userToken == null ? (
+          <Drawer.Navigator
+            drawerContent={props => <Drawercontent{...props}/>}
+          >
+            <Drawer.Screen name="Home" component={HomeScreen}/>
+            <Drawer.Screen name="History" component={HistoryScreen}/>
           </Drawer.Navigator>
-          
           )
         :
           <RootStackScreen/>
