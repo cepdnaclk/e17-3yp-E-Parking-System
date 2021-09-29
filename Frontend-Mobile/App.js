@@ -88,7 +88,7 @@ export default function App() {
   return (
     <AuthContext.Provider value = {authContext}>
       <NavigationContainer>
-        {loginState.userToken == null ? (
+        {loginState.userToken != null ? (
           <Drawer.Navigator
             drawerContent={props => <Drawercontent{...props}/>}
           >
