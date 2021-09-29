@@ -23,10 +23,11 @@ const ParkScreen = () => {
       <View style={Styles.container} >
         <Card style={Styles.card}>
           <Card.Title title="3YP - 4269" subtitle="Toyota Corolla" />
-          <Card.Content>
+          <Card.Content style={Styles.cardTop} >
             <Paragraph>5.00pm - Check-in at ABC Mall</Paragraph>
-            <Paragraph>Spot Number</Paragraph>
-            <Title>A001</Title>
+            <Paragraph />
+            <Paragraph style={Styles.spotContext}>Spot Number</Paragraph>
+            <Title style={Styles.spotNo} >A001</Title>
           </Card.Content>
           <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={Styles.directions} />
         </Card>
@@ -46,6 +47,9 @@ const Styles = StyleSheet.create({
       margin: 10,
       flex: 1,
     },
+    cardTop: {
+      paddingBottom: 15,
+    },
     fab: {
     position: 'absolute',
     margin: 20,
@@ -54,5 +58,12 @@ const Styles = StyleSheet.create({
     },
     directions: {
       flex: 1,
-    }
+    },
+    spotContext: {
+      color:'#888', 
+      fontSize: 12,
+    },
+    spotNo: {
+      fontSize: 26
+    },
 });

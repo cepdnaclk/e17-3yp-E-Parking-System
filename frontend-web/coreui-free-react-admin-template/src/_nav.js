@@ -1,47 +1,31 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import {
-  cilBell,
-  cilCalculator,
-  cilChartPie,
-  cilCursor,
-  cilDrop,
-  cilNotes,
-  cilPencil,
-  cilPuzzle,
-  cilSpeedometer,
-  cilStar,
-} from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { cilChart, cilColumns, cilGarage, cilCalendarCheck } from '@coreui/icons'
+import { CNavItem } from '@coreui/react'
 
 const _nav = [
   {
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilColumns} customClassName="nav-icon" />,
     badge: {
       color: 'info',
-      text: 'NEW',
     },
   },
   {
-    component: CNavTitle,
-    name: 'Theme',
+    component: CNavItem,
+    name: 'Parking Spots',
+    to: '/parkingspots',
+    icon: <CIcon icon={cilGarage} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'Colors',
-    to: '/theme/colors',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    name: 'Reservations',
+    to: '/reservations',
+    icon: <CIcon icon={cilCalendarCheck} customClassName="nav-icon" />,
   },
-  {
-    component: CNavItem,
-    name: 'Typography',
-    to: '/theme/typography',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
-  },
-  {
+  /*{
     component: CNavTitle,
     name: 'Components',
   },
@@ -287,7 +271,7 @@ const _nav = [
         to: '/500',
       },
     ],
-  },
+  },*/
 ]
 
 export default _nav

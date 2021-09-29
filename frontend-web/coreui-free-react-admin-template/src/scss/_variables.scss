@@ -5,8 +5,8 @@
 // Color system
 
 // scss-docs-start gray-color-variables
-// $white:     #fff !default;
-// $gray-base: #3c4b64 !default;
+$white:     #fff !default;
+$gray-base: #3c4b64 !default;
 // $gray-100:  #ebedef !default;
 // $gray-200:  #d8dbe0 !default;
 // $gray-300:  #c4c9d0 !default;
@@ -17,6 +17,9 @@
 // $gray-800:  #636f83 !default;
 // $gray-900:  #4f5d73 !default;
 // $black:     #000015 !default;
+$qp-green : #01D28E;
+
+$qp-green-hover :             rgba($qp-green, .38);
 // scss-docs-end gray-color-variables
 
 // fusv-disable
@@ -1640,19 +1643,19 @@
 // $sidebar-padding-y:                        0 !default;
 // $sidebar-padding-x:                        0 !default;
 // $sidebar-color:                            $high-emphasis-inverse !default;
-// $sidebar-bg:                               $gray-base !default;
+$sidebar-bg:                               $white !default;
 // $sidebar-border-width:                     0 !default;
 // $sidebar-border-color:                     transparent !default;
 // $sidebar-transition:                       margin-left .15s, margin-right .15s, box-shadow .075s, transform .15s, width .15s, z-index 0s ease .15s !default;
 
 // $sidebar-brand-height:                     4rem !default;
 // $sidebar-brand-color:                      $high-emphasis-inverse !default;
-// $sidebar-brand-bg:                         rgba($black, .2) !default;
+$sidebar-brand-bg:                         $white !default;
 
 // $sidebar-header-height:                    4rem !default;
 // $sidebar-header-padding-y:                 .75rem !default;
 // $sidebar-header-padding-x:                 1rem !default;
-// $sidebar-header-bg:                        rgba($black, .2) !default;
+// $sidebar-header-bg:                        $white !default;
 // $sidebar-header-height-transition:         height .15s, padding .15s !default;
 
 // $sidebar-narrow-width:                     4rem !default;
@@ -1669,17 +1672,17 @@
 
 // $sidebar-nav-link-padding-y:               .8445rem !default;
 // $sidebar-nav-link-padding-x:               1rem !default;
-// $sidebar-nav-link-color:                   $medium-emphasis-inverse !default;
+$sidebar-nav-link-color:                   $gray-base !default;
 // $sidebar-nav-link-bg:                      transparent !default;
-// $sidebar-nav-link-transition:              background .15s ease, color .15s ease !default;
-// $sidebar-nav-link-icon-color:              $medium-emphasis-inverse !default;
+$sidebar-nav-link-transition:              background .15s ease, color .15s ease !default;
+$sidebar-nav-link-icon-color:              $gray-base !default;
 
-// $sidebar-nav-link-hover-color:             $high-emphasis-inverse !default;
-// $sidebar-nav-link-hover-bg:                rgba($white, .05) !default;
-// $sidebar-nav-link-hover-icon-color:        $high-emphasis-inverse !default;
+$sidebar-nav-link-hover-color:             $gray-base !default;
+$sidebar-nav-link-hover-bg:                $qp-green-hover !default;
+$sidebar-nav-link-hover-icon-color:        $gray-base !default;
 
-// $sidebar-nav-link-active-color:            $high-emphasis-inverse !default;
-// $sidebar-nav-link-active-bg:               rgba($white, .05) !default;
+// $sidebar-nav-link-active-color:            $qp-green !default;
+$sidebar-nav-link-active-bg:               $qp-green !default;
 // $sidebar-nav-link-active-icon-color:       $high-emphasis-inverse !default;
 
 // $sidebar-nav-link-disabled-color:          $disabled-inverse !default;
@@ -1703,12 +1706,12 @@
 // $sidebar-footer-height:                    auto !default;
 // $sidebar-footer-padding-y:                 .75rem !default;
 // $sidebar-footer-padding-x:                 1rem !default;
-// $sidebar-footer-bg:                        rgba($black, .2) !default;
+// $sidebar-footer-bg:                        $white !default;
 // $sidebar-footer-height-transition:         height .15s, padding .15s !default;
 
 // $sidebar-toggler-height:                   3rem !default;
-// $sidebar-toggler-bg:                       rgba($black, .2) !default;
-// $sidebar-toggler-transition:               transform .15s !default;
+$sidebar-toggler-bg:                       $white !default;
+$sidebar-toggler-transition:               transform .15s !default;
 
 // $sidebar-toggler-indicator-width:          4rem !default;
 // $sidebar-toggler-indicator-height:         3rem !default;
