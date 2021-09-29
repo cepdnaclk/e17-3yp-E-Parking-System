@@ -24,7 +24,7 @@ import avatar5 from './../../assets/images/avatars/5.jpg'
 import avatar6 from './../../assets/images/avatars/6.jpg'*/
 
 const WidgetsDropdown = lazy(() => import('../components/widgets/WidgetsDropdown.js'))
-//const WidgetsBrand = lazy(() => import('../components/widgets/WidgetsBrand.js'))
+//const Widgets = lazy(() => import('../components/widgets/Widgets.js'))
 
 const Dashboard = () => {
   const random = (min, max) => {
@@ -146,35 +146,6 @@ const Dashboard = () => {
             }}
           />
         </CCardBody>
-        <CCardFooter>
-          <CRow xs={{ cols: 1 }} md={{ cols: 5 }} className="text-center">
-            <CCol className="mb-sm-2 mb-0">
-              <div className="text-medium-emphasis">Visits</div>
-              <strong>29.703 Users (40%)</strong>
-              <CProgress thin className="mt-2" precision={1} color="success" value={40} />
-            </CCol>
-            <CCol className="mb-sm-2 mb-0">
-              <div className="text-medium-emphasis">Unique</div>
-              <strong>24.093 Users (20%)</strong>
-              <CProgress thin className="mt-2" precision={1} color="info" value={40} />
-            </CCol>
-            <CCol className="mb-sm-2 mb-0">
-              <div className="text-medium-emphasis">Pageviews</div>
-              <strong>78.706 Views (60%)</strong>
-              <CProgress thin className="mt-2" precision={1} color="warning" value={40} />
-            </CCol>
-            <CCol className="mb-sm-2 mb-0">
-              <div className="text-medium-emphasis">New Users</div>
-              <strong>22.123 Users (80%)</strong>
-              <CProgress thin className="mt-2" precision={1} color="danger" value={40} />
-            </CCol>
-            <CCol className="mb-sm-2 mb-0">
-              <div className="text-medium-emphasis">Bounce Rate</div>
-              <strong>Average Rate (40.15%)</strong>
-              <CProgress thin className="mt-2" precision={1} value={40} />
-            </CCol>
-          </CRow>
-        </CCardFooter>
       </CCard>
       <CCard className="mb-4">
         <CCardHeader>
@@ -183,7 +154,7 @@ const Dashboard = () => {
               <h4 id="Spot Overview" className="card-title mb-0">
                 Spot Overview
               </h4>
-              <div className="small text-medium-emphasis">69th September 2069</div>
+              <div className="small text-medium-emphasis">28th September 2021</div>
             </CCol>
             <CCol sm={7} className="d-none d-md-block">
               <CButtonGroup className="float-end me-3">

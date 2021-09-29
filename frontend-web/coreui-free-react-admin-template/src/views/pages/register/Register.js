@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -12,7 +13,7 @@ import {
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilArrowRight, cilLockLocked, cilMobile, cilUser } from '@coreui/icons'
+import { cilBuilding, cilLockLocked, cilMobile, cilUser } from '@coreui/icons'
 
 const Register = () => {
   return (
@@ -23,19 +24,13 @@ const Register = () => {
             <CCard className="mx-4">
               <CCardBody className="p-4">
                 <CForm>
-                  <h1>Register</h1>
+                  <h1>Register for QuickPark</h1>
                   <p className="text-medium-emphasis">Create your account</p>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
-                      <CIcon icon={cilArrowRight} />
+                      <CIcon icon={cilBuilding} />
                     </CInputGroupText>
-                    <CFormInput placeholder="First name" autoComplete="firstname" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilArrowRight} />
-                    </CInputGroupText>
-                    <CFormInput placeholder="Last name" autoComplete="lastname" />
+                    <CFormInput placeholder="Organization name" autoComplete="orgname" />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
@@ -74,7 +69,9 @@ const Register = () => {
                     />
                   </CInputGroup>
                   <div className="d-grid">
-                    <CButton color="success text-white">Create Account</CButton>
+                    <Link to="/login">
+                      <CButton color="success text-white">Create Account</CButton>
+                    </Link>
                   </div>
                 </CForm>
               </CCardBody>

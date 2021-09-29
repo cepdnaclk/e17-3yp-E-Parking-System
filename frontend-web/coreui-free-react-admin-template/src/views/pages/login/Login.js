@@ -51,19 +51,17 @@ const Login = () => {
                       />
                     </CInputGroup>
                     <div className="d-grid">
-                      <CButton color="success" className="px-4 text-white">
-                        Login
-                      </CButton>
+                      <Link to="/">
+                        <CButton color="success" className="w-100 mt-2 px-4 text-white">
+                          Login
+                        </CButton>
+                      </Link>
                     </div>
-                    <div className="d-grid">
-                      <CButton color="link" className="mt-1 px-0">
-                        Forgot password?
-                      </CButton>
-                    </div>
-                    <div className="d-grid px-5">
+                    <div className="d-grid mt-5">
+                      <p className="text-medium-emphasis">Don&apos;t have an account?</p>
                       <Link to="/register">
-                        <CButton color="link" shape="rounded-pill" className="mt-2 px-5 block">
-                          Create Account
+                        <CButton color="primary" className="w-100 px-4">
+                          Register
                         </CButton>
                       </Link>
                     </div>
