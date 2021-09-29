@@ -39,6 +39,7 @@ export default function HistoryScreen({navigation}){
     );
 };
 
+
 const Styles = StyleSheet.create({
     container: {
         flex: 1,

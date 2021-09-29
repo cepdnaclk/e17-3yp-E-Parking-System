@@ -129,7 +129,7 @@ export default function Login({ history, navigation }){
       >
           <Text style={[styles.text_footer, {
               color: colors.text
-          }]}>email</Text>
+          }]}>Email</Text>
           <View style={styles.action}>
               <FontAwesome 
                   name="user-o"
@@ -161,7 +161,7 @@ export default function Login({ history, navigation }){
 
           { data.isValidUser ? null : 
           <Animatable.View animation="fadeInLeft" duration={500}>
-          <Text style={styles.errorMsg}>Email eka waradii.</Text>
+          <Text style={styles.errorMsg}>Invalid Email</Text>
           </Animatable.View>
           }
           
@@ -240,7 +240,7 @@ export default function Login({ history, navigation }){
               >
                   <Text style={[styles.textSign, {
                       color: '#009387'
-                  }]}>Sign Up</Text>
+                  }]}>Create Account</Text>
               </TouchableOpacity>
           </View>
       </Animatable.View>
