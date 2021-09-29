@@ -24,7 +24,7 @@ const WelcomeScreen = ({navigation}) => {
             <Animatable.Image 
                 animation="bounceIn"
                 duraton="1500"
-            source={require('../assets/i.png')}
+            source={require('../assets/icon.png')}
             style={styles.logo}
             resizeMode="stretch"
             />
