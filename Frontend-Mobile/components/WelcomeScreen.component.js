@@ -24,7 +24,7 @@ const WelcomeScreen = ({navigation}) => {
             <Animatable.Image 
                 animation="bounceIn"
                 duraton="1500"
-            source={require('../assets/splash.png')}
+            source={require('../assets/icon.png')}
             style={styles.logo}
             resizeMode="stretch"
             />
@@ -37,7 +37,7 @@ const WelcomeScreen = ({navigation}) => {
         >
             <Text style={[styles.title, {
                 color: colors.text
-            }]}>Quick Park!!!!</Text>
+            }]}>Quick Park</Text>
             <Text style={styles.text}>Sign in with account</Text>
             <View style={styles.button}>
             <TouchableOpacity onPress={()=>navigation.navigate('Login')}>
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
       paddingHorizontal: 30
   },
   logo: {
-      width: height_logo,
-      height: height_logo
+      width: 100,
+      height: 100
   },
   title: {
       color: '#05375a',
@@ -97,11 +97,12 @@ const styles = StyleSheet.create({
   },
   button: {
       alignItems: 'flex-end',
-      marginTop: 30
+      marginTop: 30,
+      paddingVertical: 50
   },
   signIn: {
-      width: 150,
-      height: 40,
+      width: 200,
+      height: 50,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 50,

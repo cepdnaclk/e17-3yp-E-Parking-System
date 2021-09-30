@@ -25,16 +25,17 @@ export function Drawercontent(props) {
             <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
-                        <View style={{flexDirection: 'row', marginTop: 15}}>
+                        <View style={{flexDirection: 'row', marginTop: 25, marginBottom: 10}}>
                             <Avatar.Image
                                 source={{
                                     uri: 'https://www.pngfind.com/mpng/hiJwTJo_icon-user-icon-hd-png-download/' 
                                 }}
-                                size={50}
+                                style={{backgroundColor: '#ddd'}}
+                                size={75}
                             />
-                            <View>
-                                <Title style={styles.title}>User</Title>
-                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', marginLeft: 6}}>
+                            <Title style={styles.title}>John Doe</Title>
                         </View>
                     </View>
 
@@ -48,19 +49,19 @@ export function Drawercontent(props) {
                             />
                             )}
                             label="Home"
-                            onPress={() => {props.navigation.navigate('HomeScreen')}}
-                        /> 
+                            onPress={() => {props.navigation.navigate('Home')}}
+                        />   
                         <DrawerItem
                         icon={({color, size}) => (
                             <Icon
-                            name="account-outline"
+                            name="history"
                             color={color}
                             size={size}
                             />
                             )}
-                            label="Data"
-                            onPress={() => {props.navigation.navigate('DataScreen')}}
-                        />                      
+                            label="History"
+                            onPress={() => {props.navigation.navigate('History')}}
+                        />
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>
@@ -88,11 +89,13 @@ const styles = StyleSheet.create({
     },
     userInfoSection: {
         paddingLeft: 20,
+        height: 150,
+        backgroundColor: '#1f1f1f',
     },
     title: {
-        fontSize: 16,
+        fontSize: 20,
+        color: '#fff',
         marginTop: 3,
-        fontWeight: 'bold',
     },
     caption: {
         fontSize: 14,

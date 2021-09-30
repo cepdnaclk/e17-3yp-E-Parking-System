@@ -4,16 +4,14 @@ import { CFooter } from '@coreui/react'
 const AppFooter = () => {
   return (
     <CFooter>
-      <div>
-        <a href="https://coreui.io" target="_blank" rel="noopener noreferrer">
-          CoreUI
-        </a>
-        <span className="ms-1">&copy; 2021 creativeLabs.</span>
-      </div>
       <div className="ms-auto">
-        <span className="me-1">Powered by</span>
-        <a href="https://coreui.io/react" target="_blank" rel="noopener noreferrer">
-          CoreUI for React
+        <span className="ms-1">Copyright &copy; 2021 </span>
+        <a
+          href="https://cepdnaclk.github.io/e17-3yp-E-Parking-System/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          QuickPark
         </a>
       </div>
     </CFooter>
