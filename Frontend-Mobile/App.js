@@ -1,11 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState, useEffect} from 'react';
-//import React from 'react';
-import { StyleSheet, Text, View, Image, SafeAreaView, Button, ActivityIndicator } from 'react-native';
-import {NativeRouter, Link, Route, Switch} from "react-router-native";
+import React, {useEffect} from 'react';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator, DrawerContent } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as SecureStore from 'expo-secure-store';
+//import { AsyncStorage } from 'react-native';
 import 'localstorage-polyfill'; 
 
 import { Drawercontent } from './components/DrawerContent';
@@ -60,10 +59,15 @@ export default function App() {
   const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
 
   const authContext = React.useMemo(() => ({
-    signIn: (email, Token) => {
-      dispatch({type:'LOGIN', token: Token});
+    signIn: async(email, TokenFromServer) => {
+
+      await SecureStore.setItemAsync("Token", TokenFromServer);
+      // console.log(Token);
+      dispatch({type:'LOGIN', token: TokenFromServer});
     },
-    signOut: () => {
+    signOut: async() => {
+      let result = await SecureStore.getItemAsync("Token");
+      console.log(result);
       dispatch({type:'LOGOUT'});
     },
     signUp: () => {
@@ -72,7 +76,7 @@ export default function App() {
   }));
 
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async() => {
       dispatch({type:'RETRIVE_TOKEN', token: loginState.userToken});
     }, 1000);
   }, []);

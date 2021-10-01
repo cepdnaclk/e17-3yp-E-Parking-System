@@ -1,33 +1,29 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Button, Image, SafeAreaView } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 
 export default function HistoryScreen({navigation}){
-    // const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState([]);
 
-    // useEffect(() => {
-    //     function getRegUsers(){
-    //         console.log(1);
+    useEffect(() => {
+        async function getRegUsers(){
             
-    //         axios.get("http://192.168.1.100:5000/registeredcustomers/").then((res) => {
-    //             console.log(2);
-    //             setUsers(res.data);
-    //             console.log(res.data.name);
-    //         }).catch((err) => {
-    //             console.log(err.message);
-    //         })
-            
-    //         // fetch("https://192.168.56.1:5000/registeredcustomers/", {method: "GET"}).then((res) => {
-    //         //     return res.json()
-    //         // } 
-    //         // ).then((data) => {
-    //         //     console.log(data);
-    //         // }).catch((err) => {
-    //         //     console.log(err.message);
-    //         // }) 
-    //     }
-    //     getRegUsers();
-    // }, [])
+            let result = await SecureStore.getItemAsync("Token");
+            const config = {
+                headers: {
+                    authorization: `bearer ${result}`
+                }
+            }
+
+            axios.get("http://192.168.1.101:5000/registeredcustomers/user", config).then((res) => {
+                console.log(res.data.name);
+            }).catch((err) => {
+                alert(err.message);
+            })
+        }
+        getRegUsers();
+    }, [])
     return(
         <View style={Styles.container}>
             <Text>History Screen</Text>

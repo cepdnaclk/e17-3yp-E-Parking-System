@@ -1,23 +1,31 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, SafeAreaView } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, FAB } from 'react-native-paper';
+import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 
-/*
-  Toyota Corolla
-  3YP - 4269
-  
-  5.00pm - Check in at ABC Mall
-  
-  Spot Number
-  A001
-
-*/
-
-
-
-
 const ParkScreen = () => {
+
+  useEffect(() => {
+    async function getRegUsers(){
+        
+        let result = await SecureStore.getItemAsync("Token");
+        const config = {
+            headers: {
+                authorization: `bearer ${result}`
+            }
+        }
+
+        axios.get("http://192.168.1.101:5000/registeredcustomers/user", config).then((res) => {
+            console.log(res.data.name);
+        }).catch((err) => {
+            alert(err.message);
+        })
+    }
+    getRegUsers();
+}, [])
+
+
   return (
     <SafeAreaView style={Styles.container} >
       <View style={Styles.container} >

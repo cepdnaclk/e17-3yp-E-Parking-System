@@ -1,4 +1,6 @@
-import React from "react";
+import React, {useState, useEffect} from 'react';
+import * as SecureStore from 'expo-secure-store';
+import axios from 'axios';
 import { StyleSheet, View, Image, SafeAreaView, Button, ActivityIndicator } from 'react-native';
 import {
     Avatar,
@@ -19,6 +21,28 @@ import { AuthContext } from "./context";
 
 export function Drawercontent(props) {
 
+    const [name, setName] = useState("");
+
+    useEffect(() => {
+        async function getname(){
+            
+            let result = await SecureStore.getItemAsync("Token");
+            const config = {
+                headers: {
+                    authorization: `bearer ${result}`
+                }
+            }
+    
+            axios.get("http://192.168.1.101:5000/registeredcustomers/user", config).then((res) => {
+                setName(res.data["name"]);
+                console.log(res.data);
+            }).catch((err) => {
+                alert(err.message);
+            })
+        }
+        getname();
+    }, [])
+
     const { signOut } = React.useContext(AuthContext);
     return(
         <View style={{flex: 1}}>
@@ -35,7 +59,7 @@ export function Drawercontent(props) {
                             />
                         </View>
                         <View style={{flexDirection: 'row', marginLeft: 6}}>
-                            <Title style={styles.title}>John Doe</Title>
+                            <Title style={styles.title}>{name}</Title>
                         </View>
                     </View>
 
