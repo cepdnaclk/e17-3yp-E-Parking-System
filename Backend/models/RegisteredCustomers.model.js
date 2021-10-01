@@ -11,7 +11,8 @@ const RegisteredCustomersSchema = new Schema({
     contactnumber:{type: Number, required: false},
     password:{type: String, unique:true, required: true, minlength: 6, select: false },
     paymentmethod:{type: String, required: false},
-    vehicalnumber:{type: String, unique:true, required: false},
+    vehiclenumber:{type: [String], unique:false, required: false},
+    vehiclemodel:{type: [String], unique:false, required: false},
     resetPasswordToken: String,
     resetPasswordExpire: Date
 });

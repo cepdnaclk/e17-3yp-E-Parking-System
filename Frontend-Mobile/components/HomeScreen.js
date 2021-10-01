@@ -10,7 +10,7 @@ import { ReservationsScreen } from "./mainScreens/ReservationsScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
-function MainScreen () {
+ function MainScreen () {
   return (
     <Tab.Navigator
       initialRouteName="Park"

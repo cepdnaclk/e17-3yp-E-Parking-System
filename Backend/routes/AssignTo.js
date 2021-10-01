@@ -6,12 +6,7 @@ let RegUser = require('../models/RegisteredCustomers.model.js');
 let Reserve = require('../models/Reservation.model.js');
 let GuestUser = require('../models/GuestCustomer.model');
 
-router.route('/').get((req, res) =>{
-    AssignSpot.find()
-    .then(AssignTo => res.json(AssignTo))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
+//Dummy assigining to test.
 router.route('/po').post((req, res) =>{
     
     const customerID = req.body.customerID;
@@ -31,36 +26,38 @@ router.route('/po').post((req, res) =>{
 
 });
 
-router.route('/:id').get((req, res) =>{
-    AssignSpot.findById(req.params.id)
+// To get all the assigned parking spots.
+router.route('/').get((req, res) =>{
+    AssignSpot.find()
     .then(AssignTo => res.json(AssignTo))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//Assigning API call(Entrence Node)
 router.route("/add").post(async(req, res) => {
 
-    const name = req.body.name;
-    const vehicalnumber = req.body.vehicalnumber;
+    const vehiclenumber = req.body.vehiclenumber;
     const checkintime = req.body.checkin;
 
-    if(!checkintime || !vehicalnumber){
-        return res.status(400).json({success: false, error: "Please provide checkintime and vehicalnumber"})
+    if(!checkintime || !vehiclenumber){
+        return res.status(400).json({success: false, error: "Please provide checkintime and vehiclenumber"})
     }
 
     try{
-        const user = await RegUser.findOne({ vehicalnumber }).select("+_id");
+        const user = await RegUser.findOne({ vehiclenumber }).select("+_id");
         if(!user){
+            
             //Guest user.
-            console.log(vehicalnumber);
+            console.log(vehiclenumber);
             const newAssign = new GuestUser({
-                vehicalnumber
+                vehiclenumber
             });
         
             newAssign.save().then(console.log('User assigned!!!'))
             .catch(console.log('Error: '+ err));
             
-            console.log(vehicalnumber);
-            const user = await GuestUser.findOne({vehicalnumber}).select("+_id");
+            console.log(vehiclenumber);
+            const user = await GuestUser.findOne({vehiclenumber}).select("+_id");
             console.log(user);
             const AllParkingSpots = await ParkingSpot.find();
             const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
@@ -93,14 +90,12 @@ router.route("/add").post(async(req, res) => {
                 });
             
                 childPy.on('close', (code) => {
-                   // console.log("0");
+                   //Do nothing
                 });
             }
             catch(error){
                 return res.status(406).json({success: false, error: error.message});
             }
-
-
         }
         else{
             const customerIDfromuser = user["_id"];
@@ -140,13 +135,12 @@ router.route("/add").post(async(req, res) => {
                     });
                 
                     childPy.on('close', (code) => {
-                       // console.log("0");
+                       //Do nothing
                     });
                 }
                 catch(error){
                     return res.status(406).json({success: false, error: error.message});
                 }
-
             }
             else{
 
@@ -160,14 +154,11 @@ router.route("/add").post(async(req, res) => {
                     parkingspotID,
                     cost,
                     checkin
-                });
-            
+                });            
                 newAssign.save().then(() => res.json('User assigned!!!'))
                 .catch(err => res.status(400).json('Error: '+ err));
-
             }
         }
-
     }catch(error){
         res.status(406).json({success: false, error: error.message});
     }
@@ -180,28 +171,35 @@ async function UpdateParkingSpotState ( NewParkingSpot ) {
     tobeupdated.save(); 
 };
 
-router.route('/:id').delete((req, res) =>{
-    AssignSpot.findByIdAndDelete(req.params.id)
-    .then(() => res.json('User Deleted!!!'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
 
-router.route('/update/:id').post((req, res) =>{
-    AssignSpot.findById(req.params.id)
-    .then(AssignSpot => {
-        AssignSpot.customerID = req.body.customerID;
-        AssignSpot.parkingspotID = req.body.parkingspotID;
-        AssignSpot.cost = Number(req.body.cost);
-        AssignSpot.checkin = req.body.checkin;
-        AssignSpot.checkout = req.body.checkout;
-        AssignSpot.duration = req.body.duration;
+// router.route('/:id').get((req, res) =>{
+//     AssignSpot.findById(req.params.id)
+//     .then(AssignTo => res.json(AssignTo))
+//     .catch(err => res.status(400).json('Error: ' + err));
+// });
 
-        AssignSpot.save()
-            .then(() => res.json('Assigned User Updated!!!'))
-            .catch(err => res.status(400).json('Error: ' + err));
-    })
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+// router.route('/:id').delete((req, res) =>{
+//     AssignSpot.findByIdAndDelete(req.params.id)
+//     .then(() => res.json('User Deleted!!!'))
+//     .catch(err => res.status(400).json('Error: ' + err));
+// });
+
+// router.route('/update/:id').post((req, res) =>{
+//     AssignSpot.findById(req.params.id)
+//     .then(AssignSpot => {
+//         AssignSpot.customerID = req.body.customerID;
+//         AssignSpot.parkingspotID = req.body.parkingspotID;
+//         AssignSpot.cost = Number(req.body.cost);
+//         AssignSpot.checkin = req.body.checkin;
+//         AssignSpot.checkout = req.body.checkout;
+//         AssignSpot.duration = req.body.duration;
+
+//         AssignSpot.save()
+//             .then(() => res.json('Assigned User Updated!!!'))
+//             .catch(err => res.status(400).json('Error: ' + err));
+//     })
+//     .catch(err => res.status(400).json('Error: ' + err));
+// });
 
 module.exports = router;
 

@@ -2,12 +2,36 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, SafeAreaView } from 'react-native';
 import { Provider, Portal, Modal, Avatar, TextInput, Button, IconButton, Card, Title, Paragraph, FAB, Divider } from 'react-native-paper';
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
 
 
 const VehiclesScreen = () => {
+
+  const [userID, setUserID] = useEffect("");
+  const [Vehicles, setVehivles] = useState([]);
+  const [VehicleModels, setVehivleModels] = useState([]);
+
+  useEffect(() => {
+      async function getVehicals(){
+          
+          let result = await SecureStore.getItemAsync("Token");
+          const config = {
+              headers: {
+                  authorization: `bearer ${result}`
+              }
+          }
   
-  
+          axios.get("http://192.168.1.101:5000/registeredcustomers/user", config).then((res) => {
+            setUserID(res.data["_id"]);
+            setVehivles(res.data["vehicalnumber"]);
+            setVehivleModels(res.data["vehiclemodel"]);
+          }).catch((err) => {
+              alert(err.message);
+          })          
+      }
+      getVehicals();
+  }, [])
   
   const [visible, setVisible] = React.useState(false);
 
@@ -67,7 +91,22 @@ const VehiclesScreen = () => {
         <AddVehicle />
         
         <ScrollView>
+          {Vehicles.map( (vehiclenumber,index) => (
             <Card style={Styles.card}>
+              <Card.Title
+              key={vehiclenumber}
+              title={vehiclenumber} 
+              subtitle={VehicleModels[index]} 
+              right= {() => (
+                <View style={{flexDirection: 'row'}} >
+                  <IconButton onPress={() => console.log('Edit')} icon="pen" color='#1f1f1f' size={20} />
+                  <IconButton onPress={() => console.log('Delete')} icon="delete" color='#1f1f1f' size={20} />
+                </View>
+              )}
+            />
+          </Card>            
+          ))}
+            {/* <Card style={Styles.card}>
               <Card.Title
                 title="3YP - 4269" subtitle="Toyota Corolla" 
                 right= {() => (
@@ -77,7 +116,7 @@ const VehiclesScreen = () => {
                   </View>
                 )}
               />
-            </Card>
+            </Card> */}
           
         </ScrollView>
         
