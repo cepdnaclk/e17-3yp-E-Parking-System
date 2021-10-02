@@ -6,9 +6,58 @@ import * as SecureStore from 'expo-secure-store';
 
 
 
+const AddVehicle = (props) => {
+
+  const { modalVisible, 
+          modalDismiss,  
+          vehicleNameHandler, 
+          vehicleNumberHandler,
+          addHandler
+        } = props;
+
+  const containerStyle = {backgroundColor: 'white', padding: 20, margin: 20 };
+
+  return (
+    <Portal>
+      <Modal visible={modalVisible} onDismiss={modalDismiss} contentContainerStyle={containerStyle}>
+        <Title>Add a vehicle</Title>
+        
+        <Divider style={{marginBottom: 20}} />
+        
+        <Text style={{marginBottom: 20}}>Enter your vehicle details</Text>
+        
+        
+        <TextInput
+          mode='outlined'
+          label="Vehicle Name"
+          dense={true}
+          onChangeText={text => vehicleNameHandler(text)}
+          style={{marginBottom: 10}}
+        />
+
+        
+        <TextInput
+          mode='outlined'
+          label="License Plate Number"
+          dense={true}
+          onChangeText={text => vehicleNumberHandler(text)}
+        />
+        
+        <Divider style={{marginBottom: 20}} />
+        
+        <Button onPress={() => {
+          addHandler();
+          modalDismiss();
+        }}>Add Vehicle</Button>
+        
+      </Modal>
+    </Portal>
+  );
+};
+
 const VehiclesScreen = () => {
 
-  const [userID, setUserID] = useEffect("");
+  const [userID, setUserID] = useState("");
   const [Vehicles, setVehivles] = useState([]);
   const [VehicleModels, setVehivleModels] = useState([]);
 
@@ -22,9 +71,9 @@ const VehiclesScreen = () => {
               }
           }
   
-          axios.get("http://192.168.1.101:5000/registeredcustomers/user", config).then((res) => {
+          axios.get("http://192.168.1.3:5000/registeredcustomers/user", config).then((res) => {
             setUserID(res.data["_id"]);
-            setVehivles(res.data["vehicalnumber"]);
+            setVehivles(res.data["vehiclenumber"]);
             setVehivleModels(res.data["vehiclemodel"]);
           }).catch((err) => {
               alert(err.message);
@@ -37,7 +86,7 @@ const VehiclesScreen = () => {
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20, margin: 20 };
+  
   
   const CreateButton = () => {
     return (
@@ -49,38 +98,18 @@ const VehiclesScreen = () => {
       />
     );
   };
-  
-  const AddVehicle = () => {
-    return (
-      <Portal>
-        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-          <Title>Add a vehicle</Title>
-          
-          <Divider style={{marginBottom: 20}} />
-          
-          <Text style={{marginBottom: 20}}>Enter your vehicle details</Text>
-          
-          
-          <TextInput
-            mode='outlined'
-            label="Vehicle Name"
-            dense={true}
-          />
-          
-          <TextInput
-            mode='outlined'
-            label="License Plate Number"
-            dense={true}
-          />
-          
-          <Divider style={{marginBottom: 20}} />
-          
-          <Button onPress={() => console.log("Vehicle Added")}>Add Vehicle</Button>
-          
-        </Modal>
-      </Portal>
-    );
-  };
+
+  const [vehicleName, setVehicleName] = useState('');
+  const [vehicleNumber, setVehicleNumber] = useState('');
+
+
+  const handleVehicleAdd = () => {
+
+    console.log("Vehicle Added {" + vehicleName + ", " + vehicleNumber + "}")
+
+    //axios.post("http://192.168.100.3:5000/registeredcustomers/update/" + userID,)
+
+  }
   
   
   
@@ -88,13 +117,19 @@ const VehiclesScreen = () => {
     <Provider>
       <SafeAreaView style={Styles.container} >
       
-        <AddVehicle />
+        <AddVehicle 
+          modalVisible = {visible}
+          modalDismiss = {hideModal}
+          vehicleNameHandler = {setVehicleName}
+          vehicleNumberHandler = {setVehicleNumber}
+          addHandler = {handleVehicleAdd}
+        />
         
         <ScrollView>
-          {Vehicles.map( (vehiclenumber,index) => (
+         {Vehicles.map( (vehiclenumber,index) => (
             <Card style={Styles.card}>
               <Card.Title
-              key={vehiclenumber}
+              key={index}
               title={vehiclenumber} 
               subtitle={VehicleModels[index]} 
               right= {() => (
@@ -106,20 +141,9 @@ const VehiclesScreen = () => {
             />
           </Card>            
           ))}
-            {/* <Card style={Styles.card}>
-              <Card.Title
-                title="3YP - 4269" subtitle="Toyota Corolla" 
-                right= {() => (
-                  <View style={{flexDirection: 'row'}} >
-                    <IconButton onPress={() => console.log('Edit')} icon="pen" color='#1f1f1f' size={20} />
-                    <IconButton onPress={() => console.log('Delete')} icon="delete" color='#1f1f1f' size={20} />
-                  </View>
-                )}
-              />
-            </Card> */}
+          
           
         </ScrollView>
-        
         
         <CreateButton />
           
