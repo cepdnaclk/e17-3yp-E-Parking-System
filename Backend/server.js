@@ -34,7 +34,7 @@ connection.once('open', () => {
     console.log('MongoDB connection has been established');
 }); 
 
-const RegisteredCustomersRout = require('./routes/RegisteredCustomers.js');
+const RegisteredCustomersRout = require('./routes/Registration.js');
 const GuestCustomersRout = require('./routes/GuestCustomers.js');
 const ParkingSpotsRout = require('./routes/ParkingSpots.js');
 const AssignToRout = require('./routes/AssignTo.js');

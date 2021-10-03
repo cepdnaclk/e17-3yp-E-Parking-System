@@ -57,6 +57,8 @@ const AddVehicle = (props) => {
 
 const VehiclesScreen = () => {
 
+  const [visible, setVisible] = React.useState(false);
+
   const [userID, setUserID] = useState("");
   const [Vehicles, setVehivles] = useState([]);
   const [VehicleModels, setVehivleModels] = useState([]);
@@ -77,12 +79,13 @@ const VehiclesScreen = () => {
             setVehivleModels(res.data["vehiclemodel"]);
           }).catch((err) => {
               alert(err.message);
-          })          
+          })   
+     
       }
       getVehicals();
-  }, [])
+  }, [visible])
   
-  const [visible, setVisible] = React.useState(false);
+  
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -107,7 +110,11 @@ const VehiclesScreen = () => {
 
     console.log("Vehicle Added {" + vehicleName + ", " + vehicleNumber + "}")
 
-    //axios.post("http://192.168.100.3:5000/registeredcustomers/update/" + userID,)
+    axios.post("http://192.168.1.3:5000/registeredcustomers/updateVnumberVmodel", {
+      _id: userID,
+      vehiclenumber: vehicleNumber,
+      vehiclemodel: vehicleName
+    })
 
   }
   
