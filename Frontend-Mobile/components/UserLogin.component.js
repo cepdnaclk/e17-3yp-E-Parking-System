@@ -100,7 +100,7 @@ export default function Login({ history, navigation }){
             const email = data.email;
             const password = data.password;
             console.log(email,password);
-            const userdata = await axios.post("http://192.168.1.3:5000/registeredcustomers/signin", {email, password});
+            const userdata = await axios.post("http://192.168.43.52:5000/registeredcustomers/signin", {email, password});
             console.log(userdata.data["token"]);
             localStorage.setItem("authToken", userdata.data["token"]);
             console.log(3);

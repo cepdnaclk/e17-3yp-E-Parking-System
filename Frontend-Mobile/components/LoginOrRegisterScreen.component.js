@@ -4,6 +4,7 @@ import { Provider, Portal, Modal, Avatar, TextInput, Button, IconButton, Card, T
 
 
 const LoginRegisterScreen = () => {
+  
     return (
       <SafeAreaView style={Styles.container} >
         <Title style={Styles.header}>Enter Details</Title>
@@ -19,16 +20,10 @@ const LoginRegisterScreen = () => {
           <TextInput label='Enter password' dense={true}/>
           <Text style={Styles.text}>Payment method</Text>
           
-          <RadioButton
-            color="#1f1f1f"
-            value="Visa"
-            onPress={() => console.log("Visa")}
-          />
-          <RadioButton
-            color="#1f1f1f"
-            value="MasterCard"
-            onPress={() => console.log("MasterCard")}
-          />
+          <View style={{alignItems:'flex-start'}} >
+            <Button mode="contained" color="#ebebeb" >Add Card</Button>
+          </View>
+         
 
         </View>
         <View style={Styles.button} >
@@ -36,6 +31,7 @@ const LoginRegisterScreen = () => {
         </View>
       </SafeAreaView>
     );
+    
   };
 
   export default LoginRegisterScreen;

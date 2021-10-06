@@ -29,7 +29,7 @@ const TimePickerPage = () => {
         cancelLabel="Cancel" // optional, default: 'Cancel'
         confirmLabel="Ok" // optional, default: 'Ok'
         animationType="fade" // optional, default is 'none'
-        locale={'en'} // optional, default is automically detected by your system
+        locale={'en'} // optional, default is automatically detected by your system
       />
       <Button onPress={()=> setVisible(true)}>
         Pick time
