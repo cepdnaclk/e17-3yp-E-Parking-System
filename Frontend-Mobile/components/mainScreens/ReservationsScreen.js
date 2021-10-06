@@ -1,18 +1,50 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, ScrollView, Image, SafeAreaView } from 'react-native';
-import { Provider, Modal, Portal, Button, TextInput, Divider, Avatar, IconButton, Card, Title, Paragraph, FAB } from 'react-native-paper';
+import { Provider, Portal, Button, Banner, TextInput, Divider, Avatar, IconButton, Card, Title, Paragraph, FAB } from 'react-native-paper';
+import { TimePickerModal } from 'react-native-paper-dates';
 import axios from 'axios';
 
-//import { TimePickerPage } from '../TimePicker.component';
+import { TimePickerPage } from '../TimePicker.component';
 
 
 const ReservationsScreen = () => {
   
+  const [bannerVisible, setBannerVisible] = React.useState(true);
+  
+  
+  const InfoBanner = () => {
+    return (
+      <Banner
+        visible={bannerVisible}
+        actions={[
+          {
+            label: 'Got it',
+            onPress: () => setBannerVisible(false),
+          },
+        ]}
+      >
+        Reservations have to be on the same day and at least one hour in advance.
+      </Banner>
+    );
+  }
+  
+  
   const [visible, setVisible] = React.useState(false);
-
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20, margin: 20 };
+  
+  
+  const onDismiss = React.useCallback(() => {
+    setVisible(false)
+  }, [setVisible])
+
+  const onConfirm = React.useCallback(
+    ({ hours, minutes }) => {
+      setVisible(false);
+      console.log({ hours, minutes });
+    },
+    [setVisible]
+  );
   
   const CreateButton = () => (
     <FAB
@@ -25,31 +57,19 @@ const ReservationsScreen = () => {
   
   const AddReservation = () => {
     return (
-      <Portal>
-        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-          <Title>Add a reservation</Title>
-          
-          <Divider style={{marginBottom: 20}} />
-          
-          <Text style={{marginBottom: 20}} >Select a time for your reservation</Text>
-          
-          <TextInput
-            mode='outlined'
-            label="Reservation Time"
-            dense={true}
-          />
-          
-          <Divider style={{marginBottom: 20}} />
-          
-          <Button onPress={() => console.log("Reservation Added")}>Add Reservation</Button>
-        </Modal>
-      </Portal>
+      <TimePickerModal
+        visible={visible}
+        onDismiss={onDismiss}
+        onConfirm={onConfirm}
+        animationType="fade" // optional, default is 'none'
+      />
     );
   };
   
   return(
     <Provider>
       <SafeAreaView style={Styles.container}>
+          <InfoBanner />
           <AddReservation />
           <ScrollView>
           
