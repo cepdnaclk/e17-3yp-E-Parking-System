@@ -4,8 +4,6 @@ import { Provider, Portal, Button, Banner, TextInput, Divider, Avatar, IconButto
 import { TimePickerModal } from 'react-native-paper-dates';
 import axios from 'axios';
 
-import { TimePickerPage } from '../TimePicker.component';
-
 
 const ReservationsScreen = () => {
   
