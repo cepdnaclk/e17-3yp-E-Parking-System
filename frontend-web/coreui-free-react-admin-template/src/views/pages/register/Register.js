@@ -4,6 +4,7 @@ import {
   CButton,
   CCard,
   CCardBody,
+  CCardHeader,
   CCol,
   CContainer,
   CForm,
@@ -15,6 +16,8 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilBuilding, cilLockLocked, cilMobile, cilUser } from '@coreui/icons'
 
+import { logoBig } from 'src/assets/brand/logo-big'
+
 const Register = () => {
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -22,58 +25,26 @@ const Register = () => {
         <CRow className="justify-content-center">
           <CCol md={9} lg={7} xl={6}>
             <CCard className="mx-4">
+              <CCardHeader className="p-3">
+                <CIcon className="sidebar-brand-full" icon={logoBig} height={50} />
+              </CCardHeader>
               <CCardBody className="p-4">
                 <CForm>
-                  <h1>Register for QuickPark</h1>
-                  <p className="text-medium-emphasis">Create your account</p>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilBuilding} />
-                    </CInputGroupText>
-                    <CFormInput placeholder="Organization name" autoComplete="orgname" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilUser} />
-                    </CInputGroupText>
-                    <CFormInput placeholder="Username" autoComplete="username" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>@</CInputGroupText>
-                    <CFormInput placeholder="Email" autoComplete="email" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilMobile} />
-                    </CInputGroupText>
-                    <CFormInput placeholder="Contact number" autoComplete="contactnumber" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilLockLocked} />
-                    </CInputGroupText>
-                    <CFormInput
-                      type="password"
-                      placeholder="Password"
-                      autoComplete="new-password"
-                    />
-                  </CInputGroup>
-                  <CInputGroup className="mb-4">
-                    <CInputGroupText>
-                      <CIcon icon={cilLockLocked} />
-                    </CInputGroupText>
-                    <CFormInput
-                      type="password"
-                      placeholder="Repeat password"
-                      autoComplete="new-password"
-                    />
-                  </CInputGroup>
-                  <div className="d-grid">
-                    <Link to="/login">
-                      <CButton color="success text-white">Create Account</CButton>
-                    </Link>
-                  </div>
+                  <h2>Register for QuickPark</h2>
+                  <p className="text-medium-emphasis">
+                    QuickPark requires hardware components at the car park premises to function
+                    properly. Contact our support team at{' '}
+                    <a href="mailto:support@quickpark.com">support@quickpark.com</a> to register for
+                    our service.
+                  </p>
                 </CForm>
+                <div className="d-grid mt-5">
+                  <Link to="/login">
+                    <CButton color="primary" className="w-100 px-4">
+                      Go Back
+                    </CButton>
+                  </Link>
+                </div>
               </CCardBody>
             </CCard>
           </CCol>
