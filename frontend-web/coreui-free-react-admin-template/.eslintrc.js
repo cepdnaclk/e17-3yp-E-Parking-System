@@ -21,13 +21,14 @@ module.exports = {
   rules: {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
+    "react/prop-types": "off",
 	
-	//Make sure prettier/prettier works with both CRLF and LF
-	"prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "auto"
-      },
+	 //Make sure prettier/prettier works with both CRLF and LF
+  	"prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        },
     ],
   },
 }
