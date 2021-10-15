@@ -19,7 +19,7 @@ function App() {
       <Switch>
         <PrivateRoute path="/private" exact component={privateScreen} />
         <Route path="/add" exact component={AddUser} />
-        <Route path="/login" exat component={Login} />
+        <Route path="/login" exact component={Login} />
         <Route path="/all" exact component={AllUsers} />
       </Switch>
       </div>

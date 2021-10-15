@@ -27,7 +27,8 @@ const AppContent = () => {
               )
             )
           })}
-          <Redirect from="/" to="/dashboard" />
+          <Redirect exact from="/" to="/dashboard" />
+          <Redirect to="/404" />
         </Switch>
       </Suspense>
     </CContainer>
