@@ -1,7 +1,7 @@
 const router = require('express').Router();
 let ParkingSpot = require('../models/ParkingSpot.model.js');
 let AssignSpot = require('../models/AssignTo.model.js');
-let RegUser = require('../models/RegisteredCustomers.model.js');
+//let RegUser = require('../models/RegisteredCustomers.model.js');
 
 router.route('/').get((req, res) =>{
     ParkingSpot.find()
@@ -25,6 +25,8 @@ router.route("/add").post((req, res) => {
     .catch(err => res.status(400).json('Error: '+ err));
 });
 
+
+//GET spot status and vehicle number and customerID if occupied
 router.route("/:spotno").get(async(req, res, next) => {
     
     const spotno = req.params.spotno;
@@ -34,14 +36,14 @@ router.route("/:spotno").get(async(req, res, next) => {
         console.log(spot);
         if(spot['state'] == "Occupied"){
             const assignedcustomer = await AssignSpot.findOne({ parkingspotID: spotno }).select("+_id");
-            const customerid = assignedcustomer["customerID"];
-            console.log(customerid);
-            const user = await RegUser.findById(customerid);
-            res.status(200).json({success: true, user});
+            const customerID = assignedcustomer["customerID"];
+            //console.log(customerID);
+            //const user = await RegUser.findById(customerID);
+            res.status(200).json({success: true, customerID, vehiclenumber: assignedcustomer["vehiclenumber"]});
 
         }
         else{
-            res.status(200).json({ success: true, spot}); 
+            res.status(200).json({ success: true, state: spot['state']}); 
 
         }
         

@@ -34,6 +34,7 @@ connection.once('open', () => {
     console.log('MongoDB connection has been established');
 }); 
 
+const ParkingLotRoute = require('./routes/ParkingLot.js');
 const RegisteredCustomersRout = require('./routes/Registration.js');
 const GuestCustomersRout = require('./routes/GuestCustomers.js');
 const ParkingSpotsRout = require('./routes/ParkingSpots.js');
@@ -47,6 +48,7 @@ app.use('/guestcustomers', GuestCustomersRout);
 app.use('/parkingspots', ParkingSpotsRout);
 app.use('/assignto', AssignToRout);
 app.use('/reservation', ReservationRout);
+app.use('/parkinglot', ParkingLotRoute);
 app.use("/", (req, res, next) => {
     res.send("hi");
 });
