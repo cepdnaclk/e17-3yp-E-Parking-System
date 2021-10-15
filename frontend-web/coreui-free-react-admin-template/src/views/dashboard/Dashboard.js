@@ -11,10 +11,9 @@ import {
   CProgress,
   CRow,
 } from '@coreui/react'
-import { CChartLine } from '@coreui/react-chartjs'
+import { CChartBar } from '@coreui/react-chartjs'
 import { getStyle, hexToRgba } from '@coreui/utils'
 import CIcon from '@coreui/icons-react'
-import { cilCloudDownload } from '@coreui/icons'
 
 /*import avatar1 from './../../assets/images/avatars/1.jpg'
 import avatar2 from './../../assets/images/avatars/2.jpg'
@@ -33,7 +32,16 @@ const Dashboard = () => {
 
   return (
     <>
-      <WidgetsDropdown />
+      <CCard className="mb-4">
+        <CCardHeader>
+          <h4 id="Today" className="card-title mb-0">
+            Today
+          </h4>
+        </CCardHeader>
+        <CCardBody>
+          <WidgetsDropdown />
+        </CCardBody>
+      </CCard>
       <CCard className="mb-4">
         <CCardBody>
           <CRow>
@@ -44,16 +52,13 @@ const Dashboard = () => {
               <div className="small text-medium-emphasis">January - July 2021</div>
             </CCol>
             <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
-                <CIcon icon={cilCloudDownload} />
-              </CButton>
               <CButtonGroup className="float-end me-3">
-                {['Day', 'Month', 'Year'].map((value) => (
+                {['Day', 'Week'].map((value) => (
                   <CButton
                     color="outline-secondary"
                     key={value}
                     className="mx-0"
-                    active={value === 'Month'}
+                    active={value === 'Week'}
                   >
                     {value}
                   </CButton>
@@ -61,10 +66,18 @@ const Dashboard = () => {
               </CButtonGroup>
             </CCol>
           </CRow>
-          <CChartLine
+          <CChartBar
             style={{ height: '300px', marginTop: '40px' }}
             data={{
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+              labels: [
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday',
+                'Sunday',
+              ],
               datasets: [
                 {
                   label: 'My First dataset',
@@ -82,31 +95,6 @@ const Dashboard = () => {
                     random(50, 200),
                   ],
                   fill: true,
-                },
-                {
-                  label: 'My Second dataset',
-                  backgroundColor: 'transparent',
-                  borderColor: getStyle('--cui-success'),
-                  pointHoverBackgroundColor: getStyle('--cui-success'),
-                  borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                  ],
-                },
-                {
-                  label: 'My Third dataset',
-                  backgroundColor: 'transparent',
-                  borderColor: getStyle('--cui-danger'),
-                  pointHoverBackgroundColor: getStyle('--cui-danger'),
-                  borderWidth: 1,
-                  borderDash: [8, 5],
-                  data: [65, 65, 65, 65, 65, 65, 65],
                 },
               ],
             }}
@@ -132,46 +120,9 @@ const Dashboard = () => {
                   },
                 },
               },
-              elements: {
-                line: {
-                  tension: 0.4,
-                },
-                point: {
-                  radius: 0,
-                  hitRadius: 10,
-                  hoverRadius: 4,
-                  hoverBorderWidth: 3,
-                },
-              },
             }}
           />
         </CCardBody>
-      </CCard>
-      <CCard className="mb-4">
-        <CCardHeader>
-          <CRow>
-            <CCol sm={5}>
-              <h4 id="Spot Overview" className="card-title mb-0">
-                Spot Overview
-              </h4>
-              <div className="small text-medium-emphasis">28th September 2021</div>
-            </CCol>
-            <CCol sm={7} className="d-none d-md-block">
-              <CButtonGroup className="float-end me-3">
-                {['Floor 1', 'Floor 2', 'Floor 3'].map((value) => (
-                  <CButton
-                    color="outline-secondary"
-                    key={value}
-                    className="mx-0"
-                    active={value === 'Floor 1'}
-                  >
-                    {value}
-                  </CButton>
-                ))}
-              </CButtonGroup>
-            </CCol>
-          </CRow>
-        </CCardHeader>
       </CCard>
     </>
   )
