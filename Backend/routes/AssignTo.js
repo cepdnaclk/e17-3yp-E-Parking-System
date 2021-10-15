@@ -11,12 +11,14 @@ router.route('/po').post((req, res) =>{
     
     const customerID = req.body.customerID;
     const parkingspotID = req.body.parkingspotID;
+    const vehiclenumber = req.body.vehiclenumber;
     const cost = req.body.cost;
     const checkin = req.body.checkin;
 
     const newAssign = new AssignSpot({
         customerID,
         parkingspotID,
+        vehiclenumber,
         cost,
         checkin
     });
@@ -75,12 +77,14 @@ router.route("/add").post(async(req, res) => {
                         
                     const customerID = user["_id"];
                     const parkingspotID = newspot;
+                    const vehiclenumber = vehiclenumber;
                     const cost = 0;
                     const checkin = checkintime;
                 
                     const newAssign = new AssignSpot({
                         customerID,
                         parkingspotID,
+                        vehiclenumber,
                         cost,
                         checkin
                     });
@@ -100,7 +104,7 @@ router.route("/add").post(async(req, res) => {
         else{
             const customerIDfromuser = user["_id"];
             console.log(customerIDfromuser);
-            const reserved = await Reserve.findOne({ customerIDfromuser }).select("+_id");
+            const reserved = await Reserve.findOne({ customerID: customerIDfromuser }).select("+_id");
             console.log(reserved);
             if(!reserved){
 
@@ -120,12 +124,14 @@ router.route("/add").post(async(req, res) => {
                             
                         const customerID = customerIDfromuser
                         const parkingspotID = newspot;
+                        const vehiclenumber = vehiclenumber;
                         const cost = 0;
                         const checkin = checkintime;
                     
                         const newAssign = new AssignSpot({
                             customerID,
                             parkingspotID,
+                            vehiclenumber,
                             cost,
                             checkin
                         });
@@ -144,14 +150,16 @@ router.route("/add").post(async(req, res) => {
             }
             else{
 
-                const customerID = CustomerID
+                const customerID = customerIDfromuser;
                 const parkingspotID = reserved;
+                const vehiclenumber = vehiclenumber;
                 const cost = 0;
                 const checkin = checkintime;
             
                 const newAssign = new AssignSpot({
                     customerID,
                     parkingspotID,
+                    vehiclenumber,
                     cost,
                     checkin
                 });            
@@ -172,11 +180,29 @@ async function UpdateParkingSpotState ( NewParkingSpot ) {
 };
 
 
-// router.route('/:id').get((req, res) =>{
-//     AssignSpot.findById(req.params.id)
-//     .then(AssignTo => res.json(AssignTo))
-//     .catch(err => res.status(400).json('Error: ' + err));
-// });
+router.route('/:id').get(async(req, res) =>{
+    const headers = {
+        'Content-Type': 'text/event-stream',
+        'Connection': 'keep-alive',
+        'Cache-Control': 'no-cache'
+    };
+    res.writeHead(200, headers);    
+    try{
+        console.log(req.params.id);
+        let AssignedUser = null
+        while(!AssignedUser){
+            console.log(AssignedUser);
+            AssignedUser = await AssignSpot.findOne({customerID: req.params.id}).select("+_id");
+        }
+        const data = `data: ${JSON.stringify(AssignedUser)}\n\n`;        
+        console.log(data);
+        res.write(data);
+        res.end();
+        
+    }catch(error){
+        res.status(406).json({success: false, error: error.message});
+    }
+});
 
 // router.route('/:id').delete((req, res) =>{
 //     AssignSpot.findByIdAndDelete(req.params.id)

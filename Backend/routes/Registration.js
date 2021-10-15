@@ -11,7 +11,7 @@ router.route('/').get((req, res, next) =>{
 
 //Protected Rout for getting user information.
 router.route('/user').get(protect, (req, res, next) =>{
-    //console.log(req.user._id);
+    console.log(req.user._id);
     RegUser.findById(req.user._id)
     .then(RegisteredCustomers => res.json(RegisteredCustomers))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -82,10 +82,9 @@ router.route("/test").post(async(req, res, next) => {
 
 //update the vehiclenumbers and vehicalmodels.
 router.route("/updateVnumberVmodel").post(function(req, res) {
-    console.log(req.body);
     RegUser.updateOne(
       { _id: req.body._id },
-      { $push: { vehiclenumber: [req.body.vehiclenumber], vehiclemodel: [req.body.vehiclemodel] }},
+      {$push: { vehiclenumber: [req.body.vehiclenumber], vehiclemodel: [req.body.vehiclemodel]  }},
       function(err, result) {
         if (err) {
             res.send(err);
