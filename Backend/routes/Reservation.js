@@ -5,6 +5,33 @@ let AssignSpot = require('../models/AssignTo.model.js');
 const path = require('path');
 const schedule = require('node-schedule');
 
+//get count - ALL
+router.route('/getcountall').get((req, res) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    Reserve.countDocuments({created: {$gte: today}})
+    .then(Reservation => res.json(Reservation))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//get occupied reservation
+router.route('/getOccupiedcount').get((req, res) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    Reserve.countDocuments({$and: [{status: "Occupied", created: {$gte: today}}]})
+    .then(Reservation => res.json(Reservation))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//get completed reservations
+router.route('/getcompletedcount').get((req, res) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    Reserve.countDocuments({$and: [{state: "Completed", created: {$gte: today}}]})
+    .then(Reservation => res.json(Reservation))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/').get((req, res) =>{
     Reserve.find()
     .then(Reservation => res.json(Reservation))
