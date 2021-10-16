@@ -56,7 +56,7 @@ router.route("/add").post(async(req, res) => {
             });
         
             newAssign.save().then(console.log('User assigned!!!'))
-            .catch(console.log('Error: '+ err));
+            .catch(console.log('Error: ' + err));
             
             console.log(vehiclenumber);
             const user = await GuestUser.findOne({vehiclenumber}).select("+_id");
@@ -65,8 +65,7 @@ router.route("/add").post(async(req, res) => {
             const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
             console.log(LastAssignedSpot);
             console.log(LastAssignedSpot[0]['parkingspotID']);
-            try{
-        
+            try{        
                 const { spawn } = require('child_process');    
                 const childPy = spawn('python', [path.join(__dirname, '../algorithms/parkingspot_assign_algo.py'), LastAssignedSpot[0]['parkingspotID'], AllParkingSpots]);
                 childPy.stdout.on('data', (data) => {

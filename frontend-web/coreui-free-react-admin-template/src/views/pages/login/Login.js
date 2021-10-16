@@ -38,7 +38,7 @@ const Login = ({ history }) => {
     console.log(email, password)
 
     try {
-      const { data } = await axios.post('http://localhost:5000/registeredcustomers/signin', {
+      const { data } = await axios.post('http://localhost:5000/parkinglot/signin', {
         email,
         password,
       })

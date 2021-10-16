@@ -11,7 +11,13 @@ import {
   CModalHeader,
   CModalBody,
   CModalFooter,
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormLabel,
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilCarAlt } from '@coreui/icons'
 
 const ParkingSpotWidgets = () => {
   const percent = (count, total) => (count * 100) / total
@@ -27,12 +33,19 @@ const ParkingSpotWidgets = () => {
         <CModalHeader onDismiss={() => setVisible(false)}>
           <CModalTitle>{spotID}</CModalTitle>
         </CModalHeader>
-        <CModalBody>Woohoo, you&apos;re reading this text in a modal!</CModalBody>
+        <CModalBody>
+          <CFormLabel htmlFor="vehicleNumber">Vehicle Number</CFormLabel>
+          <CInputGroup className="mb-4">
+            <CInputGroupText>
+              <CIcon icon={cilCarAlt} />
+            </CInputGroupText>
+            <CFormInput type="vehicleNumber" placeholder="Unoccupied" disabled />
+          </CInputGroup>
+        </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
-            Close
+          <CButton color="primary" onClick={() => setVisible(false)}>
+            Shut Down
           </CButton>
-          <CButton color="primary">Save changes</CButton>
         </CModalFooter>
       </CModal>
     )
