@@ -1,0 +1,90 @@
+[
+	{
+		"id": 0,
+		"spotNo": "A000",
+		"status": true,
+		"adjacent": [1, 2],
+		"distances": {}
+	},
+	
+	{
+		"id": 1,
+		"spotNo": "A001",
+		"status": true,
+		"adjacent": [0, 3, 4, 5],
+		"distances": {}
+	},
+	
+	{
+		"id": 2,
+		"spotNo": "A002",
+		"status": true,
+		"adjacent": [0, 6, 7, 8],
+		"distances": {}
+	},
+	
+	{
+		"id": 3,
+		"spotNo": "A003",
+		"status": true,
+		"adjacent": [1],
+		"distances": {"4": 2, "5": 2, "7": 4, "8": 4, "9": 5, "10": 5}
+	},
+	
+	{
+		"id": 4,
+		"spotNo": "A004",
+		"status": true,
+		"adjacent": [1],
+		"distances": {"3": 2, "5": 2, "7": 4, "8": 4, "9": 5, "10": 5}
+	},
+	
+	{
+		"id": 5,
+		"spotNo": "A005",
+		"status": true,
+		"adjacent": [1],
+		"distances": {"3": 2, "4": 2, "7": 4, "8": "4", "9": 5, "10": 5}
+	},
+	
+	{
+		"id": 6,
+		"spotNo": "A006",
+		"status": true,
+		"adjacent": [2, 9],
+		"distances": {}
+	},
+	
+	{
+		"id": 7,
+		"spotNo": "A007",
+		"status": true,
+		"adjacent": [2],
+		"distances": {"3": 4, "4": 4, "5": 4, "8": 2, "9": 3, "10": 3}
+	},
+	
+	{
+		"id": 8,
+		"spotNo": "A008",
+		"status": true,
+		"adjacent": [2],
+		"distances": {"3": 4, "4": 4, "5": 4, "7": 2, "9": 3, "10": 3}
+	},
+		
+	{
+		"id": 9,
+		"spotNo": "A009",
+		"status": true,
+		"adjacent": [6],
+		"distances": {"3": 5, "4": 5, "5": 5, "7": 3, "8": 3, "10": 2}
+	},
+		
+	{
+		"id": 10,
+		"spotNo": "A010",
+		"status": true,
+		"adjacent": [6],
+		"distances": {"3": 5, "4": 5, "5": 5, "7": 3, "8": 3, "9": 2}
+	}
+
+]
