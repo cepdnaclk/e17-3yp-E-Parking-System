@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
-import { Card, Title, Paragraph } from 'react-native-paper';
+import { StyleSheet, Text, View, Image, SafeAreaView } from 'react-native';
+import { Avatar, Button, Card, Title, Paragraph, FAB } from 'react-native-paper';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import EventSource from "react-native-sse";
 
 const ParkScreen = () => {
 
+  const [user, setuser] = useState({});
   const [assignedInfo, setAssignedInfo] = useState({});
+  const [vehiclemodelindex, setindex] = useState();
   const [Listening, setListening] = useState(false);
 
   useEffect(() => {
@@ -22,14 +24,17 @@ const ParkScreen = () => {
         }
 
         axios.get("http://192.168.1.102:5000/registeredcustomers/user", config).then((res) => {
+            setuser(res.data);
+
             if(!Listening){
-              var eventSource = new EventSource(`http://192.168.1.102:5000/assignto/${res.data["_id"]}`, config);
+              var eventSource = new EventSource(`http://192.168.1.102:5000/assignto/${res.data["_id"]}`);
               eventSource.addEventListener("open", (e) => {
                 console.log("Open SSE connection");
               });
               eventSource.addEventListener("message", (e) => {
                 let info = JSON.parse(e["data"]);
                 setAssignedInfo(info);
+                console.log(info);
                 eventSource.close();            
               });
             }

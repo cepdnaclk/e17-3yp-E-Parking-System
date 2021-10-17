@@ -1,23 +1,12 @@
 const router = require('express').Router();
-const { protect } = require('../middlewere/auth');
 let Reserve = require('../models/Reservation.model.js');
 let ParkingSpot = require('../models/ParkingSpot.model.js');
 let AssignSpot = require('../models/AssignTo.model.js');
 const path = require('path');
 const schedule = require('node-schedule');
 
-//For Testing
-router.route('/temp').get(async(req, res, next) =>{
-    const reserved = await Reserve.findOne({ customerID: "6149de42ee073b078846c57b", state: "Not Completed"}).select("+_id");
-    try{
-        //Pass
-    }catch(err){
-        res.status(400).json('Error: ' + err);
-    }
-});
-
 //get count - ALL
-router.route('/getcountall').get(protect, (req, res) => {
+router.route('/getcountall').get((req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     Reserve.countDocuments({created: {$gte: today}})
@@ -26,7 +15,7 @@ router.route('/getcountall').get(protect, (req, res) => {
 });
 
 //get occupied reservation
-router.route('/getOccupiedcount').get(protect, (req, res) => {
+router.route('/getOccupiedcount').get((req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     Reserve.countDocuments({$and: [{status: "Occupied", created: {$gte: today}}]})
@@ -35,7 +24,7 @@ router.route('/getOccupiedcount').get(protect, (req, res) => {
 });
 
 //get completed reservations
-router.route('/getcompletedcount').get(protect, (req, res) => {
+router.route('/getcompletedcount').get((req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     Reserve.countDocuments({$and: [{state: "Completed", created: {$gte: today}}]})
@@ -43,22 +32,19 @@ router.route('/getcompletedcount').get(protect, (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//get all reservations
-router.route('/').get(protect, (req, res) =>{
+router.route('/').get((req, res) =>{
     Reserve.find()
     .then(Reservation => res.json(Reservation))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//get details using customer ID
-router.route('/:customerid').get(protect, (req, res) =>{
+router.route('/:customerid').get((req, res) =>{
     Reserve.find({customerID: req.params.customerid})
     .then(Reservation => res.json(Reservation))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//Event handler for assigining the parking spot after one hour after the reservation
-router.route('/test/:id').get(protect, async(req, res) =>{
+router.route('/test/:id').get(async(req, res) =>{
     const headers = {
         'Content-Type': 'text/event-stream',
         'Connection': 'keep-alive',
@@ -72,16 +58,20 @@ router.route('/test/:id').get(protect, async(req, res) =>{
         const Nt = new Date().toString();
         const AllParkingSpots = await ParkingSpot.find();
         const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+        console.log(LastAssignedSpot);
+        console.log(LastAssignedSpot[0]['parkingspotID']);
         
         try{
             
             const { spawn } = require('child_process');    
             const childPy = spawn('python', [path.join(__dirname, '../algorithms/parkingspot_assign_algo.py'), LastAssignedSpot[0]['parkingspotID'], AllParkingSpots]);
             childPy.stdout.on('data', (data) => {
+                console.log({data});
                 const newspot = data.toString();
 
                 UpdateParkingSpotState(newspot);
-                addnewparkingspotinreservation(newspot, req.params.id);                                                    
+                addnewparkingspotinreservation(newspot, req.params.id);                                     
+                
             });
         
             childPy.on('close', (code) => {
@@ -92,41 +82,42 @@ router.route('/test/:id').get(protect, async(req, res) =>{
             return res.status(406).json({success: false, error: error.message});
         }
         const data = `data: ${JSON.stringify(Nt)}\n\n`;
+        console.log(Nt);
         res.write(data);
         res.end();
     });
 });
 
-//updating the parking spot in reservation
 async function addnewparkingspotinreservation(newspot, id){
     const tobeupdated = await Reserve.findOne({ _id: id }).select("+_id");
+    console.log(newspot);
+    console.log(id);
+    console.log(tobeupdated);
     tobeupdated.parkingspotID = newspot;
     tobeupdated.status = "Occupied";
     tobeupdated.save();
 };
 
-//updating the parking spot collection
 async function UpdateParkingSpotState ( NewParkingSpot ) {
+    console.log(NewParkingSpot);
     const tobeupdated = await ParkingSpot.findOne({ spotno: NewParkingSpot }).select("+_id");
     tobeupdated.state = "Occupied";
     tobeupdated.save(); 
 };
 
-//adding a reservation
 router.route("/add").post((req, res) => {
     const hours = req.body.hours;
     const minutes = req.body.minutes;
     const customerID = req.body.Ruser;
     const status = "Not Confirmed";
-    const state = "Not Completed";
 
     const dateandtime = `${hours}:${minutes}`
+    console.log(dateandtime);
 
     const newReservation = new Reserve({
         customerID,
         dateandtime,
-        status,
-        state
+        status
     });
 
     newReservation.save().then(async() => res.json(newReservation))

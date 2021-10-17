@@ -9,8 +9,7 @@ const AssignedToSchema = new Schema({
     cost:{type: Number, required: false},
     checkin:{type: String, required: false},
     checkout:{type: String, required: false},
-    duration:{type: String, required: false},
-    created:{type: Date, default: Date.now}
+    duration:{type: String, required: false}
 });
 
 const AssignSpot = mongoose.model("Assign", AssignedToSchema);

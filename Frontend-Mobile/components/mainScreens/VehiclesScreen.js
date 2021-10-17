@@ -4,6 +4,8 @@ import { Provider, Portal, Modal, Avatar, TextInput, Button, IconButton, Card, T
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
+
+
 const AddVehicle = (props) => {
 
   const { modalVisible, 
@@ -103,8 +105,8 @@ const VehiclesScreen = () => {
   const [vehicleName, setVehicleName] = useState('');
   const [vehicleNumber, setVehicleNumber] = useState('');
 
-  const handleVehicleAdd = async() => {
 
+  const handleVehicleAdd = () => {
 
     console.log("Vehicle Added {" + vehicleName + ", " + vehicleNumber + "}")
 
@@ -115,6 +117,8 @@ const VehiclesScreen = () => {
     })
 
   }
+  
+  
   
   return (
     <Provider>
@@ -130,9 +134,9 @@ const VehiclesScreen = () => {
         
         <ScrollView>
          {Vehicles.map( (vehiclenumber,index) => (
-            <Card style={Styles.card} key={Math.random().toString(36).substr(2, 9)}>
+            <Card style={Styles.card}>
               <Card.Title
-              key={Math.random().toString(36).substr(2, 9)}
+              key={index}
               title={vehiclenumber} 
               subtitle={VehicleModels[index]} 
               right= {() => (
@@ -152,7 +156,20 @@ const VehiclesScreen = () => {
           
       </SafeAreaView>
     </Provider>
-  );    
+  );
+  
+  
+  /*return (
+    <Provider>
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+          <Text>Example Modal.  Click outside this area to dismiss.</Text>
+        </Modal>
+      </Portal>
+      <CreateButton />
+    </Provider>
+  );*/
+  
 };
 
 export { VehiclesScreen };

@@ -4,17 +4,22 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
+//import { AsyncStorage } from 'react-native';
 import 'localstorage-polyfill'; 
 
 import { Drawercontent } from './components/DrawerContent';
 import RootStackScreen from './components/RootStack.component';
 import { AuthContext } from './components/context';
 import HomeScreen from './components/HomeScreen'; 
+import Datascreen from './components/DataScreen';
 import HistoryScreen from './components/HistoryScreen';
 
+const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+  // const [isloading, setIsLoading] = React.useState(true);
+  // const [userToken, setUserToken] = React.useState(null);
 
   initialLoginState = {
     isLoading: true,
@@ -41,7 +46,13 @@ export default function App() {
           ...prevState,
           userToken: null,
           isLoading: false,
-        };              
+        };
+      case 'REGISTER':
+        return{
+          ...prevState,
+          userToken: action.token,
+          isLoading: false,
+        };               
     }
   };
 
@@ -51,18 +62,23 @@ export default function App() {
     signIn: async(email, TokenFromServer) => {
 
       await SecureStore.setItemAsync("Token", TokenFromServer);
+      // console.log(Token);
       dispatch({type:'LOGIN', token: TokenFromServer});
     },
     signOut: async() => {
       let result = await SecureStore.getItemAsync("Token");
+      console.log(result);
       dispatch({type:'LOGOUT'});
+    },
+    signUp: () => {
+      //TODO
     }
   }));
 
   useEffect(() => {
     setTimeout(async() => {
       dispatch({type:'RETRIVE_TOKEN', token: loginState.userToken});
-    }, 5000);
+    }, 1000);
   }, []);
 
   if( loginState.isLoading ){

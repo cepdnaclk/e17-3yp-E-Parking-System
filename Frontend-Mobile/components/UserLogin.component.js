@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet,Label, TextInput, TouchableOpacity, Platform, Text, View, Button, Image, StatusBar, Alert, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
@@ -7,6 +7,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 import { AuthContext } from './context';
+
+
 
 export default function Login({ history, navigation }){
 
@@ -80,7 +82,7 @@ export default function Login({ history, navigation }){
 
     useEffect(() => {
         if(localStorage.getItem("authToken")){
-            //pass
+            console.log(2);
         }
     }, [history]);
 
@@ -92,13 +94,18 @@ export default function Login({ history, navigation }){
 
             const email = data.email;
             const password = data.password;
+            console.log(email,password);
             const userdata = await axios.post("http://192.168.1.102:5000/registeredcustomers/signin", {email, password});
+            console.log(userdata.data["token"]);
             localStorage.setItem("authToken", userdata.data["token"]);
+            console.log(3);
             signIn(email, userdata.data["token"]);
 
         }catch(error){
-            alert(error.response.data["error"]);
+            console.log(1);
+            console.log(error.message);
         }
+
     }
 
     return(
@@ -218,7 +225,7 @@ export default function Login({ history, navigation }){
               </TouchableOpacity>
 
               <TouchableOpacity
-                  onPress={() => navigation.navigate('Registration')}
+                  onPress={() => navigation.navigate('Test')}
                   style={[styles.signIn, {
                       borderColor: '#009387',
                       borderWidth: 1,
@@ -232,6 +239,24 @@ export default function Login({ history, navigation }){
           </View>
       </Animatable.View>
     </View>       
+        // <View style={{margin:20}}>
+        //     <TextInput
+        //         placeholder="Enter email"
+        //         onChangeText={text => setEmail(text)}
+        //         // onChange={(e) => {setEmail(e.target.value);}}
+        //     />
+
+        //     <TextInput
+        //         placeholder="Password"
+        //         onChangeText={text => setPassword(text)}
+        //         // onChange={(e) => {
+        //         //     setPassword(e.target.value);
+        //         // }}
+        //     />
+
+        //     <Button title="Submit" onPress={loginData}><Text>Submit</Text></Button>
+
+        // </View>
     )
 }
 
