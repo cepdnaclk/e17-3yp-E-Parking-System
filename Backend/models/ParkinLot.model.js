@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const Schema = mongoose.Schema;
 
 const ParkingLotSchema = new Schema({
+
     company:{type: String, required: false},
     location:{type: String, required: false},
     isfullyoccupied:{type: String, required: false},

@@ -1,16 +1,17 @@
 const router = require('express').Router();
+const { protect } = require('../middlewere/auth');
 let ParkingSpot = require('../models/ParkingSpot.model.js');
 let AssignSpot = require('../models/AssignTo.model.js');
 let RegUser = require('../models/RegisteredCustomers.model.js');
 
-router.route('/').get((req, res) =>{
+router.route('/').get(protect, (req, res) =>{
     ParkingSpot.find()
     .then(ParkingSpots => res.json(ParkingSpots))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 
-router.route("/add").post((req, res) => {
+router.route("/add").post(protect, (req, res) => {
     const spotno = req.body.spotno;
     const state = req.body.state;
     const floornumber = Number(req.body.floornumber);
@@ -25,7 +26,7 @@ router.route("/add").post((req, res) => {
     .catch(err => res.status(400).json('Error: '+ err));
 });
 
-router.route("/:spotno").get(async(req, res, next) => {
+router.route("/:spotno").get(protect, async(req, res, next) => {
     
     const spotno = req.params.spotno;
 
@@ -50,24 +51,24 @@ router.route("/:spotno").get(async(req, res, next) => {
     }
 });
 
-router.route('/:id').delete((req, res) =>{
-    ParkingSpot.findByIdAndDelete(req.params.id)
-    .then(() => res.json('ParkingSpot Deleted!!!'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+// router.route('/:id').delete((req, res) =>{
+//     ParkingSpot.findByIdAndDelete(req.params.id)
+//     .then(() => res.json('ParkingSpot Deleted!!!'))
+//     .catch(err => res.status(400).json('Error: ' + err));
+// });
 
-router.route('/update').post((req, res) =>{
-    ParkingSpot.findById(req.params.id)
-    .then(ParkingSpot => {
-        ParkingSpot.state = req.body.state;
-        ParkingSpot.floornumber = Number(req.body.floornumber);
+// router.route('/update').post((req, res) =>{
+//     ParkingSpot.findById(req.params.id)
+//     .then(ParkingSpot => {
+//         ParkingSpot.state = req.body.state;
+//         ParkingSpot.floornumber = Number(req.body.floornumber);
 
-        ParkingSpot.save()
-            .then(() => res.json('ParkingSpot Updated!!!'))
-            .catch(err => res.status(400).json('Error: ' + err));
-    })
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+//         ParkingSpot.save()
+//             .then(() => res.json('ParkingSpot Updated!!!'))
+//             .catch(err => res.status(400).json('Error: ' + err));
+//     })
+//     .catch(err => res.status(400).json('Error: ' + err));
+// });
 
 module.exports = router;
 

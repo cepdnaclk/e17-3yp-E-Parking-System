@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const Schema = mongoose.Schema;
 
 const RegisteredCustomersSchema = new Schema({
-    name:{type: String, unique:true, required: true},
+    name:{type: String, unique:false, required: false},
     email:{type: String, unique:true, required: true, match: [/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/]},
     contactnumber:{type: Number, required: false},
     password:{type: String, unique:true, required: true, minlength: 6, select: false },
@@ -28,9 +28,7 @@ RegisteredCustomersSchema.pre("save", async function (next) {
 });
 
 RegisteredCustomersSchema.methods.matchPasswords = async function(password){
-    console.log(password, this.password);
     const val = await bcrypt.compare(password, this.password);
-    console.log(val);
     return val
 };
 

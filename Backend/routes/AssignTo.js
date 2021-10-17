@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const path = require('path');
+const { protect } = require('../middlewere/auth');
 let AssignSpot = require('../models/AssignTo.model.js');
 let ParkingSpot = require('../models/ParkingSpot.model.js');
 let RegUser = require('../models/RegisteredCustomers.model.js');
 let Reserve = require('../models/Reservation.model.js');
 let GuestUser = require('../models/GuestCustomer.model');
+const { Console } = require('console');
 
 //Dummy assigining to test.
 router.route('/po').post((req, res) =>{
@@ -14,13 +16,17 @@ router.route('/po').post((req, res) =>{
     const vehiclenumber = req.body.vehiclenumber;
     const cost = req.body.cost;
     const checkin = req.body.checkin;
+    const checkout = req.body.checkout;
+    const duration = req.body.duration;
 
     const newAssign = new AssignSpot({
         customerID,
         parkingspotID,
         vehiclenumber,
         cost,
-        checkin
+        checkin,
+        checkout,
+        duration
     });
 
     newAssign.save().then(() => res.json('User assigned!!!'))
@@ -28,8 +34,17 @@ router.route('/po').post((req, res) =>{
 
 });
 
+//get count - ALL
+router.route('/getcountall').get(protect, (req, res) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    AssignSpot.countDocuments({created: {$gte: today}})
+    .then(Reservation => res.json(Reservation))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 // To get all the assigned parking spots.
-router.route('/').get((req, res) =>{
+router.route('/').get(protect, (req, res) =>{
     AssignSpot.find()
     .then(AssignTo => res.json(AssignTo))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -50,7 +65,6 @@ router.route("/add").post(async(req, res) => {
         if(!user){
             
             //Guest user.
-            console.log(vehiclenumber);
             const newAssign = new GuestUser({
                 vehiclenumber
             });
@@ -58,26 +72,21 @@ router.route("/add").post(async(req, res) => {
             newAssign.save().then(console.log('User assigned!!!'))
             .catch(console.log('Error: '+ err));
             
-            console.log(vehiclenumber);
             const user = await GuestUser.findOne({vehiclenumber}).select("+_id");
-            console.log(user);
             const AllParkingSpots = await ParkingSpot.find();
             const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
-            console.log(LastAssignedSpot);
-            console.log(LastAssignedSpot[0]['parkingspotID']);
+
             try{
         
                 const { spawn } = require('child_process');    
                 const childPy = spawn('python', [path.join(__dirname, '../algorithms/parkingspot_assign_algo.py'), LastAssignedSpot[0]['parkingspotID'], AllParkingSpots]);
                 childPy.stdout.on('data', (data) => {
-                    console.log({data});
                     const newspot = data.toString();
 
                     UpdateParkingSpotState(newspot);                 
                         
                     const customerID = user["_id"];
                     const parkingspotID = newspot;
-                    const vehiclenumber = vehiclenumber;
                     const cost = 0;
                     const checkin = checkintime;
                 
@@ -103,28 +112,24 @@ router.route("/add").post(async(req, res) => {
         }
         else{
             const customerIDfromuser = user["_id"];
-            console.log(customerIDfromuser);
-            const reserved = await Reserve.findOne({ customerID: customerIDfromuser }).select("+_id");
-            console.log(reserved);
+            const reserved = await Reserve.findOne({ customerID: customerIDfromuser, state: "Not Completed" }).select("+_id");
+            
             if(!reserved){
 
                 const AllParkingSpots = await ParkingSpot.find();
                 const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
-                console.log(LastAssignedSpot);
-                console.log(LastAssignedSpot[0]['parkingspotID']);
+
                 try{
             
                     const { spawn } = require('child_process');    
                     const childPy = spawn('python', [path.join(__dirname, '../algorithms/parkingspot_assign_algo.py'), LastAssignedSpot[0]['parkingspotID'], AllParkingSpots]);
                     childPy.stdout.on('data', (data) => {
-                        console.log({data});
                         const newspot = data.toString();
 
                         UpdateParkingSpotState(newspot);                 
                             
                         const customerID = customerIDfromuser
                         const parkingspotID = newspot;
-                        const vehiclenumber = vehiclenumber;
                         const cost = 0;
                         const checkin = checkintime;
                     
@@ -149,10 +154,8 @@ router.route("/add").post(async(req, res) => {
                 }
             }
             else{
-
                 const customerID = customerIDfromuser;
-                const parkingspotID = reserved;
-                const vehiclenumber = vehiclenumber;
+                const parkingspotID = reserved["parkingspotID"];
                 const cost = 0;
                 const checkin = checkintime;
             
@@ -172,15 +175,79 @@ router.route("/add").post(async(req, res) => {
     }
 });
 
+//API call(Exit Node)
+router.route("/exit").post(async(req, res) => {
+
+    const vehiclenumber = req.body.vehiclenumber;
+    const checkout = req.body.checkout;
+
+    if(!checkout || !vehiclenumber){
+        return res.status(400).json({success: false, error: "Please provide checkouttime and vehiclenumber"})
+    }
+
+    try{
+        const user = await RegUser.findOne({ vehiclenumber }).select("+_id");
+        if(!user){
+            const guest = await GuestUser.findOne({ vehiclenumber }).select("+_id");
+            const guestID = guest["_id"];
+            completeassignspot(guestID, checkout);
+            return res.json('Done!!!');
+            
+        }
+        else{
+            const customerIDfromuser = user["_id"];
+            const reserved = await Reserve.findOne({ customerID: customerIDfromuser, state: "Not Completed", status: "Occupied" }).select("+_id");
+            
+            if(!reserved){
+                completeassignspot(customerIDfromuser, checkout);
+                return res.json('Done!!!');
+                
+            }
+            else{
+                completereservation(reserved);
+                completeassignspot(customerIDfromuser, checkout);
+                return res.json('Done!!!');
+
+            }
+        }
+    }catch(error){
+        res.status(406).json({success: false, error: error.message});
+    }
+});
+
+//updating the parking spot collection
 async function UpdateParkingSpotState ( NewParkingSpot ) {
-    console.log(NewParkingSpot);
     const tobeupdated = await ParkingSpot.findOne({ spotno: NewParkingSpot }).select("+_id");
     tobeupdated.state = "Occupied";
     tobeupdated.save(); 
 };
 
+//Have to implement this 
+async function UpdateParkingSpotStateatexit ( NewParkingSpot ) {
+    const tobeupdated = await ParkingSpot.findOne({ spotno: NewParkingSpot }).select("+_id");
+    tobeupdated.state = "Not Occupied";
+    tobeupdated.save(); 
+};
 
-router.route('/:id').get(async(req, res) =>{
+//complete the reservation 
+async function completereservation(reserved){
+    reserved.state = "Completed";
+    reserved.save();
+};
+
+//complete the assignto collection
+async function completeassignspot(customerIDfromuser, checkout){
+    const checkoutdetails = await AssignSpot.findOne({ customerID: customerIDfromuser, cost: 0 }).select("+_id");
+    const currenttime = Date.now();
+    const diffTime = Math.abs(currenttime - checkoutdetails["created"]);
+    checkoutdetails.cost = 250;
+    checkoutdetails.checkout = checkout;
+    checkoutdetails.duration = diffTime
+    checkoutdetails.save();
+};
+
+//event handler used in parking screen
+router.route('/:id').get(protect, async(req, res) =>{
     const headers = {
         'Content-Type': 'text/event-stream',
         'Connection': 'keep-alive',
@@ -188,14 +255,11 @@ router.route('/:id').get(async(req, res) =>{
     };
     res.writeHead(200, headers);    
     try{
-        console.log(req.params.id);
         let AssignedUser = null
         while(!AssignedUser){
-            console.log(AssignedUser);
-            AssignedUser = await AssignSpot.findOne({customerID: req.params.id}).select("+_id");
+            AssignedUser = await AssignSpot.findOne({$and: [{customerID: req.params.id, cost: 0}]}).select("+_id");
         }
         const data = `data: ${JSON.stringify(AssignedUser)}\n\n`;        
-        console.log(data);
         res.write(data);
         res.end();
         
