@@ -27,10 +27,6 @@ export default function HistoryScreen({navigation}){
     return(
         <View style={Styles.container}>
             <Text>History Screen</Text>
-            {/* <Button 
-                title="Home Screen" 
-                onPress={() => navigation.navigate("Homescreen")}
-            /> */}
         </View>
     );
 };

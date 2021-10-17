@@ -6,20 +6,20 @@ const RegUser = require('../models/RegisteredCustomers.model.js');
 exports.protect = async (req, res, next) => {
     let token;
     token = req.headers.authorization;
-    const id = token.split(" ")[1];
     if(!token){
         
-        return res.status(400).json({sucsess: false, error: 'Error:1 '});
+        return res.status(400).json({sucsess: false, error: 'Invalid token'});
     }
+
+    const id = token.split(" ")[1];
     
     try{
         const decoded = jwt.verify(id, process.env.JWT_SECRET);
-        console.log(decoded);
         
         const user = await RegUser.findById(decoded.id);
 
         if(!user){
-            return res.status(400).json({sucsess: false, error: 'Error:2 '});
+            return res.status(400).json({sucsess: false, error: 'Not a VALID user'});
         }
 
         req.user = user;
