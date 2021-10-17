@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet,Label, TextInput, TouchableOpacity, Platform, Text, View, Button, Image, StatusBar, Alert, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
@@ -8,15 +8,19 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 import { AuthContext } from './context';
 
+
+
 export default function Login({ history, navigation }){
 
     const [data, setData] = React.useState({
         email: '',
         password: '',
+        confirm_password: '',
         check_textInputChange: false,
         secureTextEntry: true,
         isValidUser: true,
         isValidPassword: true,
+        confirm_passwordTextEntry: true,
     });
 
     const { signIn } = React.useContext(AuthContext);
@@ -57,12 +61,36 @@ export default function Login({ history, navigation }){
         }
     }
 
+    const handleConfirmPasswordChange = (val) => {
+      if( val.trim().length >= 8 ) {
+          setData({
+              ...data,
+              confirm_password: val,
+              isValidPassword: true
+          });
+      } else {
+          setData({
+              ...data,
+              confirm_password: val,
+              isValidPassword: false
+          });
+      }
+  }
+
+
     const updateSecureTextEntry = () => {
         setData({
             ...data,
             secureTextEntry: !data.secureTextEntry
         });
     }
+
+    const updateconfirm_passwordTextEntry = () => {
+      setData({
+          ...data,
+          confirm_passwordTextEntry: !data.confirm_passwordTextEntry
+      });
+  }
 
     const handleValidUser = (val) => {
         if( val.trim().length >= 4 ) {
@@ -89,23 +117,27 @@ export default function Login({ history, navigation }){
 
 
         try{
-
-            const email = data.email;
-            const password = data.password;
-            const userdata = await axios.post("http://192.168.1.102:5000/registeredcustomers/signin", {email, password});
-            localStorage.setItem("authToken", userdata.data["token"]);
-            signIn(email, userdata.data["token"]);
+            if(data.password == data.confirm_password){
+              const email = data.email;
+              const password = data.password;
+              const userdata = await axios.post("http://192.168.1.102:5000/registeredcustomers/add", {email, password});
+              localStorage.setItem("authToken", userdata.data["token"]);
+              signIn(email, userdata.data["token"]);
+            }else{
+              alert('Passwords should be the same');
+            }
 
         }catch(error){
-            alert(error.response.data["error"]);
+            console.log(error.response.data["error"]);
         }
+
     }
 
     return(
         <View style={styles.container}>
         <StatusBar backgroundColor='#009387' barStyle="light-content"/>
       <View style={styles.header}>
-          <Text style={styles.text_header}>Welcome!</Text>
+          <Text style={styles.text_header}>Register Now!</Text>
       </View>
 
       <Animatable.View 
@@ -197,11 +229,52 @@ export default function Login({ history, navigation }){
           <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
           </Animatable.View>
           }
-          
 
-          <TouchableOpacity>
-              <Text style={{color: '#009387', marginTop:15}}>Forgot password?</Text>
-          </TouchableOpacity>
+          <Text style={[styles.text_footer, {
+              color: colors.text,
+              marginTop: 35
+          }]}>Confirm Password</Text>
+          <View style={styles.action}>
+              <Feather 
+                  name="lock"
+                  color={colors.text}
+                  size={20}
+              />
+              <TextInput 
+                  placeholder="Confirm Your Password"
+                  placeholderTextColor="#666666"
+                  secureTextEntry={data.secureTextEntry ? true : false}
+                  style={[styles.textInput, {
+                      color: colors.text
+                  }]}
+                  autoCapitalize="none"
+                  onChangeText={(val) => handleConfirmPasswordChange(val)}
+              />
+              <TouchableOpacity
+                  onPress={updateconfirm_passwordTextEntry}
+              >
+                  {data.secureTextEntry ? 
+                  <Feather 
+                      name="eye-off"
+                      color="grey"
+                      size={20}
+                  />
+                  :
+                  <Feather 
+                      name="eye"
+                      color="grey"
+                      size={20}
+                  />
+                  }
+              </TouchableOpacity>
+          </View>
+
+          { data.isValidPassword ? null : 
+          <Animatable.View animation="fadeInLeft" duration={500}>
+          <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
+          </Animatable.View>
+          }
+          
           <View style={styles.button}>
               <TouchableOpacity
                   style={styles.signIn}
@@ -213,12 +286,12 @@ export default function Login({ history, navigation }){
               >
                   <Text style={[styles.textSign, {
                       color:'#fff'
-                  }]}>Sign In</Text>
+                  }]}>Sign Up</Text>
               </LinearGradient>
               </TouchableOpacity>
 
               <TouchableOpacity
-                  onPress={() => navigation.navigate('Registration')}
+                  onPress={() => navigation.navigate('Login')}
                   style={[styles.signIn, {
                       borderColor: '#009387',
                       borderWidth: 1,
@@ -227,7 +300,7 @@ export default function Login({ history, navigation }){
               >
                   <Text style={[styles.textSign, {
                       color: '#009387'
-                  }]}>Create Account</Text>
+                  }]}>Sign In</Text>
               </TouchableOpacity>
           </View>
       </Animatable.View>

@@ -5,12 +5,7 @@ import { StyleSheet, View, Image, SafeAreaView, Button, ActivityIndicator } from
 import {
     Avatar,
     Title,
-    Caption,
-    Paragraph,
     Drawer,
-    Text,
-    TouchableRipple,
-    Switch
 } from 'react-native-paper';
 import {
     DrawerContentScrollView,
@@ -35,9 +30,8 @@ export function Drawercontent(props) {
     
             axios.get("http://192.168.1.102:5000/registeredcustomers/user", config).then((res) => {
                 setName(res.data["name"]);
-                console.log(res.data);
             }).catch((err) => {
-                alert(err.message);
+                alert(err.response.error);
             })
         }
         getname();

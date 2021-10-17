@@ -51,51 +51,6 @@ const Tab = createMaterialBottomTabNavigator();
 }
 
 const HomeScreen = ({history, navigation}) => {
-//    // const [error, setError] = useState("");
-//     const [name, setName] = useState("");
-
-//     useEffect(() => {
-//         if(!localStorage.getItem("authToken")){
-//             history.push("/login")
-//         }
-
-//         const fetchPrivateData = async() => {
-//             const config = {
-//                 headers: {
-//                     authorization: `bearer ${localStorage.getItem("authToken")}`
-//                 }
-//             }
-
-//             axios.get("http://192.168.1.100:5000/registeredcustomers/user", config).then((res) => {
-//                 setName(res.data.name);
-//                 console.log("Hi");
-//                 console.log(res.data.name);
-//             }).catch((err) => {
-//                 alert(err.message);
-//             })
-//             /*
-//             try{
-//                 axios.get("http://localhost:5000/registeredcustomers/user", config);
-//                 console.log(data.data);
-//                 if(!privatedata){
-//                     alert("kela wela react");
-//                 }
-//                 alert(privatedata);
-    
-//             }catch(error){
-//                 localStorage.removeItem("authToken");
-                
-//             }
-//             */
-//         };
-//         fetchPrivateData();
-//     },[history, setName]);
-
-    // const logOutHandler = () => {
-    //     localStorage.removeItem("authToken");
-    //     history.push("/login");
-    // }
-
 
     return(
         <MainScreen />

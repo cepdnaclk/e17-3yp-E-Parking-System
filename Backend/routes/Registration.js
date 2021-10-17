@@ -2,8 +2,9 @@ const router = require('express').Router();
 const { protect } = require('../middlewere/auth');
 let RegUser = require('../models/RegisteredCustomers.model.js');
 
+
 // To get all the users.
-router.route('/').get((req, res, next) =>{
+router.route('/').get(protect, (req, res, next) =>{
     RegUser.find()
     .then(RegisteredCustomers => res.json(RegisteredCustomers))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -11,7 +12,6 @@ router.route('/').get((req, res, next) =>{
 
 //Protected Rout for getting user information.
 router.route('/user').get(protect, (req, res, next) =>{
-    console.log(req.user._id);
     RegUser.findById(req.user._id)
     .then(RegisteredCustomers => res.json(RegisteredCustomers))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -20,20 +20,13 @@ router.route('/user').get(protect, (req, res, next) =>{
 
 //Registration.
 router.route("/add").post((req, res, next) => {
-    const name = req.body.name;
+    
     const email = req.body.email;
-    const contact = Number(req.body.contactnumber);
     const password = req.body.password;
-    const paymentmethod = req.body.paymentmethod;
-    const vehiclenumber = req.body.vehiclenumber;
 
     const user = new RegUser({
-        name,
         email,
-        contact,
         password,
-        paymentmethod,
-        vehiclenumber
     });
 
     user.save().then(() => sendToken(user, 201, res))
@@ -53,9 +46,7 @@ router.route("/signin").post(async(req, res, next) => {
         if(!user){
             return res.status(404).json({success: false, error: "Invalid credentials"});
         }
-        console.log(user.password)
         const isMatch = await user.matchPasswords(password);
-        console.log(isMatch);
         
         if(!isMatch){
             return res.status(405).json({success: false, error: "Invalid credentials"});
@@ -69,11 +60,10 @@ router.route("/signin").post(async(req, res, next) => {
 });
 
 //test to find whether we can access the array...
-router.route("/test").post(async(req, res, next) => {
+router.route("/test").post( async(req, res, next) => {
     const vehiclenumber = req.body.vehiclenumber;
     try{
         const user = await RegUser.findOne({vehiclenumber: vehiclenumber}).select('+_id');
-        console.log(user);
     }
     catch(error){
         res.status(406).json({success: false, error: error.message});
@@ -122,13 +112,9 @@ router.route("/updateVnumberVmodel").post(function(req, res) {
 //Setting up the user token.
 const sendToken = (user, statusCode, res) => {
     const token = user.getSignedToken();
-    console.log(token);
     res.status(statusCode).json({ success: true, token});
 }
 
 module.exports = router;
-/*
-    Should implement the the updating and deleting
- */
 
 
