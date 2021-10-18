@@ -1,13 +1,14 @@
 const router = require('express').Router();
+const { protect } = require('../middlewere/auth');
 let Floor = require('../models/Floor.model.js');
 
-router.route('/').get((req, res) =>{
+router.route('/').get(protect, (req, res) =>{
     Floor.find()
     .then(Floors => res.json(Floors))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').get((req, res) =>{
+router.route('/:id').get(protect, (req, res) =>{
     Floor.findById(req.params.id)
     .then(ParkingLot => res.json(ParkingLot))
     .catch(err => res.status(400).json('Error: ' + err));
