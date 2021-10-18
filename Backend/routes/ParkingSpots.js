@@ -10,8 +10,8 @@ router.route('/').get(protect, (req, res) =>{
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-
-router.route("/add").post(protect, (req, res) => {
+//To add a spot/update status of spot
+router.route("/add").post((req, res) => {
     const spotno = req.body.spotno;
     const state = req.body.state;
     const floornumber = Number(req.body.floornumber);
@@ -33,7 +33,7 @@ router.route("/:spotno").get(protect, async(req, res, next) => {
     try{
         const spot = await ParkingSpot.findOne({ spotno }).select("+_id");
         console.log(spot);
-        if(spot['state'] == "Occupied"){
+        if(spot['state'] == "Occupied"){//***********
             const assignedcustomer = await AssignSpot.findOne({ parkingspotID: spotno }).select("+_id");
             const customerid = assignedcustomer["customerID"];
             console.log(customerid);

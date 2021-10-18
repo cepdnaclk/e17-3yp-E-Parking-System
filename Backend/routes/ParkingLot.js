@@ -2,13 +2,13 @@ const router = require('express').Router();
 const { protect } = require('../middlewere/auth');
 let PLT = require('../models/ParkingLot.model.js');
 
-router.route('/').get((req, res) =>{
+router.route('/').get(protect, (req, res) =>{
     PLT.find()
     .then(ParkingLot => res.json(ParkingLot))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').get((req, res) =>{
+router.route('/:id').get(protect, (req, res) =>{
     PLT.findById(req.params.id)
     .then(ParkingLot => res.json(ParkingLot))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -108,7 +108,7 @@ router.route('/setrate').post((req, res) => {
 
 
 // Allow management portal to get current hourly rate
-router.route("/getrate/:email").get((req, res) => {
+router.route("/getrate/:email").get(protect, (req, res) => {
     PLT.findOne({ email: req.params.email })
     .then(PLT => res.json(PLT.hourlyrate))
     .catch(err => res.status(400).json('Error: ' + err));

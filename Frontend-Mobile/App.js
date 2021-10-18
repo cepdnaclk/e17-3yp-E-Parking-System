@@ -11,7 +11,7 @@ import { Drawercontent } from './components/DrawerContent';
 import RootStackScreen from './components/RootStack.component';
 import { AuthContext } from './components/context';
 import HomeScreen from './components/HomeScreen'; 
-import Datascreen from './components/DataScreen';
+//import Datascreen from './components/DataScreen';
 import HistoryScreen from './components/HistoryScreen';
 
 const Stack = createNativeStackNavigator();
