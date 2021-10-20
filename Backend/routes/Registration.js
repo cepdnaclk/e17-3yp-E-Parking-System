@@ -70,7 +70,7 @@ router.route("/test").post( async(req, res, next) => {
     }
 });
 
-//update the vehiclenumbers and vehicalmodels.
+//update the vehiclenumbers and vehicalmodels. (Add new vehicles)
 router.route("/updateVnumberVmodel").post(function(req, res) {
     RegUser.updateOne(
       { _id: req.body._id },

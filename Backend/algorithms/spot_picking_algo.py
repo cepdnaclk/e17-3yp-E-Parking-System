@@ -21,23 +21,28 @@ class SpotNode:
 
 if __name__ == "__main__":
 
-    
 
-    last_assigned = int(sys.argv[1]) #Get last assigned spot from database
+    last_assigned_spot = sys.argv[1] #Get last assigned spot from database
 
-    ParkingSpots = list(sys.argv[2])    #Get parking spot list
-    
-
+    ParkingSpots = json.loads(sys.argv[2])   #Get parking spot list
+     
     #Initialize the graph
-    with open("spots.json") as spotsFile:
+    with open("algorithms/spots.json") as spotsFile:
+        
         json_obj = json.load(spotsFile)
 
         Spots = [SpotNode(**json_obj[i]) for i in range(len(json_obj))]
+        
+        for spot in Spots:
+            if(spot.spotNo == last_assigned_spot):
+                last_assigned = Spots.index(spot) #Get spot index corresponding to the spot from the json file
 
-        available = dict((k,v) for k,v in Spots[last_assigned].distances.items() if ParkingSpots[int(k)].state=="Not Occupied")
+
+        available = dict((k,v) for k,v in Spots[last_assigned].distances.items() if ParkingSpots[int(k)-1]["state"]=="Not Occupied")
+
 
         try:
-            nextSpot = Spots[int(max(available))]
-            print(nextSpot)
+            nextSpotNode = Spots[int(max(available))]
+            print(nextSpotNode.spotNo, end="")
         except ValueError:
             print("Car Park is full")

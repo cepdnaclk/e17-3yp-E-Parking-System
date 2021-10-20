@@ -7,7 +7,7 @@ const path = require('path');
 const schedule = require('node-schedule');
 
 //For Testing
-router.route('/temp').get(async(req, res, next) =>{
+router.route('/temp').get(protect, async(req, res, next) =>{
     const reserved = await Reserve.findOne({ customerID: "6149de42ee073b078846c57b", state: "Not Completed"}).select("+_id");
     try{
         //Pass
@@ -76,7 +76,7 @@ router.route('/test/:id').get(protect, async(req, res) =>{
         try{
             
             const { spawn } = require('child_process');    
-            const childPy = spawn('python', [path.join(__dirname, '../algorithms/parkingspot_assign_algo.py'), LastAssignedSpot[0]['parkingspotID'], AllParkingSpots]);
+            const childPy = spawn('python', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
             childPy.stdout.on('data', (data) => {
                 const newspot = data.toString();
 
