@@ -30,6 +30,12 @@ const Dashboard = () => {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
+  //State variables to store data for the graphs
+
+  //useEffect update every 5 seconds(?)
+
+  //async function to fetch data and handle graph updates
+
   return (
     <>
       <CCard className="mb-4">

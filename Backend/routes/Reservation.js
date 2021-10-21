@@ -17,7 +17,7 @@ router.route('/temp').get(protect, async(req, res, next) =>{
 });
 
 //get count - ALL
-router.route('/getcountall').get(protect, (req, res) => {
+router.route('/getcountall').get((req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     Reserve.countDocuments({created: {$gte: today}})
@@ -25,20 +25,29 @@ router.route('/getcountall').get(protect, (req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//get occupied reservation
-router.route('/getOccupiedcount').get(protect, (req, res) => {
+//get occupied reservation count
+router.route('/getOccupiedcount').get((req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    Reserve.countDocuments({$and: [{status: "Occupied", created: {$gte: today}}]})
+    Reserve.countDocuments({$and: [{status: "Occupied"}, {created: {$gte: today}}]})
     .then(Reservation => res.json(Reservation))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 //get completed reservations
-router.route('/getcompletedcount').get(protect, (req, res) => {
+router.route('/getcompleted').get((req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    Reserve.countDocuments({$and: [{state: "Completed", created: {$gte: today}}]})
+    Reserve.find({$and: [{state: "Completed"}, {created: {$gte: today}}]})
+    .then(Reservation => res.json(Reservation))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//Get occupied reservations
+router.route('/getoccupied').get((req, res) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    Reserve.find({$and: [{status: "Occupied"}, {created: {$gte: today}}]})
     .then(Reservation => res.json(Reservation))
     .catch(err => res.status(400).json('Error: ' + err));
 });

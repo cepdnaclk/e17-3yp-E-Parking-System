@@ -44,7 +44,7 @@ router.route('/getcountall').get(protect, (req, res) => {
 });
 
 // To get all the assigned parking spots.
-router.route('/').get(protect, (req, res) =>{
+router.route('/').get((req, res) =>{
     AssignSpot.find()
     .then(AssignTo => res.json(AssignTo))
     .catch(err => res.status(400).json('Error: ' + err));
