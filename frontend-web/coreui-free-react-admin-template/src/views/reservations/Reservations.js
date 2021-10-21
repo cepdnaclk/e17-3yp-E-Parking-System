@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React, { lazy, useEffect, useState } from 'react'
 import {
   CCard,
   CCardHeader,
@@ -10,10 +10,43 @@ import {
   CTableHeaderCell,
   CTableDataCell,
 } from '@coreui/react'
+import axios from 'axios'
 
 const ReservationWidgets = lazy(() => import('../components/widgets/ReservationWidgets.js'))
 
 const Reservations = () => {
+  const [active, setActive] = useState([
+    {
+      reservationID: 'R001',
+      parkingspotID: 'A005',
+      dateandtime: '5.00pm',
+    },
+    {
+      reservationID: 'R002',
+      parkingspotID: 'A010',
+      dateandtime: '1.00pm',
+    },
+  ])
+  const [completed, setCompleted] = useState([])
+
+  useEffect(() => {
+    updateInfo()
+    const interval = setInterval(() => {
+      updateInfo()
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
+  async function updateInfo() {
+    const activeData = (await axios.get('http://localhost:5000/reservation/getoccupied'))['data']
+    const completedData = (await axios.get('http://localhost:5000/reservation/getcompleted'))[
+      'data'
+    ]
+
+    setActive(activeData)
+    setCompleted(completedData)
+  }
+
   return (
     <>
       <ReservationWidgets />
@@ -30,24 +63,14 @@ const Reservations = () => {
               </CTableRow>
             </CTableHead>
             <CTableBody>
-              <CTableRow>
-                <CTableHeaderCell scope="row">1</CTableHeaderCell>
-                <CTableDataCell>R0345</CTableDataCell>
-                <CTableDataCell>A004</CTableDataCell>
-                <CTableDataCell>1.00pm</CTableDataCell>
-              </CTableRow>
-              <CTableRow>
-                <CTableHeaderCell scope="row">2</CTableHeaderCell>
-                <CTableDataCell>R0350</CTableDataCell>
-                <CTableDataCell>B073</CTableDataCell>
-                <CTableDataCell>6.00pm</CTableDataCell>
-              </CTableRow>
-              <CTableRow>
-                <CTableHeaderCell scope="row">3</CTableHeaderCell>
-                <CTableDataCell>R0450</CTableDataCell>
-                <CTableDataCell>B050</CTableDataCell>
-                <CTableDataCell>5.00pm</CTableDataCell>
-              </CTableRow>
+              {active.map((data, idx) => (
+                <CTableRow key={idx}>
+                  <CTableHeaderCell scope="row">{idx + 1}</CTableHeaderCell>
+                  <CTableDataCell>{data.reservationID}</CTableDataCell>
+                  <CTableDataCell>{data.parkingspotID}</CTableDataCell>
+                  <CTableDataCell>{data.dateandtime}</CTableDataCell>
+                </CTableRow>
+              ))}
             </CTableBody>
           </CTable>
         </CCardBody>
@@ -66,24 +89,14 @@ const Reservations = () => {
               </CTableRow>
             </CTableHead>
             <CTableBody>
-              <CTableRow>
-                <CTableHeaderCell scope="row">1</CTableHeaderCell>
-                <CTableDataCell>R0345</CTableDataCell>
-                <CTableDataCell>A004</CTableDataCell>
-                <CTableDataCell>1.00pm</CTableDataCell>
-              </CTableRow>
-              <CTableRow>
-                <CTableHeaderCell scope="row">2</CTableHeaderCell>
-                <CTableDataCell>R0350</CTableDataCell>
-                <CTableDataCell>B035</CTableDataCell>
-                <CTableDataCell>3.00pm</CTableDataCell>
-              </CTableRow>
-              <CTableRow>
-                <CTableHeaderCell scope="row">3</CTableHeaderCell>
-                <CTableDataCell>R0450</CTableDataCell>
-                <CTableDataCell>B050</CTableDataCell>
-                <CTableDataCell>5.00pm</CTableDataCell>
-              </CTableRow>
+              {completed.map((data, idx) => (
+                <CTableRow key={idx}>
+                  <CTableHeaderCell scope="row">{idx + 1}</CTableHeaderCell>
+                  <CTableDataCell>{data.reservationID}</CTableDataCell>
+                  <CTableDataCell>{data.parkingspotID}</CTableDataCell>
+                  <CTableDataCell>{data.dateandtime}</CTableDataCell>
+                </CTableRow>
+              ))}
             </CTableBody>
           </CTable>
         </CCardBody>
