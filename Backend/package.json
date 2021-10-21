@@ -19,7 +19,7 @@
     "mongoose": "^5.13.5",
     "mongoose-unique-validator": "^2.0.3",
     "node-schedule": "^2.0.0",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.14",
     "python-shell": "^3.0.0",
     "restify-cors-middleware": "^1.1.1"
   },

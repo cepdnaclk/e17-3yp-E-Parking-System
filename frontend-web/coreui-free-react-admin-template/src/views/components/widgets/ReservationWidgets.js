@@ -1,11 +1,35 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { CCard, CCardBody, CCol, CRow, CWidgetStatsB } from '@coreui/react'
+import axios from 'axios'
 
 const ReservationWidgets = () => {
+  const [reserved, setReserved] = useState(0)
+  const [inUse, setInUse] = useState(0)
+  const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    updateReservations()
+    const interval = setInterval(() => {
+      updateReservations()
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [])
+
+  async function updateReservations() {
+    const totalSpots = (await axios.get('http://localhost:5000/parkingspots/count'))['data']
+    const reservationCount = (await axios.get('http://localhost:5000/reservation/getcountall'))[
+      'data'
+    ]
+    const occupiedCount = (await axios.get('http://localhost:5000/reservation/getOccupiedcount'))[
+      'data'
+    ]
+
+    setTotal(totalSpots)
+    setReserved(reservationCount)
+    setInUse(occupiedCount)
+  }
+
   const percent = (count, total) => (count * 100) / total
-  const reserved = 15
-  const inUse = 3
-  const total = 50
 
   return (
     <CCard className="mb-4">
