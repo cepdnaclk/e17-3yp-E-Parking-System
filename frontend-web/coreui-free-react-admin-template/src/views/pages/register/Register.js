@@ -6,15 +6,11 @@ import {
   CCardBody,
   CCardHeader,
   CCol,
-  CContainer,
   CForm,
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
+  CContainer,
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBuilding, cilLockLocked, cilMobile, cilUser } from '@coreui/icons'
 
 import { logoBig } from 'src/assets/brand/logo-big'
 

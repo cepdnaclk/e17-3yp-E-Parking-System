@@ -15,18 +15,7 @@ import axios from 'axios'
 const ReservationWidgets = lazy(() => import('../components/widgets/ReservationWidgets.js'))
 
 const Reservations = () => {
-  const [active, setActive] = useState([
-    {
-      reservationID: 'R001',
-      parkingspotID: 'A005',
-      dateandtime: '5.00pm',
-    },
-    {
-      reservationID: 'R002',
-      parkingspotID: 'A010',
-      dateandtime: '1.00pm',
-    },
-  ])
+  const [active, setActive] = useState([])
   const [completed, setCompleted] = useState([])
 
   useEffect(() => {

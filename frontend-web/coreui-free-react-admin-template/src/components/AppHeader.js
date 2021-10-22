@@ -1,7 +1,7 @@
 import React from 'react'
 import { CContainer, CHeader, CHeaderNav, CNavLink, CNavItem } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilEnvelopeOpen, cilList } from '@coreui/icons'
+import { cilBell } from '@coreui/icons'
 
 import { AppHeaderDropdown } from './header/index'
 
