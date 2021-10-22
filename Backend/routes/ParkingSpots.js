@@ -34,7 +34,7 @@ router.route("/states").get(async(req, res, next) => {
 
         spots.forEach(async function (spot) {
             if (spot.state === "Occupied") {
-                const assignedcustomer = await AssignSpot.findOne({ parkingspotID: spot.spotno, cost: 0 }).select("+_id");
+                const assignedcustomer = await AssignSpot.findOne({ parkingspotID: spot.spotno }).select("+_id");
 
                 const spotInfo = {
                     spotno: spot.spotno,
@@ -47,7 +47,7 @@ router.route("/states").get(async(req, res, next) => {
                 result.push(spot);
             }
 
-            if (result.length == spots.length) {
+            if (result.length == spots.length){
                 res.status(200).json(result);
             }
         });
@@ -57,21 +57,15 @@ router.route("/states").get(async(req, res, next) => {
     }
 });
 
-router.route("/count").get(async(req, res, next) => {
-    ParkingSpot.countDocuments({})
-    .then(ParkingSpots => res.json(ParkingSpots))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
 router.route("/:spotno").get(async(req, res, next) => {
     
     const spotno = req.params.spotno;
 
     try{
         const spot = await ParkingSpot.findOne({ spotno }).select("+_id");
-        //console.log(spot);
+        console.log(spot);
         if(spot['state'] == "Occupied"){//***********
-            const assignedcustomer = await AssignSpot.findOne({ parkingspotID: spotno, cost: 0 }).select("+_id");
+            const assignedcustomer = await AssignSpot.findOne({ parkingspotID: spotno }).select("+_id");
             const customerID = assignedcustomer["customerID"];
             //console.log(customerid);
             //const user = await RegUser.findById(customerid);

@@ -10,6 +10,17 @@ router.route('/').get(protect, (req, res, next) =>{
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// get count of a day
+router.route('/getcountall').get(protect, (req, res) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    RegUser.countDocuments({created: {$gte: today}})
+    .then(count => res.json(count))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+
+
 //Protected Rout for getting user information.
 router.route('/user').get(protect, (req, res, next) =>{
     RegUser.findById(req.user._id)
@@ -20,11 +31,12 @@ router.route('/user').get(protect, (req, res, next) =>{
 
 //Registration.
 router.route("/add").post((req, res, next) => {
-    
+    const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
 
     const user = new RegUser({
+        name,
         email,
         password,
     });
@@ -70,7 +82,7 @@ router.route("/test").post( async(req, res, next) => {
     }
 });
 
-//update the vehiclenumbers and vehicalmodels. (Add new vehicles)
+//update the vehiclenumbers and vehicalmodels.
 router.route("/updateVnumberVmodel").post(function(req, res) {
     RegUser.updateOne(
       { _id: req.body._id },

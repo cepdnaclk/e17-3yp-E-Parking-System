@@ -108,7 +108,11 @@
                     <h2>Solution Architecture</h2>    
                 </div>
                 
-                <img src="images/SolArch.png" class="d-block rounded w-100"  alt="Solution Architecture">
+                <img src="images/SolArch.png" class="d-block rounded w-100 mb-5"  alt="Solution Architecture">
+                <ul>
+                 <p></p>
+                </ul>
+
                 
             </div>
         </div>
@@ -125,10 +129,11 @@
                       <h2 class="mb-4">Parking Management Portal</h2>
 
                       <ul>
-                        <li><p> A management portal for the owners to view and manage their car park.</p></li>
-                        <li><p> Easily manage parking spots and collect usage statistics.</p></li>
+                        <li><p> A management portal for the owners to view and manage their car park. Easily manage parking spots and collect usage statistics (Daily and weekly statistics).</p></li>
                         <li><p> Can be accessed from anywhere and no additional software required.</p></li>
-                        <li><p> Technologies used - DigitalOcean Cloud Server, MySQL, React JS and Node.js</p></li>
+                        <li><p> Technologies used - React JS and Node.js. Single Page Application is used since it is
+                          ideal for the purpose of a dashboard that updates itself in real-time.</p></li>
+
                         
                       </ul>
 
@@ -144,14 +149,14 @@
 					<div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center rounded" style="background-image: url('images/app.png');"></div>
               <div class="col-md-4 wrap-about ftco-animate">
                   <div class="heading-section heading-section-white pl-md-5">
-                      <span class="subheading">Android App</span>
-                      <h2 class="mb-4">Mobile App For The Users</h2>
+                      <span class="subheading">Mobile App</span>
+                      <h2 class="mb-4">App For The Car Park Users</h2>
 
                       <ul>
                         <li><p> Users can register for the service through the app.</p></li>
-                        <li><p> Users can reserve parking spots in advance.</p></li>
-                        <li><p> Provide directions to the assigned parking spot.</p></li>
-                        <li><p> The car park users can make card payments using the mobile app.</p></li> 
+                        <li><p> Users can reserve parking spots in advance. The car park users can make card payments using the mobile app.</p></li>
+                        <li><p> Provides directions to the assigned parking spot.</p></li>
+                        <li><p> Developed using React Native.</p></li> 
                       </ul>
 
                   </div>
@@ -249,8 +254,28 @@
                   <h2>Node Designs<br></h2>    
               </div>
               
-              <img src="images/entrance_exit_node.png" class="d-block rounded w-100"  alt="Entrance/exit Nodes">
-              <img src="images/spot_nodes.png" class="d-block rounded w-100"  alt="Spot Node">
+              <img src="images/entrance_exit_node.png" class="d-block rounded w-100 mb-5"  alt="Entrance/exit Nodes">
+              <ul>
+                <p>HC-SR04 ultrasonic distance sensors will sense the incoming vehicle at the entrance node and the digital camera
+                  will get the license plate image. This image will be processed at the Raspberry Pi 4 (Python and Tessaract OCR will be used for the Automatic Number Plate Recognition in the Raspberry Pi) and the necessary data will be send 
+                  to the server. Once a spot number is received from the server, the Raspberry Pi 4 will signal the servo motor to open the gate while
+                  displaying the spot number on the LCD display. Each hardware node has an AC-DC power supply attached and the components operate on 5V DC.
+                  We will have secure WiFi with standard WPA2 encryption to avoid unauthorized access.
+                </p>
+                
+              </ul>
+              <img src="images/spot_nodes.png" class="d-block rounded w-100 mb-3"  alt="Spot Node">
+              <img src="images/esp-mesh.png" class="d-block rounded w-50 mb-5"  alt="ESP-MESH">
+              <ul>
+                <p>The servo motor will open the spot gate once a spot is assigned to a vehicle.
+                  The NodeMCU ESP8266 will decide the parking spot status based on the sensor data received from the HC-SR04 ultrasonic distance sensor and the 
+                  spot status will be sent to the server. We will be creating an ESP-MESH to create a WIFI mesh network and will be using the in-built Wi-Fi module for connectivity.
+                  NodeMCU ESP8266 takes in 5VDC power but operates on 3V3DC power. Similar to the entrance/exit node, power will be provided using and AC-DC power supply. Unauthorized parties may intercept communication between the nodes and the server. To prevent this, as mentioned before, 
+                  secure WiFi channels with standard WPA encryption will be used to ensure secure connection to the server.
+
+                </p>
+                
+              </ul>
               
           </div>
       </div>
@@ -265,21 +290,75 @@
                 <span class="subheading">Network Architecture</span>
                 <h2>Frontend + Backend<br></h2>    
             </div>
+
+            <div id="frontendandbackend" class="carousel slide mb-5" data-bs-ride="carousel">
+
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/server.png" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/algorithms.png" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/reservations.png" class="d-block w-100">
+                </div>
+              </div>
+              <button class="carousel-control-prev bg-transparent border-0" type="button" href="#frontendandbackend" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                
+              </button>
+              <button class="carousel-control-next bg-transparent border-0" type="button" href="#frontendandbackend" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                
+              </button>
+            </div>
             
-            <img src="images/server.png" class="d-block rounded w-100"  alt="Network Architecture">
-            
+            <ul>
+              <p>For the backend we will be using the MERN Stack (MongoDB Database, Express.js web framework, React.js Frontend Framework, Node.js server).
+                The backend is primarily handled by a Node.js web server running on an AWS cloud VM instance.
+                The Express web framework is used to simplify the development process since it abstracts away things like HTTP request handling, parsing URLs etc. 
+                In-built Express methods are used to develop the REST API that the web application and the mobile app uses to communicate with the server. 
+                The REST API endpoints will use HTTPS to leverage TLS/SSL encryption for the communication with the server.
+              </p>
+            </ul>
+            <ul>
+              <p>A MongoDB database on an Atlas instance is used for data storage. The Mongoose data modelling library is used to provide a layer of abstraction to the connection between the Node server and the database. 
+                The Atlas service provides the ability to do routine backups of the database.
+                The hardware nodes will communicate with the server using the MQTT protocol. 
+                The server will interact with the hardware nodes using AWS IoT Core. MQTT can be configured to use TLS/SSL encryption so that the communication is secure.
+              </p>
+            </ul>
+
+            <ul>
+              <p>The server runs the spot picking algorithm (Python script) as a child processes using the child-process library.
+                Reservation handling is done by running it as a separate JavaScript file, which handles reservations one hour prior to the reservation time. Owners can observe reservations through the management portal.
+                Records of usage of the parking lot are stored in the database and the temporary storage has a lifetime of three months. (Reservations and spot assignments.)
+                Cors library is used to enable CORS (Cross-Origin Resource Sharing) for security. This allows us to limit access to the API based on the origin.
+                Bcrypt is used for password hashing which uses the blowfish cipher with ten salting rounds to prevent attacks without a large hit to performance. 
+                Jsonwebtoken is used for user authentication. This generates a session token for a registered user when they log in that can be used to authenticate the user with the credentials stored in the database.
+                Details of the REST API endpoints for the server side are available in the project repository.
+              </p>
+            </ul>
+
+            <ul>
+              <p>During a power outage, if the car park management decides to keep the car park open despite the hardware nodes being down, they can manually enter the data 
+                into the system through the management portal to keep the system up-to-date so that it can recover properly and continue operation once it is back online. 
+                Hardware node online/offline status will be detected by the transmission of an MQTT “heartbeat” message every 5 mins.
+
+              </p>
+            </ul>
             
         </div>
     </div>
   </section>
-
     
 
     <section class="ftco-section">
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <span class="subheading">Bill Of Materials</span>
+            <span class="subheading">Bill of Materials</span>
             <h2 class="mb-3">Entrance-Exit Nodes + Parking Spot Node<br></h2>
           </div>
 

@@ -13,6 +13,7 @@ import { AuthContext } from './context';
 export default function Login({ history, navigation }){
 
     const [data, setData] = React.useState({
+        name: '',
         email: '',
         password: '',
         confirm_password: '',
@@ -118,9 +119,10 @@ export default function Login({ history, navigation }){
 
         try{
             if(data.password == data.confirm_password){
+              const name = data.name;
               const email = data.email;
               const password = data.password;
-              const userdata = await axios.post("http://192.168.1.102:5000/registeredcustomers/add", {email, password});
+              const userdata = await axios.post("http://192.168.1.100:5000/registeredcustomers/add", {name, email, password});
               localStorage.setItem("authToken", userdata.data["token"]);
               signIn(email, userdata.data["token"]);
             }else{
@@ -145,7 +147,47 @@ export default function Login({ history, navigation }){
           style={[styles.footer, {
               backgroundColor: colors.background
           }]}
+         
       >
+
+        <Text style={[styles.text_footer, {
+              color: colors.text
+          }]}>Name</Text>
+          <View style={styles.action}>
+              <FontAwesome 
+                  name="user-o"
+                  color={colors.text}
+                  size={20}
+              />
+              <TextInput 
+                  placeholder="Your Name"
+                  placeholderTextColor="#666666"
+                  style={[styles.textInput, {
+                      color: colors.text
+                  }]}
+                  autoCapitalize="none"
+                  onChangeText={(val) => setData({
+                    ...data,
+                    name: val
+                })}
+              />
+              {data.check_textInputChange ? 
+              <Animatable.View
+                  animation="bounceIn"
+              >
+                  <Feather 
+                      name="check-circle"
+                      color="green"
+                      size={20}
+                  />
+              </Animatable.View>
+              : null}
+          </View>
+          <Text>
+            {"\n"}
+          </Text>
+
+        
           <Text style={[styles.text_footer, {
               color: colors.text
           }]}>Email</Text>

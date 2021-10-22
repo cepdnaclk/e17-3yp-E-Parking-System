@@ -7,7 +7,7 @@ const path = require('path');
 const schedule = require('node-schedule');
 
 //For Testing
-router.route('/temp').get(protect, async(req, res, next) =>{
+router.route('/temp').get(async(req, res, next) =>{
     const reserved = await Reserve.findOne({ customerID: "6149de42ee073b078846c57b", state: "Not Completed"}).select("+_id");
     try{
         //Pass
@@ -17,7 +17,7 @@ router.route('/temp').get(protect, async(req, res, next) =>{
 });
 
 //get count - ALL
-router.route('/getcountall').get((req, res) => {
+router.route('/getcountall').get(protect, (req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     Reserve.countDocuments({created: {$gte: today}})
@@ -25,29 +25,20 @@ router.route('/getcountall').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//get occupied reservation count
-router.route('/getOccupiedcount').get((req, res) => {
+//get occupied reservation
+router.route('/getOccupiedcount').get(protect, (req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    Reserve.countDocuments({$and: [{status: "Occupied"}, {created: {$gte: today}}]})
+    Reserve.countDocuments({$and: [{status: "Occupied", created: {$gte: today}}]})
     .then(Reservation => res.json(Reservation))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 //get completed reservations
-router.route('/getcompleted').get((req, res) => {
+router.route('/getcompletedcount').get(protect, (req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    Reserve.find({$and: [{state: "Completed"}, {created: {$gte: today}}]})
-    .then(Reservation => res.json(Reservation))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-//Get occupied reservations
-router.route('/getoccupied').get((req, res) => {
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    Reserve.find({$and: [{status: "Occupied"}, {created: {$gte: today}}]})
+    Reserve.countDocuments({$and: [{state: "Completed", created: {$gte: today}}]})
     .then(Reservation => res.json(Reservation))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -88,7 +79,6 @@ router.route('/test/:id').get(protect, async(req, res) =>{
             const childPy = spawn('python', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
             childPy.stdout.on('data', (data) => {
                 const newspot = data.toString();
-
                 UpdateParkingSpotState(newspot);
                 addnewparkingspotinreservation(newspot, req.params.id);                                                    
             });
@@ -106,19 +96,19 @@ router.route('/test/:id').get(protect, async(req, res) =>{
     });
 });
 
+//updating the parking spot collection
+async function UpdateParkingSpotState ( NewParkingSpot ) {
+    const tobeupdated = await ParkingSpot.findOne({ spotno: NewParkingSpot }).select("+_id");
+    tobeupdated.state = "Occupied";
+    tobeupdated.save(); 
+};
+
 //updating the parking spot in reservation
 async function addnewparkingspotinreservation(newspot, id){
     const tobeupdated = await Reserve.findOne({ _id: id }).select("+_id");
     tobeupdated.parkingspotID = newspot;
     tobeupdated.status = "Occupied";
     tobeupdated.save();
-};
-
-//updating the parking spot collection
-async function UpdateParkingSpotState ( NewParkingSpot ) {
-    const tobeupdated = await ParkingSpot.findOne({ spotno: NewParkingSpot }).select("+_id");
-    tobeupdated.state = "Occupied";
-    tobeupdated.save(); 
 };
 
 //adding a reservation
@@ -141,6 +131,10 @@ router.route("/add").post((req, res) => {
     newReservation.save().then(async() => res.json(newReservation))
     .catch(err => res.status(400).json('Error: '+ err));
 });
+
+
+
+
 
 // router.route('/:id').delete((req, res) =>{
 //     Reserve.findByIdAndDelete(req.params.id)
