@@ -1,14 +1,13 @@
 const router = require('express').Router();
-const { protect } = require('../middlewere/auth');
 let GuestUser = require('../models/GuestCustomer.model.js');
 
-router.route('/').get(protect, (req, res) =>{
+router.route('/').get((req, res) =>{
     GuestUser.find()
     .then(GuestCustomers => res.json(GuestCustomers))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').get(protect, (req, res) =>{
+router.route('/:id').get((req, res) =>{
     GuestUser.findById(req.params.id)
     .then(GuestCustomers => res.json(GuestCustomers))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -16,10 +15,12 @@ router.route('/:id').get(protect, (req, res) =>{
 
 
 router.route("/add").post((req, res) => {
-    const vehiclenumber = req.body.vehiclenumber;
+    const name = req.body.name;
+    const vehicalnumber = req.body.vehicalnumber;
 
     const NewGuestUser = new GuestUser({
-        vehiclenumber
+        name,
+        vehicalnumber
     });
 
     NewGuestUser.save().then(() => res.json('User added!!!'))
@@ -35,7 +36,8 @@ router.route('/:id').delete((req, res) =>{
 router.route('/update/:id').post((req, res) =>{
     GuestUser.findById(req.params.id)
     .then(GuestUser => {
-        GuestUser.vehiclenumber = req.body.vehiclenumber;
+        GuestUser.name = req.body.name;
+        GuestUser.vehicalnumber = req.body.vehicalnumber;
 
         GuestUser.save()
             .then(() => res.json('User Updated!!!'))

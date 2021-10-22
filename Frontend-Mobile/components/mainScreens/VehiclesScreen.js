@@ -71,7 +71,7 @@ const VehiclesScreen = () => {
               }
           }
   
-          axios.get("http://192.168.1.102:5000/registeredcustomers/user", config).then((res) => {
+          axios.get("http://192.168.1.100:5000/registeredcustomers/user", config).then((res) => {
             setUserID(res.data["_id"]);
             setVehivles(res.data["vehiclenumber"]);
             setVehivleModels(res.data["vehiclemodel"]);
@@ -108,7 +108,7 @@ const VehiclesScreen = () => {
 
     console.log("Vehicle Added {" + vehicleName + ", " + vehicleNumber + "}")
 
-    axios.post("http://192.168.1.102:5000/registeredcustomers/updateVnumberVmodel", {
+    axios.post("http://192.168.1.100:5000/registeredcustomers/updateVnumberVmodel", {
       _id: userID,
       vehiclenumber: vehicleNumber,
       vehiclemodel: vehicleName

@@ -16,7 +16,7 @@ export default function HistoryScreen({navigation}){
                 }
             }
 
-            axios.get("http://192.168.1.102:5000/registeredcustomers/user", config).then((res) => {
+            axios.get("http://192.168.1.100:5000/registeredcustomers/user", config).then((res) => {
                 console.log(res.data.name);
             }).catch((err) => {
                 alert(err.message);
