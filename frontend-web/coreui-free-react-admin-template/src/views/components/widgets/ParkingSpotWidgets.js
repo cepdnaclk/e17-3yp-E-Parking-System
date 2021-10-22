@@ -49,7 +49,7 @@ const ParkingSpotWidgets = () => {
 
   useEffect(() => {
     getSpotVehicle(spotID)
-  }, [visible])
+  }, [visible, spotID])
 
   function filterById(jsonObject, spotno) {
     return jsonObject.filter(function (jsonObject) {
@@ -78,8 +78,12 @@ const ParkingSpotWidgets = () => {
       },
     }
 
-    const { data } = await axios.get('http://44.199.161.77:5000/parkingspots/states', config)
-    setSpotInfo(data)
+    //alert(JSON.stringify(config))
+
+    try {
+      const { data } = await axios.get('http://44.199.161.77:5000/parkingspots/states', config)
+      setSpotInfo(data)
+    } catch (error) {}
   }
 
   const myModal = () => {

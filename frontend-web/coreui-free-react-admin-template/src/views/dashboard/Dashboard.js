@@ -1,19 +1,9 @@
-import React, { lazy } from 'react'
+import React, { lazy, useEffect, useState } from 'react'
 
-import {
-  CButton,
-  CButtonGroup,
-  CCard,
-  CCardHeader,
-  CCardBody,
-  CCardFooter,
-  CCol,
-  CProgress,
-  CRow,
-} from '@coreui/react'
+import { CButton, CButtonGroup, CCard, CCardHeader, CCardBody, CCol, CRow } from '@coreui/react'
 import { CChartBar } from '@coreui/react-chartjs'
 import { getStyle, hexToRgba } from '@coreui/utils'
-import CIcon from '@coreui/icons-react'
+import axios from 'axios'
 
 /*import avatar1 from './../../assets/images/avatars/1.jpg'
 import avatar2 from './../../assets/images/avatars/2.jpg'
@@ -26,15 +16,40 @@ const WidgetsDropdown = lazy(() => import('../components/widgets/WidgetsDropdown
 //const Widgets = lazy(() => import('../components/widgets/Widgets.js'))
 
 const Dashboard = () => {
-  const random = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-  }
-
   //State variables to store data for the graphs
+  const [weeklyData, setWeeklyData] = useState([0, 0, 0, 0, 0, 0, 0])
 
-  //useEffect update every 5 seconds(?)
+  //useEffect update every 5 seconds
+  useEffect(() => {
+    updateGraph()
+    const interval = setInterval(() => {
+      updateGraph()
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [])
 
   //async function to fetch data and handle graph updates
+  async function updateGraph() {
+    let result = localStorage.getItem('authToken')
+
+    const config = {
+      headers: {
+        authorization: `bearer ${result}`,
+      },
+    }
+
+    const graphData = (await axios.get('http://44.199.161.77:5000/assignto/getweeklycount', config))[
+      'data'
+    ]
+
+    var points = []
+
+    for (const point of graphData) {
+      points.push(point.count)
+    }
+    //alert(points)
+    setWeeklyData(points)
+  }
 
   return (
     <>
@@ -91,20 +106,15 @@ const Dashboard = () => {
                   borderColor: getStyle('--cui-info'),
                   pointHoverBackgroundColor: getStyle('--cui-info'),
                   borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                  ],
+                  data: weeklyData,
                   fill: true,
                 },
               ],
             }}
             options={{
+              animation: {
+                duration: 0,
+              },
               maintainAspectRatio: false,
               plugins: {
                 legend: {
