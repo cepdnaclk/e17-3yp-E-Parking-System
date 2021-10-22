@@ -70,7 +70,15 @@ const ParkingSpotWidgets = () => {
   }
 
   async function handleSpots() {
-    const { data } = await axios.get('http://localhost:5000/parkingspots/states')
+    let result = localStorage.getItem('authToken')
+
+    const config = {
+      headers: {
+        authorization: `bearer ${result}`,
+      },
+    }
+
+    const { data } = await axios.get('http://44.199.161.77:5000/parkingspots/states', config)
     setSpotInfo(data)
   }
 
