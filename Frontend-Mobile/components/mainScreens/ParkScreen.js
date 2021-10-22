@@ -21,9 +21,9 @@ const ParkScreen = () => {
             }
         }
 
-        axios.get("http://192.168.1.102:5000/registeredcustomers/user", config).then((res) => {
+        axios.get("http://192.168.1.100:5000/registeredcustomers/user", config).then((res) => {
             if(!Listening){
-              var eventSource = new EventSource(`http://192.168.1.102:5000/assignto/${res.data["_id"]}`, config);
+              var eventSource = new EventSource(`http://192.168.1.100:5000/assignto/${res.data["_id"]}`, config);
               eventSource.addEventListener("open", (e) => {
                 console.log("Open SSE connection");
               });
