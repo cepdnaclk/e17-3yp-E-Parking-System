@@ -2,12 +2,13 @@ require('dotenv').config({ path: "./secret.env"});
 const jwt = require('jsonwebtoken');
 
 const RegUser = require('../models/RegisteredCustomers.model.js');
+const PLT = require('../models/ParkingLot.model.js');
 
 exports.protect = async (req, res, next) => {
     let token;
     token = req.headers.authorization;
+
     if(!token){
-        
         return res.status(400).json({sucsess: false, error: 'Invalid token'});
     }
 
@@ -16,7 +17,11 @@ exports.protect = async (req, res, next) => {
     try{
         const decoded = jwt.verify(id, process.env.JWT_SECRET);
         
-        const user = await RegUser.findById(decoded.id);
+        var user = await RegUser.findById(decoded.id);
+
+        if (!user) {
+            user = await PLT.findById(decoded.id);
+        }
 
         if(!user){
             return res.status(400).json({sucsess: false, error: 'Not a VALID user'});
@@ -25,7 +30,7 @@ exports.protect = async (req, res, next) => {
         req.user = user;
         next();
         
-    }catch (error){
+    } catch (error){
         res.status(400).json({sucsess: false, error: error.message});
     }
 }

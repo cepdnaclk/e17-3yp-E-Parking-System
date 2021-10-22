@@ -34,14 +34,19 @@ router.route("/states").get(protect, async(req, res, next) => {
 
         spots.forEach(async function (spot) {
             if (spot.state === "Occupied") {
-                const assignedcustomer = await AssignSpot.findOne({ parkingspotID: spot.spotno }).select("+_id");
+                const assignedcustomer = await AssignSpot.findOne({ parkingspotID: spot.spotno, cost: 0 }).select("+_id");
 
-                const spotInfo = {
-                    spotno: spot.spotno,
-                    state: spot.state,
-                    vehiclenumber: assignedcustomer.vehiclenumber
-                };
-                result.push(spotInfo);
+                if (assignedcustomer != null) {
+                    const spotInfo = {
+                        spotno: spot.spotno,
+                        state: spot.state,
+                        vehiclenumber: assignedcustomer.vehiclenumber
+                    };
+                    result.push(spotInfo);
+                }
+                else {
+                    result.push(spot);
+                }
             }
             else {
                 result.push(spot);
@@ -55,6 +60,12 @@ router.route("/states").get(protect, async(req, res, next) => {
     catch(error){
         res.status(406).json({success: false, error: error.message});
     }
+});
+
+router.route('/count').get(protect, (req, res) =>{
+    ParkingSpot.countDocuments()
+    .then(ParkingSpots => res.json(ParkingSpots))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route("/:spotno").get(protect, async(req, res, next) => {
