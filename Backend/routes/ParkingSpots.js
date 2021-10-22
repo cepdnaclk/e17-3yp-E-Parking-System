@@ -4,7 +4,7 @@ let ParkingSpot = require('../models/ParkingSpot.model.js');
 let AssignSpot = require('../models/AssignTo.model.js');
 let RegUser = require('../models/RegisteredCustomers.model.js');
 
-router.route('/').get((req, res) =>{
+router.route('/').get(protect, (req, res) =>{
     ParkingSpot.find()
     .then(ParkingSpots => res.json(ParkingSpots))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -27,7 +27,7 @@ router.route("/add").post((req, res) => {
 });
 
 //GET spot states and vehicle number and customerID if occupied
-router.route("/states").get(async(req, res, next) => {
+router.route("/states").get(protect, async(req, res, next) => {
     try {
         const result = [];
         const spots = await ParkingSpot.find().select("spotno state -_id");
@@ -57,7 +57,7 @@ router.route("/states").get(async(req, res, next) => {
     }
 });
 
-router.route("/:spotno").get(async(req, res, next) => {
+router.route("/:spotno").get(protect, async(req, res, next) => {
     
     const spotno = req.params.spotno;
 
