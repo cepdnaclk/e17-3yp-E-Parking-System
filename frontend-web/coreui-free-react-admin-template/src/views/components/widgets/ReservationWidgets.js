@@ -16,13 +16,23 @@ const ReservationWidgets = () => {
   }, [])
 
   async function updateReservations() {
-    const totalSpots = (await axios.get('http://localhost:5000/parkingspots/count'))['data']
-    const reservationCount = (await axios.get('http://localhost:5000/reservation/getcountall'))[
+    let result = localStorage.getItem('authToken')
+
+    const config = {
+      headers: {
+        authorization: `bearer ${result}`,
+      },
+    }
+
+    const totalSpots = (await axios.get('http://44.199.161.77:5000/parkingspots/count', config))[
       'data'
     ]
-    const occupiedCount = (await axios.get('http://localhost:5000/reservation/getOccupiedcount'))[
-      'data'
-    ]
+    const reservationCount = (
+      await axios.get('http://44.199.161.77:5000/reservation/getcountall', config)
+    )['data']
+    const occupiedCount = (
+      await axios.get('http://44.199.161.77:5000/reservation/getOccupiedcount', config)
+    )['data']
 
     setTotal(totalSpots)
     setReserved(reservationCount)
