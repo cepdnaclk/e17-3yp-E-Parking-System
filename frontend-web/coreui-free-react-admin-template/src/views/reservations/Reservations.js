@@ -38,10 +38,20 @@ const Reservations = () => {
   }, [])
 
   async function updateInfo() {
-    const activeData = (await axios.get('http://localhost:5000/reservation/getoccupied'))['data']
-    const completedData = (await axios.get('http://localhost:5000/reservation/getcompleted'))[
-      'data'
-    ]
+    let result = localStorage.getItem('authToken')
+
+    const config = {
+      headers: {
+        authorization: `bearer ${result}`,
+      },
+    }
+
+    const activeData = (
+      await axios.get('http://44.199.161.77:5000/reservation/getoccupied', config)
+    )['data']
+    const completedData = (
+      await axios.get('http://44.199.161.77:5000/reservation/getcompleted', config)
+    )['data']
 
     setActive(activeData)
     setCompleted(completedData)
