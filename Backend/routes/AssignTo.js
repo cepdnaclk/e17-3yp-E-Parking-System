@@ -134,7 +134,9 @@ router.route("/add").post(async(req, res) => {
             
             const guestuser = await GuestUser.findOne({vehiclenumber}).select("+_id");
             const AllParkingSpots = await ParkingSpot.find().select("-_id");
-            const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+            var LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+
+            if (!LastAssignedSpot) LastAssignedSpot = "Nothing";
 
 
             try{
