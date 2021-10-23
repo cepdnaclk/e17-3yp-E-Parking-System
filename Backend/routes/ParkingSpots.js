@@ -4,7 +4,7 @@ let ParkingSpot = require('../models/ParkingSpot.model.js');
 let AssignSpot = require('../models/AssignTo.model.js');
 let RegUser = require('../models/RegisteredCustomers.model.js');
 
-router.route('/').get((req, res) =>{
+router.route('/').get(protect, (req, res) =>{
     ParkingSpot.find()
     .then(ParkingSpots => res.json(ParkingSpots))
     .catch(err => res.status(400).json('Error: ' + err));

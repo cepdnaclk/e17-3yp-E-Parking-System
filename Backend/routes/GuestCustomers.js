@@ -1,13 +1,14 @@
 const router = require('express').Router();
 let GuestUser = require('../models/GuestCustomer.model.js');
+const { protect } = require('../middlewere/auth');
 
-router.route('/').get((req, res) =>{
+router.route('/').get(protect, (req, res) =>{
     GuestUser.find()
     .then(GuestCustomers => res.json(GuestCustomers))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').get((req, res) =>{
+router.route('/:id').get(protect, (req, res) =>{
     GuestUser.findById(req.params.id)
     .then(GuestCustomers => res.json(GuestCustomers))
     .catch(err => res.status(400).json('Error: ' + err));
