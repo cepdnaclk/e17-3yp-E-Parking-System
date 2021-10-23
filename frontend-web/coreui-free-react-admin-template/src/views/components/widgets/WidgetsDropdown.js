@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import {
-  CRow,
-  CCol,
-  CDropdown,
-  CDropdownMenu,
-  CDropdownItem,
-  CDropdownToggle,
-  CWidgetStatsF,
-} from '@coreui/react'
-import { getStyle } from '@coreui/utils'
-import { CChartLine } from '@coreui/react-chartjs'
+import { CRow, CCol, CWidgetStatsF } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilArrowBottom, cilArrowTop, cilOptions, cilMoney, cilUser } from '@coreui/icons'
+import { cilMoney, cilUser } from '@coreui/icons'
 import axios from 'axios'
 
 const WidgetsDropdown = () => {
   const [users, setUsers] = useState('0')
-  const [income, setIncome] = useState('0.00 LKR')
+  const [income, setIncome] = useState('0 LKR')
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,17 +17,33 @@ const WidgetsDropdown = () => {
   }, [])
 
   async function handleUsers() {
-    //Token thing
-    //const usercount = axios.get("http://localhost/assignto/getcountall", {})
-    const usercount = '900'
+    let result = localStorage.getItem('authToken')
+
+    const config = {
+      headers: {
+        authorization: `bearer ${result}`,
+      },
+    }
+
+    const usercount = (await axios.get('http://localhost:5000/assignto/getcountall', config))[
+      'data'
+    ]
     setUsers(usercount)
   }
 
   async function handleIncome() {
-    //Token thing
-    //const totalincome = axios.get("http://localhost/assignto/getcountall", {})
-    const totalincome = '900 LKR'
-    setIncome(totalincome)
+    let result = localStorage.getItem('authToken')
+
+    const config = {
+      headers: {
+        authorization: `bearer ${result}`,
+      },
+    }
+
+    const totalincome = (await axios.get('http://localhost:5000/assignto/getdailycost', config))[
+      'data'
+    ]
+    setIncome(totalincome + ' LKR')
   }
 
   return (

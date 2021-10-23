@@ -45,7 +45,7 @@ router.route('/po').post((req, res) =>{
 });
 
 //get count - ALL
-router.route('/getcountall').get((req, res) => {
+router.route('/getcountall').get(protect, (req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     AssignSpot.countDocuments({created: {$gte: today}})
@@ -54,7 +54,7 @@ router.route('/getcountall').get((req, res) => {
 });
 
 //get daly cost
-router.route('/getdailycost').get(async(req, res) => {
+router.route('/getdailycost').get(protect, async(req, res) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     try{
@@ -63,7 +63,7 @@ router.route('/getdailycost').get(async(req, res) => {
         const find_sum = collection.sum('cost'); 
         res.json(find_sum);
   
-console.log(find_sum);
+        console.log(find_sum);
     }catch(error){
         res.status(400).json("error");
     }

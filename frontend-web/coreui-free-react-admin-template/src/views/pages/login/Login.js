@@ -19,9 +19,6 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import axios from 'axios'
 import About from './../../../assets/images/about.jpg'
 
-// routes config
-import routes from '../../../routes'
-
 const Login = ({ history }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
