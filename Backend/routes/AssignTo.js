@@ -138,7 +138,6 @@ router.route("/add").post(async(req, res) => {
 
             if (!LastAssignedSpot) LastAssignedSpot = "Nothing";
 
-
             try{
                 const { spawn } = require('child_process');    
 
@@ -184,6 +183,8 @@ router.route("/add").post(async(req, res) => {
 
                 const AllParkingSpots = await ParkingSpot.find();
                 const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+
+                if (!LastAssignedSpot) LastAssignedSpot = "Nothing";
 
                 try{
                     const { spawn } = require('child_process');    
