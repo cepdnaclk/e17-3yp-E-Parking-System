@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { protect } = require('../middlewere/auth');
 let RegUser = require('../models/RegisteredCustomers.model.js');
+const Validator = require('validatorjs');
 
 
 // To get all the users.
@@ -35,6 +36,25 @@ router.route("/add").post((req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
 
+    let data = {
+        name: name,
+        email: email,
+        password: password 
+    };
+
+    let rules = {
+        name: 'string',
+        email: 'email|string',
+        password: 'string'
+      };
+      
+      let validation = new Validator(data, rules);
+      
+      if(validation.fails()){
+        return res.json("Validation of Input: " + validation.errors.first());
+      };
+
+
     const user = new RegUser({
         name,
         email,
@@ -49,6 +69,22 @@ router.route("/add").post((req, res, next) => {
 router.route("/signin").post(async(req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
+
+    let data = {
+        email: email,
+        password: password 
+    };
+
+    let rules = {
+        email: 'email|string',
+        password: 'string'
+      };
+      
+      let validation = new Validator(data, rules);
+      
+      if(validation.fails()){
+        return res.json("Validation of Input: " + validation.errors.first());
+      };
 
     if(!email || !password){
         return res.status(400).json({success: false, error: "Please provide email and password"})

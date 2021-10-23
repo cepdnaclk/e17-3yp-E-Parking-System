@@ -26,6 +26,7 @@ app.use(cors());
 // };
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.disable('x-powered-by');
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false});
@@ -34,7 +35,6 @@ connection.once('open', () => {
     console.log('MongoDB connection has been established');
 }); 
 
-const ParkingLotRoute = require('./routes/ParkingLot.js');
 const RegisteredCustomersRout = require('./routes/Registration.js');
 const GuestCustomersRout = require('./routes/GuestCustomers.js');
 const ParkingSpotsRout = require('./routes/ParkingSpots.js');
@@ -48,7 +48,6 @@ app.use('/guestcustomers', GuestCustomersRout);
 app.use('/parkingspots', ParkingSpotsRout);
 app.use('/assignto', AssignToRout);
 app.use('/reservation', ReservationRout);
-app.use('/parkinglot', ParkingLotRoute);
 app.use("/", (req, res, next) => {
     res.send("hi");
 });
