@@ -134,9 +134,12 @@ if __name__ == '__main__':
     addEdge(edges, 18, 42)
     addEdge(edges, 18, 46)
 
-
+    
     #The parking spots
-    spots = list(range(19,47)) #Not all nodes are parking spots
+    spots = [0]
+    for i in range(19,47):
+        spots.append(i)
+    print(spots)
     #Array of dictionaries
     arr_of_dicts = []
     # [[spot1, dict1], [spot2, dict2], [spot3, dict3]]
