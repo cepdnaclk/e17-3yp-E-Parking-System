@@ -3,10 +3,8 @@ from dataclasses import dataclass
 
 @dataclass
 class SpotNode:
-    id: int         #DON'T NEED THIS!
     spotNo: str                 #Spot Number
     status: bool                #True: Available, False: Not Available (DON'T NEED THIS!)
-    adjacent: 'list[int]'         #List of nodes adjacent to the node
     distances: 'dict[str: int]'         #Dictionary of distances
 
 
@@ -38,7 +36,7 @@ if __name__ == "__main__":
                     last_assigned = Spots.index(spot) #Get spot index corresponding to the spot from the json file
 
 
-            available = dict((k,v) for k,v in Spots[last_assigned].distances.items() if ParkingSpots[int(k)-1]["state"]=="Not Occupied")
+            available = dict((k,v) for k,v in Spots[last_assigned].distances.items() if ParkingSpots[int(k)]["state"]=="Not Occupied")
 
             try:
                 nextSpotNode = Spots[int(max(available))]
