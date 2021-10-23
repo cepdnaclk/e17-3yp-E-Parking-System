@@ -142,7 +142,11 @@ router.route("/add").post(async(req, res) => {
 
                 const childPy = spawn('python', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
                 childPy.stdout.on('data', (data) => {
-                    const newspot = data.toString();           
+                    const newspot = data.toString();
+                    
+                    if(newspot == "Car Park is full"){
+                        return res.status(400).json("Car Park is full");
+                    };
                        
                     const customerID = guestuser["_id"];
                     const parkingspotID = newspot;
@@ -184,7 +188,11 @@ router.route("/add").post(async(req, res) => {
                     const childPy = spawn('python', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
                     childPy.stdout.on('data', (data) => {
 
-                        const newspot = data.toString();            
+                        const newspot = data.toString(); 
+                        
+                        if(newspot == "Car Park is full"){
+                            return res.status(400).json("Car Park is full");
+                        };           
                             
                         const customerID = customerIDfromuser
                         const parkingspotID = newspot;
