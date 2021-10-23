@@ -40,6 +40,7 @@ const GuestCustomersRout = require('./routes/GuestCustomers.js');
 const ParkingSpotsRout = require('./routes/ParkingSpots.js');
 const AssignToRout = require('./routes/AssignTo.js');
 const ReservationRout = require('./routes/Reservation');
+const ParkingLot = require('./routes/ParkingLot');
 const { Certificate } = require('crypto');
 const errorHandler = require('./middlewere/error.js');
 
@@ -48,6 +49,7 @@ app.use('/guestcustomers', GuestCustomersRout);
 app.use('/parkingspots', ParkingSpotsRout);
 app.use('/assignto', AssignToRout);
 app.use('/reservation', ReservationRout);
+app.use('/parkinglot', ParkingLot);
 app.use("/", (req, res, next) => {
     res.send("hi");
 });
