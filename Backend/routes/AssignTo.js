@@ -180,7 +180,7 @@ router.route("/add").post(async(req, res) => {
             const reserved = await Reserve.findOne({ customerID: customerIDfromuser, state: "Not Completed" }).select("+_id");
             
             if(!reserved){
-
+                console.log("Not Reserved");
                 const AllParkingSpots = await ParkingSpot.find();
                 const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
 
@@ -191,7 +191,9 @@ router.route("/add").post(async(req, res) => {
                     const childPy = spawn('python', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
                     childPy.stdout.on('data', (data) => {
 
-                        const newspot = data.toString(); 
+                        const newspot = data.toString();
+
+                        console.log(newspot); 
                         
                         if(newspot == "Car Park is full"){
                             return res.status(400).json("Car Park is full");
@@ -209,7 +211,7 @@ router.route("/add").post(async(req, res) => {
                             cost,
                             checkin
                         });
-                    
+
                         newAssign.save().then(() => res.json('User assigned!!!'))
                         .catch(err => res.status(400).json('Error: '+ err));
                     });
@@ -223,6 +225,7 @@ router.route("/add").post(async(req, res) => {
                 }
             }
             else{
+                console.log("Reserved User");
                 const customerID = customerIDfromuser;
                 const parkingspotID = reserved["parkingspotID"];
                 const cost = 0;
