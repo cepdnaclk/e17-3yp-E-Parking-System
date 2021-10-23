@@ -6,6 +6,7 @@ let AssignSpot = require('../models/AssignTo.model.js');
 const path = require('path');
 const schedule = require('node-schedule');
 
+
 //For Testing
 router.route('/temp').get(async(req, res, next) =>{
     const reserved = await Reserve.findOne({ customerID: "6149de42ee073b078846c57b", state: "Not Completed"}).select("+_id");

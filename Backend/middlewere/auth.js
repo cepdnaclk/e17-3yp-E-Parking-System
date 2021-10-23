@@ -2,7 +2,7 @@ require('dotenv').config({ path: "./secret.env"});
 const jwt = require('jsonwebtoken');
 
 const RegUser = require('../models/RegisteredCustomers.model.js');
-const PLT = require('../models/ParkingLot.model.js');
+const PLT = require('../models/ParkinLot.model');
 
 exports.protect = async (req, res, next) => {
     let token;
