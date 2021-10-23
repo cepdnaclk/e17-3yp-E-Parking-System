@@ -110,7 +110,10 @@
                 
                 <img src="images/SolArch.png" class="d-block rounded w-100 mb-5"  alt="Solution Architecture">
                 <ul>
-                 <p></p>
+                 <p>Our solution architecture consists of entrance/exit Nodes, the parking spot nodes, the mobile app and management portal representing the frontend of the system 
+                   and the cloud server. The hardware nodes have been given their own power supplies and the all the frontend software and the hardware nodes 
+                   are connected to the cloud server via Wi-Fi.
+                 </p>
                 </ul>
 
                 
@@ -217,7 +220,7 @@
                   <h2>Flow of Data and Control<br></h2>    
               </div> 
               
-              <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+              <div id="carouselExampleControls" class="carousel slide mb-5" data-bs-ride="carousel">
 
                 <div class="carousel-inner">
                   <div class="carousel-item active">
@@ -239,6 +242,16 @@
                   
                 </button>
               </div>
+
+              <ul>
+                <p>The data and control flow of the system gets initiated at the entrance node once a user enters into the parking lot. The licenese plate number 
+                  of that vehicle will be scanned by the entrance node and it will be sent to the server along with the check-in time. In the meantime, the mobile app 
+                  will authenticates the user using their location. Once a parking spot is sent by the server, the user will be guided to that spot through the use of clear images using the 
+                  mobile phone and the necessary updates will be made in the management portal. Once the user reaches the parking spot, the spot node will check and update the status of the spot (occupied or not). 
+                  Once the user leaves their assigned spot and reaches the exit node, the exit node will obtain the license plate number and the check-out time and will send that information to the server. 
+                  Once the cost has been processed by the server based on the hourly rate set by the managers of the parking lot, the amount to be paid will be sent to the mobile app while displaying the value on the LCD display.
+                </p>
+               </ul>
               
               
           </div>
@@ -269,7 +282,7 @@
               <ul>
                 <p>The servo motor will open the spot gate once a spot is assigned to a vehicle.
                   The NodeMCU ESP8266 will decide the parking spot status based on the sensor data received from the HC-SR04 ultrasonic distance sensor and the 
-                  spot status will be sent to the server. We will be creating an ESP-MESH to create a WIFI mesh network and will be using the in-built Wi-Fi module for connectivity.
+                  spot status will be sent to the server. We will be creating an ESP-MESH to create a Wi-Fi mesh network and will be using the in-built Wi-Fi module for connectivity.
                   NodeMCU ESP8266 takes in 5VDC power but operates on 3V3DC power. Similar to the entrance/exit node, power will be provided using and AC-DC power supply. Unauthorized parties may intercept communication between the nodes and the server. To prevent this, as mentioned before, 
                   secure WiFi channels with standard WPA encryption will be used to ensure secure connection to the server.
 
@@ -352,6 +365,32 @@
         </div>
     </div>
   </section>
+
+  <section class="ftco-section testimony-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6 heading-section text-center ftco-animate">
+                <span class="subheading">Security of the system</span>
+                <h2>Security Aspects</h2>    
+            </div>
+            
+            <img src="images/security.png" class="d-block rounded w-100 mb-5"  alt="Solution Architecture">
+            <ul>
+             <p>Our system security is mainly characterized by the five elements given above. Bcrypt has been used for password hashing in order to securely store login credentials of the users. 
+              CORS (Cross-Origin Resource Sharing) is used for security to limit access to the API based on the orgin. 
+              Atlas will limit ingress access to requests coming in from the server’s IP address (Server communicates with Atlas instance over HTTPS). 
+              Access Management Control is deployed within the system by covering the 3A's; Authentication, Authorization and Accountability. 
+              Jsonwebtoken is used for user authentication, while using the location of the user checked at the entrance. We only allow GET method access for the mobile app users using CORS.
+              
+
+
+             </p>
+            </ul>
+
+            
+        </div>
+    </div>
+</section>
     
 
     <section class="ftco-section">
