@@ -10,6 +10,15 @@ const ParkScreen = () => {
   const [assignedInfo, setAssignedInfo] = useState({});
   const [Listening, setListening] = useState(false);
 
+  function getImage(input) {
+    switch (input) {
+      case "A005": return require('./mapping/A005.png');
+      case "A006": return require('./mapping/A006.png');
+
+    }
+  }
+
+
   useEffect(() => {
 
     async function getRegUsers(){
@@ -20,10 +29,9 @@ const ParkScreen = () => {
                 authorization: `bearer ${result}`
             }
         }
-
-        axios.get("http://192.168.1.100:5000/registeredcustomers/user", config).then((res) => {
+        axios.get("https://quickpark.tk/api/registeredcustomers/user", config).then((res) => {
             if(!Listening){
-              var eventSource = new EventSource(`http://192.168.1.100:5000/assignto/${res.data["_id"]}`, config);
+              var eventSource = new EventSource(`https://quickpark.tk/api/assignto/${res.data["_id"]}`, config);
               eventSource.addEventListener("open", (e) => {
                 console.log("Open SSE connection");
               });
@@ -48,14 +56,18 @@ const ParkScreen = () => {
     <SafeAreaView style={Styles.container} >
       <View style={Styles.container} >
         <Card style={Styles.card}>
-          <Card.Title title={assignedInfo["vehiclenumber"]} subtitle="(Toyota Corolla)have to change" />
+          <Card.Title title="Parking Info" />
           <Card.Content style={Styles.cardTop} >
-            <Paragraph>{assignedInfo["checkin"]} - Check-in at ABC Mall</Paragraph>
-            <Paragraph />
+            <Paragraph style={Styles.spotContext}>Vehicle Number</Paragraph>
+            <Title style={Styles.spotNo} >{assignedInfo["vehiclenumber"]}</Title>
             <Paragraph style={Styles.spotContext}>Spot Number</Paragraph>
             <Title style={Styles.spotNo} >{assignedInfo["parkingspotID"]}</Title>
+            <Paragraph>{assignedInfo["checkin"]} - Check-in at ABC Mall</Paragraph>
+            <Paragraph />
           </Card.Content>
-          <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={Styles.directions} />
+
+            <Card.Cover source={getImage(assignedInfo["parkingspotID"])} style={Styles.directions} />
+          
         </Card>
       </View>
     </SafeAreaView>

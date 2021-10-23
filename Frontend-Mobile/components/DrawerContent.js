@@ -28,7 +28,7 @@ export function Drawercontent(props) {
                 }
             }
     
-            axios.get("http://192.168.1.100:5000/registeredcustomers/user", config).then((res) => {
+            axios.get("https://quickpark.tk/api/registeredcustomers/user", config).then((res) => {
                 setName(res.data["name"]);
             }).catch((err) => {
                 alert(err.response.error);

@@ -122,7 +122,7 @@ export default function Login({ history, navigation }){
               const name = data.name;
               const email = data.email;
               const password = data.password;
-              const userdata = await axios.post("http://192.168.1.100:5000/registeredcustomers/add", {name, email, password});
+              const userdata = await axios.post("https://quickpark.tk/api/registeredcustomers/add", {name, email, password});
               localStorage.setItem("authToken", userdata.data["token"]);
               signIn(email, userdata.data["token"]);
             }else{
