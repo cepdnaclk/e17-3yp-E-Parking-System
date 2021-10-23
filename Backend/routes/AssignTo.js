@@ -136,14 +136,20 @@ router.route("/add").post(async(req, res) => {
             const AllParkingSpots = await ParkingSpot.find().select("-_id");
             var LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
 
-            if (!LastAssignedSpot) LastAssignedSpot = "Nothing";
+            if (LastAssignedSpot.length < 1)
+                LastAssignedSpot = [{
+                    parkingspotID: "Nothing"
+                }];
+
 
             try{
                 const { spawn } = require('child_process');    
 
-                const childPy = spawn('python', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
+                const childPy = spawn('python3', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
                 childPy.stdout.on('data', (data) => {
                     const newspot = data.toString();
+
+                    console.log(newspot);
                     
                     if(newspot == "Car Park is full"){
                         return res.status(400).json("Car Park is full");
@@ -180,21 +186,25 @@ router.route("/add").post(async(req, res) => {
             const reserved = await Reserve.findOne({ customerID: customerIDfromuser, state: "Not Completed" }).select("+_id");
             
             if(!reserved){
-                console.log("Not Reserved");
-                const AllParkingSpots = await ParkingSpot.find();
-                const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
 
-                if (!LastAssignedSpot) LastAssignedSpot = "Nothing";
+                const AllParkingSpots = await ParkingSpot.find();
+                var LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+
+                if (LastAssignedSpot.length < 1)
+                    LastAssignedSpot = [{
+                        parkingspotID: "Nothing"
+                    }];
 
                 try{
                     const { spawn } = require('child_process');    
-                    const childPy = spawn('python', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
+                    const childPy = spawn('python3', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
                     childPy.stdout.on('data', (data) => {
 
-                        const newspot = data.toString();
-
-                        console.log(newspot); 
+                        const newspot = data.toString(); 
                         
+                        console.log(newspot);
+
+
                         if(newspot == "Car Park is full"){
                             return res.status(400).json("Car Park is full");
                         };           
@@ -211,7 +221,7 @@ router.route("/add").post(async(req, res) => {
                             cost,
                             checkin
                         });
-
+                    
                         newAssign.save().then(() => res.json('User assigned!!!'))
                         .catch(err => res.status(400).json('Error: '+ err));
                     });
@@ -225,7 +235,6 @@ router.route("/add").post(async(req, res) => {
                 }
             }
             else{
-                console.log("Reserved User");
                 const customerID = customerIDfromuser;
                 const parkingspotID = reserved["parkingspotID"];
                 const cost = 0;
@@ -298,12 +307,15 @@ router.route("/parkingspotassign").post(async(req, res) => {
 
     if(status == "Occupied"){
         UpdateParkingSpotState( newspot );
+        return res.json('Spot state updated!');
     }
     else if( status == "Not Occupied"){
         UpdateParkingSpotStateatexit( newspot );
+        return res.json('Spot state updated!');
     }
     else{
         console.log("Error at spotnodes!!!");
+        res.status(406).json({success: false, error: "Error at spotnodes!!!"});
     }
 });
 
