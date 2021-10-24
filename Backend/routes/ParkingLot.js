@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { protect } = require('../middlewere/auth');
-let PLT = require('../models/ParkingLot.model.js');
+let PLT = require('../models/ParkinLot.model');
 
 router.route('/').get(protect, (req, res) =>{
     PLT.find()
