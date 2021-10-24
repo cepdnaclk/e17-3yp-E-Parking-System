@@ -74,11 +74,11 @@ router.route('/gethourlycost').get(async(req, res) => {
     const lasthour = new Date();
     lasthour.setHours(lasthour.getHours() - 1);
     try{
-        const total = await AssignSpot.find({created: {$gte: lasthour}}); 
+        const total = await AssignSpot.countDocuments({created: {$gte: lasthour}}); 
 
         res.json(total);
   
-console.log(find_sum);
+//console.log(find_sum);
     }catch(error){
         res.status(400).json("error");
     }
@@ -126,23 +126,32 @@ router.route("/add").post(async(req, res) => {
 
             //Guest user.
             const newAssign = new GuestUser({
-                vehiclenumber : vehiclenumber
+                "vehicalnumber" : vehiclenumber
             });
+
         
             newAssign.save().then(console.log(newAssign + ' assigned'))
             .catch(err => console.log('Error: '+ err));
             
-            const guestuser = await GuestUser.findOne({vehiclenumber}).select("+_id");
+            
             const AllParkingSpots = await ParkingSpot.find().select("-_id");
-            const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+            var LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+            const guestuser = await GuestUser.findOne({"vehicalnumber": vehiclenumber}).select("+_id");
+
+            if (LastAssignedSpot.length < 1)
+                LastAssignedSpot = [{
+                    parkingspotID: "Nothing"
+                }];
 
 
             try{
                 const { spawn } = require('child_process');    
 
-                const childPy = spawn('python', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
+                const childPy = spawn('python3', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
                 childPy.stdout.on('data', (data) => {
                     const newspot = data.toString();
+
+                    console.log(newspot);
                     
                     if(newspot == "Car Park is full"){
                         return res.status(400).json("Car Park is full");
@@ -181,15 +190,23 @@ router.route("/add").post(async(req, res) => {
             if(!reserved){
 
                 const AllParkingSpots = await ParkingSpot.find();
-                const LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+                var LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+
+                if (LastAssignedSpot.length < 1)
+                    LastAssignedSpot = [{
+                        parkingspotID: "Nothing"
+                    }];
 
                 try{
                     const { spawn } = require('child_process');    
-                    const childPy = spawn('python', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
+                    const childPy = spawn('python3', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
                     childPy.stdout.on('data', (data) => {
 
                         const newspot = data.toString(); 
                         
+                        console.log(newspot);
+
+
                         if(newspot == "Car Park is full"){
                             return res.status(400).json("Car Park is full");
                         };           
@@ -292,12 +309,15 @@ router.route("/parkingspotassign").post(async(req, res) => {
 
     if(status == "Occupied"){
         UpdateParkingSpotState( newspot );
+        return res.json('Spot state updated!');
     }
     else if( status == "Not Occupied"){
         UpdateParkingSpotStateatexit( newspot );
+        return res.json('Spot state updated!');
     }
     else{
         console.log("Error at spotnodes!!!");
+        res.status(406).json({success: false, error: "Error at spotnodes!!!"});
     }
 });
 
