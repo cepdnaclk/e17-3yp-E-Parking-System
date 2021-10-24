@@ -126,15 +126,17 @@ router.route("/add").post(async(req, res) => {
 
             //Guest user.
             const newAssign = new GuestUser({
-                vehicalnumber : vehiclenumber
+                "vehicalnumber" : vehiclenumber
             });
+
         
             newAssign.save().then(console.log(newAssign + ' assigned'))
             .catch(err => console.log('Error: '+ err));
             
-            const guestuser = await GuestUser.findOne({vehicalnumber: vehiclenumber}).select("+_id");
+            
             const AllParkingSpots = await ParkingSpot.find().select("-_id");
             var LastAssignedSpot = await AssignSpot.find().sort( { _id : -1 } ).limit(1);
+            const guestuser = await GuestUser.findOne({"vehicalnumber": vehiclenumber}).select("+_id");
 
             if (LastAssignedSpot.length < 1)
                 LastAssignedSpot = [{
