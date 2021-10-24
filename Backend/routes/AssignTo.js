@@ -74,11 +74,11 @@ router.route('/gethourlycost').get(async(req, res) => {
     const lasthour = new Date();
     lasthour.setHours(lasthour.getHours() - 1);
     try{
-        const total = await AssignSpot.find({created: {$gte: lasthour}}); 
+        const total = await AssignSpot.countDocuments({created: {$gte: lasthour}}); 
 
         res.json(total);
   
-console.log(find_sum);
+//console.log(find_sum);
     }catch(error){
         res.status(400).json("error");
     }
