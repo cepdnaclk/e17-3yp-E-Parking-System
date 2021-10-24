@@ -22,7 +22,7 @@ if __name__ == "__main__":
             print("A001")
         else:
             #Initialize the graph
-            with open("spots.json") as spotsFile:
+            with open("algorithms/spots.json") as spotsFile:
                 
                 json_obj = json.load(spotsFile)
 
