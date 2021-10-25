@@ -87,7 +87,7 @@ URL 			- 	https://quickpark.tk/api/assignto/add
   
 Method 		- 	POST
   
-Auth required		-	No
+Auth required		-	Yes
   
 Data			-	{
 				     "vehiclenumber": [String of the license plate number],
@@ -110,7 +110,7 @@ URL 			- 	https://quickpark.tk/api/assignto/exit
   
 Method 		- 	POST
   
-Auth required		-	No
+Auth required		-	Yes
   
 Data			-	{
 				     "vehiclenumber": [String of the license plate number],
@@ -132,7 +132,7 @@ URL 			- 	https://quickpark.tk/api/assignto/parkingspotassign
   
 Method 		- 	POST
   
-Auth required		-	No
+Auth required		-	Yes
   
 Data			-	{
     "spot": [spot id],
@@ -251,10 +251,8 @@ Success		-	Status code 200 +     {
     "token": [token]
 }
 
-Error			-	Status code 400,
-            Status code 404,
-            Status code 405,
-            Status code 406 
+Error			-	Status code 403
+             
 
 ## To set the hourly rate
 URL 			- 	https://quickpark.tk/api/parkinglot/setrate
@@ -419,19 +417,8 @@ Success		-	sendToken(user, 200, res)
     "token": [token]
 }
 
-Error			-	Status code 400 + {
-                      "success": false,
-                      "error": "Please provide email and password"
-                  },
-             Status code 404 + {
-                      "success": false,
-                      "error": "Please provide email and password"
-                  },
-             Status code 405 +  {
-                      "success": false,
-                      "error": "Please provide email and password"
-                  },
-            Status code 406 + {success: false, error: error.message}
+Error			-	Status code 403
+
 
 ## To add vehicle number and model
 URL			-	https://quickpark.tk/api/registeredcustomers/updateVnumberVmodel
