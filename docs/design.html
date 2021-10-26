@@ -110,7 +110,7 @@
                 
                 <img src="images/SolArch.png" class="d-block rounded w-100 mb-5"  alt="Solution Architecture">
                 <ul>
-                 <p>Our solution architecture consists of entrance/exit Nodes, the parking spot nodes, the mobile app and management portal representing the frontend of the system 
+                 <p>Our solution architecture consists of entrance/exit nodes, the parking spot nodes, the mobile app and management portal representing the frontend of the system 
                    and the cloud server. The hardware nodes have been given their own power supplies and the all the frontend software and the hardware nodes 
                    are connected to the cloud server via Wi-Fi.
                  </p>
@@ -244,12 +244,12 @@
               </div>
 
               <ul>
-                <p>The data and control flow of the system gets initiated at the entrance node once a user enters into the parking lot. The licenese plate number 
-                  of that vehicle will be scanned by the entrance node and it will be sent to the server along with the check-in time. In the meantime, the mobile app 
-                  will authenticates the user using their location. Once a parking spot is sent by the server, the user will be guided to that spot through the use of clear images using the 
-                  mobile phone and the necessary updates will be made in the management portal. Once the user reaches the parking spot, the spot node will check and update the status of the spot (occupied or not). 
+                <p>The data and control flow of the system gets initiated at the entrance node once a user enters into the parking lot. The license plate number 
+                  of that vehicle will be read by the entrance node and it will be sent to the server along with the check-in time. In the meantime, the mobile app 
+                  will authenticates the user using their location. Once an empty parking spot number is sent by the server, the user will be guided to that spot through the use of clear images using the 
+                  mobile app and the necessary updates will be made in the management portal. Once the user reaches the parking spot, the spot node will check and update the status of the spot (occupied or not). 
                   Once the user leaves their assigned spot and reaches the exit node, the exit node will obtain the license plate number and the check-out time and will send that information to the server. 
-                  Once the cost has been processed by the server based on the hourly rate set by the managers of the parking lot, the amount to be paid will be sent to the mobile app while displaying the value on the LCD display.
+                  Once the cost has been processed by the server based on the hourly rate set by the managers of the parking lot, the amount to be paid will be sent to the mobile app and will be displayed on the LCD display.
                 </p>
                </ul>
               
@@ -308,7 +308,7 @@
 
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                  <img src="images/server.png" class="d-block w-100">
+                  <img src="images/serverside.png" class="d-block w-100">
                 </div>
                 <div class="carousel-item">
                   <img src="images/algorithms.png" class="d-block w-100">
@@ -380,8 +380,27 @@
               CORS (Cross-Origin Resource Sharing) is used for security to limit access to the API based on the orgin. 
               Atlas will limit ingress access to requests coming in from the server’s IP address (Server communicates with Atlas instance over HTTPS). 
               Access Management Control is deployed within the system by covering the 3A's; Authentication, Authorization and Accountability. 
-              Jsonwebtoken is used for user authentication, while using the location of the user checked at the entrance. We only allow GET method access for the mobile app users using CORS.
-              
+              Jsonwebtoken is used for user authentication, while the location of the user is checked at the entrance. We only allow GET method access for the mobile app users using CORS.
+              For authentication we wiil be passing the auth-token for every API request as a header. 
+              We are using Transport Layer Security (TLS) to secure the connection and the data. This technology encrypts data before it is sent from the client to the server, thus preventing some common hacks. 
+              Without TLS  POST requests will be visible so their network traffic is vulnerable to packet sniffing and man-in-the-middle attacks.
+              Utilizing Secure Socket Layer (SSL) encryption was done while using Nginx to handle TLS.
+
+
+             </p>
+            </ul>
+
+            <img src="images/security2.png" class="d-block rounded w-100 mb-5 mt-5"  alt="Solution Architecture">
+            <ul>
+             <p>Validatorjs is used in order to validate user input to limit SQL injections and XSS attacks.
+               This is done to validate every input for the frontend since some attackers can send sql commands or harmful java script code to execute. 
+               Validatorjs is used to prevent such attacks by checking whether the input is a valid email.
+               Using npm to manage our application’s dependencies is powerful and convenient. But the packages that we use may contain critical security vulnerabilities that could also affect our application.
+              To avoid such vulnerabilities, we will be using Snyk which offers both a command-line tool and a Github integration that checks our application against Snyk’s open source vulnerability database for 
+              any known vulnerabilities in our dependencies.
+
+              X-Powered-By reveals information about the technologies used in an app. 
+              Therefore, to avoid outsiders exploit server security weaknesses of our server technology we will be disabling this header. 
 
 
              </p>
