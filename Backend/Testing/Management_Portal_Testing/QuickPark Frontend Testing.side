@@ -1,0 +1,134 @@
+{
+  "id": "14824e80-21f0-4bce-b07f-4bb9a7c1ed68",
+  "version": "2.0",
+  "name": "QuickPark Frontend Testing",
+  "url": "https://quickpark.tk",
+  "tests": [{
+    "id": "4414d146-d55b-4437-9332-c9a726606e32",
+    "name": "Valid Login Credentials",
+    "commands": [{
+      "id": "1a875f6d-c497-42cb-bbd5-eb3040768c6b",
+      "comment": "Open QuickPark Admin Portal Login",
+      "command": "open",
+      "target": "/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b23ef69d-d49b-441a-bdc2-972aa2702130",
+      "comment": "Enter email (abcmall@gmail.com)",
+      "command": "type",
+      "target": "css=.mb-3 > .form-control",
+      "targets": [],
+      "value": "abcmall@gmail.com"
+    }, {
+      "id": "9a8bfbbb-033e-4392-9acc-cd80e7598fec",
+      "comment": "Enter correct password",
+      "command": "type",
+      "target": "css=.mb-4 > .form-control",
+      "targets": [],
+      "value": "abcabcabc"
+    }, {
+      "id": "e2239b60-c2c5-4a31-9c58-d8d6892d9465",
+      "comment": "Attempt Login",
+      "command": "click",
+      "target": "css=.btn-success",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6b846830-6467-4b7d-b6f7-9a640b777fbe",
+      "comment": "Wait for redirect to Dashboard",
+      "command": "waitForElementNotPresent",
+      "target": "css=.btn-success",
+      "targets": [],
+      "value": "30000"
+    }]
+  }, {
+    "id": "0d6f31b7-8021-485b-b36f-4e9afbade9b7",
+    "name": "Invalid Login Credentials",
+    "commands": [{
+      "id": "e7c3fedf-7f2d-4ec7-83a2-0eb6206e9dee",
+      "comment": "Open QuickPark Admin Portal Login",
+      "command": "open",
+      "target": "/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c0e995bf-0224-490f-b11b-2a2107cb7d85",
+      "comment": "Enter email (abcmall@gmail.com)",
+      "command": "type",
+      "target": "css=.mb-3 > .form-control",
+      "targets": [],
+      "value": "abcmall@gmail.com"
+    }, {
+      "id": "a2efddd3-c4fb-4863-aa06-d8d6c51bccb9",
+      "comment": "Enter correct password",
+      "command": "type",
+      "target": "css=.mb-4 > .form-control",
+      "targets": [],
+      "value": "wrong"
+    }, {
+      "id": "0afbd7a0-78f3-4fcd-9992-e49750db7ebc",
+      "comment": "Attempt Login",
+      "command": "click",
+      "target": "css=.btn-success",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c2e3ab1a-f596-4660-ab67-6d85188c2111",
+      "comment": "Assert Invalid Credentials Alert",
+      "command": "assertAlert",
+      "target": "Invalid email or password! Please enter correct login credentials.",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "d5a51541-8852-4b3f-be00-a4ba9842e942",
+    "name": "Loss of Server Connection",
+    "commands": [{
+      "id": "91f9cc8d-40b8-4a5d-86b6-d25447aac8b7",
+      "comment": "Open QuickPark Admin Portal Login",
+      "command": "open",
+      "target": "/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bc1d2a18-9128-4ef4-bae7-f9695f34c961",
+      "comment": "Enter email (abcmall@gmail.com)",
+      "command": "type",
+      "target": "css=.mb-3 > .form-control",
+      "targets": [],
+      "value": "abcmall@gmail.com"
+    }, {
+      "id": "bd60ffec-5bbd-40b2-b57b-b7657278d9e7",
+      "comment": "Enter correct password",
+      "command": "type",
+      "target": "css=.mb-4 > .form-control",
+      "targets": [],
+      "value": "abcabcabc"
+    }, {
+      "id": "6bd402f5-8f1c-4bb5-b6cf-99258ca2e505",
+      "comment": "Attempt Login",
+      "command": "click",
+      "target": "css=.btn-success",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1f70fe9e-0588-48b8-b7fd-da728f3efdeb",
+      "comment": "Assert No Connection error message",
+      "command": "assertAlert",
+      "target": "There was a problem connecting to the server. Please try again later.",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "e83c6665-656e-4e23-b45c-d32e2fdd9ea5",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["4414d146-d55b-4437-9332-c9a726606e32"]
+  }],
+  "urls": ["https://quickpark.tk/"],
+  "plugins": []
+}
