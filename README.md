@@ -16,6 +16,7 @@ ____
 * [Network Architecture](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#network-architecture)
 * [Security Aspects](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#security-aspects)
 * [Bill of Materials](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#bill-of-materials)
+* [Future Improvements](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#future-improvements)
 * [Team Members](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#team-members)
 * [Supervisors](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#supervisors)
 * [Related Links](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#related-links)
@@ -67,6 +68,11 @@ HC-SR04 ultrasonic distance sensors will sense the incoming vehicle at the entra
 ### Spot Node
 The servo motor will open the spot gate once a spot is assigned to a vehicle. The NodeMCU ESP8266 will decide the parking spot status based on the sensor data received from the HC-SR04 ultrasonic distance sensor and the spot status will be sent to the server. We will be creating an ESP-MESH to create a Wi-Fi mesh network and will be using the in-built Wi-Fi module for connectivity. NodeMCU ESP8266 takes in 5VDC power but operates on 3V3DC power. Similar to the entrance/exit node, power will be provided using and AC-DC power supply. Unauthorized parties may intercept communication between the nodes and the server. To prevent this, as mentioned before, secure WiFi channels with standard WPA encryption will be used to ensure secure connection to the server.
 
+
+Most components in the hardware nodes cannot be integrated into a single PCB.
+Minimal PCBs are required for routing connections to the microcontrollers and resistors.
+
+
 ## Network Architecture
 ![Network Architecture](https://github.com/cepdnaclk/e17-3yp-E-Parking-System/blob/main/docs/images/serverside.png)
 
@@ -79,12 +85,22 @@ The server runs the spot picking algorithm (Python script) as a child processes 
 During a power outage, if the car park management decides to keep the car park open despite the hardware nodes being down, they can manually enter the data into the system through the management portal to keep the system up-to-date so that it can recover properly and continue operation once it is back online. Hardware node online/offline status will be detected by the transmission of an MQTT “heartbeat” message every 5 mins.
 
 ## Security Aspects
+![Security](https://github.com/cepdnaclk/e17-3yp-E-Parking-System/blob/main/docs/images/security.png)
+
+
 Our system security is mainly characterized by the following elements. Bcrypt has been used for password hashing in order to securely store login credentials of the users. CORS (Cross-Origin Resource Sharing) is used for security to limit access to the API based on the orgin. Atlas will limit ingress access to requests coming in from the server’s IP address (Server communicates with Atlas instance over HTTPS). Access Management Control is deployed within the system by covering the 3A's; Authentication, Authorization and Accountability. Jsonwebtoken is used for user authentication, while the location of the user is checked at the entrance. We only allow GET method access for the mobile app users using CORS. For authentication we wiil be passing the auth-token for every API request as a header. We are using Transport Layer Security (TLS) to secure the connection and the data. This technology encrypts data before it is sent from the client to the server, thus preventing some common hacks. Without TLS POST requests will be visible so their network traffic is vulnerable to packet sniffing and man-in-the-middle attacks. Utilizing Secure Socket Layer (SSL) encryption was done while using Nginx to handle TLS.
 
 Validatorjs is used in order to validate user input to limit SQL injections and XSS attacks. This is done to validate every input for the frontend since some attackers can send sql commands or harmful java script code to execute. Validatorjs is used to prevent such attacks by checking whether the input is a valid email. Using npm to manage our application’s dependencies is powerful and convenient. But the packages that we use may contain critical security vulnerabilities that could also affect our application. To avoid such vulnerabilities, we will be using Snyk which offers both a command-line tool and a Github integration that checks our application against Snyk’s open source vulnerability database for any known vulnerabilities in our dependencies. X-Powered-By reveals information about the technologies used in an app. Therefore, to avoid outsiders exploit server security weaknesses of our server technology we will be disabling this header.
 
 ## Bill of Materials
 ![Bill of Materials](https://github.com/cepdnaclk/e17-3yp-E-Parking-System/blob/main/docs/images/bom.png)
+
+## Future Improvements
+* More detailed statistics for the management portal to make things easier for management. Expand the data storage of the usage statistics and provide an easy way to manage logs.
+* Provide a way to give the location of the parking spot to the car park users in a more dynamic manner to make the mobile app more user friendly.
+* Add a feature in the mobile app to assist the car park users to the parked spot once they get back to the parking lot.
+
+
 
 ## Team Members
 1. E/17/296 Ravisha Rupasinghe [[Website](http://www.ce.pdn.ac.lk/e17-batch/), [Email](mailto:e17296@ce.pdn.ac.lk)]
