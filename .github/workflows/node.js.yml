@@ -33,18 +33,12 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v3 
-      - name: Deploy in EC2
-        env:
-            PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-            HOSTNAME : ${{ secrets.HOSTNAME  }}
-            USER_NAME : ${{ secrets.USER_NAME  }}
+    - name: Deploy in EC2
+      env:
+          PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
+          HOSTNAME : ${{ secrets.HOSTNAME  }}
+          USER_NAME : ${{ secrets.USER_NAME  }}
             
-        run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          scp -r -o StrictHostKeyChecking=no -i private_key ./build/* ${USER_NAME}@${HOSTNAME}:/var/www/html
+      run: |
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+        scp -r -o StrictHostKeyChecking=no -i private_key ./build/* ${USER_NAME}@${HOSTNAME}:/var/www/html
