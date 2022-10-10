@@ -41,4 +41,4 @@ jobs:
             
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        scp -r -o StrictHostKeyChecking=no -i private_key ./build/* ${USER_NAME}@${HOSTNAME}:/var/www/html
+        sudo scp -r -o StrictHostKeyChecking=no -i private_key ./build/* ${USER_NAME}@${HOSTNAME}:/var/www/html
