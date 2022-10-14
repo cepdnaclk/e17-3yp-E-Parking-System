@@ -22,7 +22,7 @@ jobs:
             
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} && cd ./QuickPark/e17-3yp-E-Parking-System && git pull
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} && cd ~/QuickPark/e17-3yp-E-Parking-System && git pull
 
     
     - name: Build and Deploy Web-App
@@ -33,7 +33,7 @@ jobs:
             
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} && cd ./QuickPark/e17-3yp-E-Parking-System/frontend-web && npm ci --legacy-peer-deps && npm run build --if-present && cp -r ./build /var/www/html
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} && cd ~/QuickPark/e17-3yp-E-Parking-System/frontend-web && npm ci --legacy-peer-deps && npm run build --if-present && cp -r ./build /var/www/html
 
 
     - name: Build and Deploy Backend
@@ -44,4 +44,4 @@ jobs:
             
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} && cd ./QuickPark/e17-3yp-E-Parking-System/Backend && npm ci --legacy-peer-deps && nohup node server.js &
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} && cd ~/QuickPark/e17-3yp-E-Parking-System/Backend && npm ci --legacy-peer-deps && nohup node server.js &
