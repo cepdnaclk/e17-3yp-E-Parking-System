@@ -5,12 +5,8 @@ const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
 const proxy = require("http-proxy-middleware");
-
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
-
-
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -25,6 +21,7 @@ app.use(cors());
 //     );
 // };
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({extended:true}));
 app.disable('x-powered-by');
 
@@ -54,14 +51,6 @@ app.use("/", (req, res, next) => {
     res.send("hi");
 });
 app.use(errorHandler);
-
-// const sslserver = https.createServer({
-//     key: fs.readFileSync(path.join(__dirname, 'certificate', 'key.pem')),
-//     cert: fs.readFileSync(path.join(__dirname, 'certificate', 'certificate.pem'))
-// }, app);
-// sslserver.listen(port, () => {
-//     console.log(`Express server is running on port: ${port}`);
-// });
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
