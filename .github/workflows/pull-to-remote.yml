@@ -52,5 +52,5 @@ jobs:
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
         ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
           cd ~/QuickPark/e17-3yp-E-Parking-System/Backend && 
-          npm ci --legacy-peer-deps && nohup node server.js &
+          npm ci --legacy-peer-deps && sudo systemctl restart quickpark-backend
         '
