@@ -31,7 +31,6 @@ jobs:
         cache: 'npm'
         cache-dependency-path: Backend/package-lock.json
     - run: npm install
-    - run: npm run build --if-present
     
     - name: Deploy in EC2
       env:
@@ -41,4 +40,4 @@ jobs:
             
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        scp -r -o StrictHostKeyChecking=no -i private_key ./build/* ${USER_NAME}@${HOSTNAME}:/home/ubuntu/QuickPark
+        scp -r -o StrictHostKeyChecking=no -i private_key ./* ${USER_NAME}@${HOSTNAME}:/home/ubuntu/QuickPark
