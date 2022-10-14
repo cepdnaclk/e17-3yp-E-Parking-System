@@ -38,9 +38,9 @@ const Dashboard = () => {
       },
     }
 
-    const graphData = (await axios.get('http://44.199.161.77:5000/assignto/getweeklycount', config))[
-      'data'
-    ]
+    const graphData = (
+      await axios.get('http://44.199.161.77:5000/assignto/getweeklycount', config)
+    )['data']
 
     var points = []
 
