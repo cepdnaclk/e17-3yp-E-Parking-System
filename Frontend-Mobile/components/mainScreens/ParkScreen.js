@@ -5,7 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import EventSource from "react-native-sse";
 
-const ParkScreen = () => {
+const ParkScreen = (props) => {
 
   const [assignedInfo, setAssignedInfo] = useState({});
   const [Listening, setListening] = useState(false);
@@ -29,9 +29,9 @@ const ParkScreen = () => {
                 authorization: `bearer ${result}`
             }
         }
-        axios.get("https://quickpark.tk/api/registeredcustomers/user", config).then((res) => {
+        axios.get(`http://${window.IP}/registeredcustomers/user`, config).then((res) => {
             if(!Listening){
-              var eventSource = new EventSource(`https://quickpark.tk/api/assignto/${res.data["_id"]}`, config);
+              var eventSource = new EventSource(`http://${window.IP}/assignto/${res.data["_id"]}`, config);
               eventSource.addEventListener("open", (e) => {
                 console.log("Open SSE connection");
               });
@@ -43,7 +43,7 @@ const ParkScreen = () => {
             }
 
           }).catch((err) => {
-            alert(err.message);
+            console.log(err.message);
         });
 
         setListening(true);
