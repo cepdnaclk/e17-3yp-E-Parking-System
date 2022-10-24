@@ -48,10 +48,10 @@ app.use('/assignto', AssignToRout);
 app.use('/reservation', ReservationRout);
 app.use('/parkinglot', ParkingLot);
 app.use("/", (req, res, next) => {
-    res.send("hi");
+    res.send("Welcome!!!");
 });
 app.use(errorHandler);
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`QP Server Listening at http://localhost:${port}`)
   })

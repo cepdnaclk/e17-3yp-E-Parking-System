@@ -8,8 +8,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 import { AuthContext } from './context';
 
-
-
 export default function Login({ history, navigation }){
 
     const [data, setData] = React.useState({
@@ -78,7 +76,6 @@ export default function Login({ history, navigation }){
       }
   }
 
-
     const updateSecureTextEntry = () => {
         setData({
             ...data,
@@ -107,32 +104,21 @@ export default function Login({ history, navigation }){
         }
     }
 
-    useEffect(() => {
-        if(localStorage.getItem("authToken")){
-            //pass
-        }
-    }, [history]);
-
     async function loginData(e) {
         e.preventDefault();
-
-
         try{
             if(data.password == data.confirm_password){
               const name = data.name;
               const email = data.email;
               const password = data.password;
-              const userdata = await axios.post("https://quickpark.tk/api/registeredcustomers/add", {name, email, password});
-              localStorage.setItem("authToken", userdata.data["token"]);
+              const userdata = await axios.post(`http://${window.IP}/registeredcustomers/add`, {name, email, password});
               signIn(email, userdata.data["token"]);
             }else{
               alert('Passwords should be the same');
             }
-
         }catch(error){
             console.log(error.response.data["error"]);
         }
-
     }
 
     return(

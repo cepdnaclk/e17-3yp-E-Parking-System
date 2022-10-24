@@ -24,6 +24,7 @@ router.route('/getcountall').get(protect, (req, res) => {
 
 //Protected Rout for getting user information.
 router.route('/user').get(protect, (req, res, next) =>{
+    console.log("user");
     RegUser.findById(req.user._id)
     .then(RegisteredCustomers => res.json(RegisteredCustomers))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -35,6 +36,7 @@ router.route("/add").post((req, res, next) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
+    console.log(name);
 
     let data = {
         name: name,
@@ -51,16 +53,17 @@ router.route("/add").post((req, res, next) => {
       let validation = new Validator(data, rules);
       
       if(validation.fails()){
+        console.log("validator fails")
         return res.json("Validation of Input: " + validation.errors.first());
       };
 
-
+    console.log(email);  
     const user = new RegUser({
         name,
         email,
         password,
     });
-
+    console.log(user);
     user.save().then(() => sendToken(user, 201, res))
     .catch(err => res.status(400).json('Error: '+ err));
 });
@@ -91,6 +94,7 @@ router.route("/signin").post(async(req, res, next) => {
     }
     try{
         const user = await RegUser.findOne({ email }).select("+password");
+        console.log(user);
         if(!user){
             return res.status(404).json({success: false, error: "Invalid credentials"});
         }
@@ -159,7 +163,9 @@ router.route("/updateVnumberVmodel").post(function(req, res) {
 
 //Setting up the user token.
 const sendToken = (user, statusCode, res) => {
+    console.log("came to sendtoken");
     const token = user.getSignedToken();
+    console.log(token);
     res.status(statusCode).json({ success: true, token});
 }
 
