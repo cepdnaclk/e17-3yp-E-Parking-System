@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import { StyleSheet, View, Image, SafeAreaView, Button, ActivityIndicator } from 'react-native';
@@ -20,24 +20,24 @@ export function Drawercontent(props) {
 
     useEffect(() => {
         async function getname(){
-            
+
             let result = await SecureStore.getItemAsync("Token");
             const config = {
                 headers: {
                     authorization: `bearer ${result}`
                 }
             }
-    
-            axios.get("https://quickpark.tk/api/registeredcustomers/user", config).then((res) => {
+            axios.get(`http://${window.IP}/registeredcustomers/user`, config).then((res) => {
                 setName(res.data["name"]);
             }).catch((err) => {
-                alert(err.response.error);
+                alert(err);
             })
         }
         getname();
     }, [])
 
-    const { signOut } = React.useContext(AuthContext);
+    const { signOut } = useContext(AuthContext);
+    
     return(
         <View style={{flex: 1}}>
             <DrawerContentScrollView {...props}>

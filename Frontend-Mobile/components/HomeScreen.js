@@ -3,14 +3,14 @@ import axios from 'axios';
 import { StyleSheet,Label, TextInput, Text, View, Button, Image, SafeAreaView } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import { ParkScreen } from "./mainScreens/ParkScreen";
 import { VehiclesScreen } from "./mainScreens/VehiclesScreen";
 import { ReservationsScreen } from "./mainScreens/ReservationsScreen";
+import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
 
 const Tab = createMaterialBottomTabNavigator();
 
- function MainScreen () {
+ function MainScreen (props) {
   return (
     <Tab.Navigator
       initialRouteName="Park"
@@ -50,8 +50,7 @@ const Tab = createMaterialBottomTabNavigator();
   );
 }
 
-const HomeScreen = ({history, navigation}) => {
-
+const HomeScreen = ({props}) => {
     return(
         <MainScreen />
     );

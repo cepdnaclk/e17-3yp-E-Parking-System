@@ -16,7 +16,6 @@ const TimePickerPage = () => {
     [setVisible]
   );
 
-
   return (
     <>
       <TimePickerModal

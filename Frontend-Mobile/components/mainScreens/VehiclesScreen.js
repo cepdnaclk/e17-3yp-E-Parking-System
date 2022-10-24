@@ -65,13 +65,15 @@ const VehiclesScreen = () => {
       async function getVehicals(){
           
           let result = await SecureStore.getItemAsync("Token");
+          console.log(result);
           const config = {
               headers: {
                   authorization: `bearer ${result}`
               }
           }
-  
-          axios.get("https://quickpark.tk/api/registeredcustomers/user", config).then((res) => {
+          console.log("came to vehicle screen");
+          
+          axios.get(`http://${window.IP}/registeredcustomers/user`, config).then((res) => {
             setUserID(res.data["_id"]);
             setVehivles(res.data["vehiclenumber"]);
             setVehivleModels(res.data["vehiclemodel"]);
@@ -108,7 +110,7 @@ const VehiclesScreen = () => {
 
     console.log("Vehicle Added {" + vehicleName + ", " + vehicleNumber + "}")
 
-    axios.post("https://quickpark.tk/api/registeredcustomers/updateVnumberVmodel", {
+    axios.post(`http://${window.IP}/registeredcustomers/updateVnumberVmodel`, {
       _id: userID,
       vehiclenumber: vehicleNumber,
       vehiclemodel: vehicleName

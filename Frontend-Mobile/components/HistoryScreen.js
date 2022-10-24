@@ -3,20 +3,18 @@ import { StyleSheet, Text, View, Button, Image, SafeAreaView } from 'react-nativ
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 
-export default function HistoryScreen({navigation}){
+export default function HistoryScreen({props}){
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
         async function getRegUsers(){
-            
             let result = await SecureStore.getItemAsync("Token");
             const config = {
                 headers: {
                     authorization: `bearer ${result}`
                 }
             }
-
-            axios.get("https://quickpark.tk/api/registeredcustomers/user", config).then((res) => {
+            axios.get(`http://${window.IP}/registeredcustomers/user`, config).then((res) => {
                 console.log(res.data.name);
             }).catch((err) => {
                 alert(err.message);
@@ -30,7 +28,6 @@ export default function HistoryScreen({navigation}){
         </View>
     );
 };
-
 
 const Styles = StyleSheet.create({
     container: {

@@ -92,12 +92,12 @@ export default function Login({ history, navigation }){
 
             const email = data.email;
             const password = data.password;
-            const userdata = await axios.post("https://quickpark.tk/api/registeredcustomers/signin", {email, password});
+            const userdata = await axios.post(`http://${window.IP}/registeredcustomers/signin`, {email, password});
             localStorage.setItem("authToken", userdata.data["token"]);
-            signIn(email, userdata.data["token"]);
+            signIn(userdata.data["token"]);
 
         }catch(error){
-            alert(error.response.data["error"]);
+            console.log(error);
         }
     }
 
