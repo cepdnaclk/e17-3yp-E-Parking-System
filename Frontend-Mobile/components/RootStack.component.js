@@ -6,7 +6,7 @@ import Login from './UserLogin.component';
 
 const RootStack = createStackNavigator();
 
-const RootStackScreen = ({navigation}) => (
+const RootStackScreen = () => (
     <RootStack.Navigator screenOptions={{ headerShown: false}}>
         <RootStack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
         <RootStack.Screen name="Registration" component={RegisterScreen}/>

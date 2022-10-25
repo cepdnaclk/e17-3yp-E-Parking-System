@@ -65,15 +65,13 @@ const VehiclesScreen = () => {
       async function getVehicals(){
           
           let result = await SecureStore.getItemAsync("Token");
-          console.log(result);
           const config = {
               headers: {
                   authorization: `bearer ${result}`
               }
           }
-          console.log("came to vehicle screen");
-          
-          axios.get(`http://${window.IP}/registeredcustomers/user`, config).then((res) => {
+        
+          axios.get(`${window.IP}/registeredcustomers/user`, config).then((res) => {
             setUserID(res.data["_id"]);
             setVehivles(res.data["vehiclenumber"]);
             setVehivleModels(res.data["vehiclemodel"]);
@@ -110,7 +108,7 @@ const VehiclesScreen = () => {
 
     console.log("Vehicle Added {" + vehicleName + ", " + vehicleNumber + "}")
 
-    axios.post(`http://${window.IP}/registeredcustomers/updateVnumberVmodel`, {
+    axios.post(`${window.IP}/registeredcustomers/updateVnumberVmodel`, {
       _id: userID,
       vehiclenumber: vehicleNumber,
       vehiclemodel: vehicleName

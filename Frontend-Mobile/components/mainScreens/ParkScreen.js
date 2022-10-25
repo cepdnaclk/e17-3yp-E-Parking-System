@@ -17,8 +17,7 @@ const ParkScreen = (props) => {
 
     }
   }
-
-
+  
   useEffect(() => {
 
     async function getRegUsers(){
@@ -29,9 +28,9 @@ const ParkScreen = (props) => {
                 authorization: `bearer ${result}`
             }
         }
-        axios.get(`http://${window.IP}/registeredcustomers/user`, config).then((res) => {
+        axios.get(`${window.IP}/registeredcustomers/user`, config).then((res) => {
             if(!Listening){
-              var eventSource = new EventSource(`http://${window.IP}/assignto/${res.data["_id"]}`, config);
+              var eventSource = new EventSource(`${window.IP}/assignto/${res.data["_id"]}`, config);
               eventSource.addEventListener("open", (e) => {
                 console.log("Open SSE connection");
               });

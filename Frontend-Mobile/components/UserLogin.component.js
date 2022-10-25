@@ -92,8 +92,8 @@ export default function Login({ history, navigation }){
 
             const email = data.email;
             const password = data.password;
-            const userdata = await axios.post(`http://${window.IP}/registeredcustomers/signin`, {email, password});
-            localStorage.setItem("authToken", userdata.data["token"]);
+            const userdata = await axios.post(`${window.IP}/registeredcustomers/signin`, {email, password});
+            console.log("User signed In!!!");
             signIn(userdata.data["token"]);
 
         }catch(error){

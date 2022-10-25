@@ -27,7 +27,7 @@ export function Drawercontent(props) {
                     authorization: `bearer ${result}`
                 }
             }
-            axios.get(`http://${window.IP}/registeredcustomers/user`, config).then((res) => {
+            axios.get(`${window.IP}/registeredcustomers/user`, config).then((res) => {
                 setName(res.data["name"]);
             }).catch((err) => {
                 alert(err);
