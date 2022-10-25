@@ -31,10 +31,10 @@ const ReservationsScreen = () => {
       }  
 
         try{
-          const userdetails = await axios.get(`http://${window.IP}/registeredcustomers/user`, config);
+          const userdetails = await axios.get(`${window.IP}/registeredcustomers/user`, config);
           setRuser(userdetails.data['_id']);
           try{
-            const getreservationsFromID = await axios.get(`http://${window.IP}/reservation/${userdetails.data['_id']}`, config);
+            const getreservationsFromID = await axios.get(`${window.IP}/reservation/${userdetails.data['_id']}`, config);
             setRegistrationInfo(getreservationsFromID.data);
           }catch(error){
             console.log(error);
@@ -56,14 +56,14 @@ const ReservationsScreen = () => {
 
       if(add){          
         try{
-          const reservationID = await axios.post(`http://${window.IP}/reservation/add`,{ hours, minutes, Ruser});
+          const reservationID = await axios.post(`${window.IP}/reservation/add`,{ hours, minutes, Ruser});
           try{
-            const getreservationsFromID = await axios.get(`http://${window.IP}/reservation/${Ruser}`, config);
+            const getreservationsFromID = await axios.get(`${window.IP}/reservation/${Ruser}`, config);
             setRegistrationInfo(getreservationsFromID.data);
             setAdd(false);
             try{
               const reservationid = reservationID.data['_id'];
-              var eventSource = new EventSource(`http://${window.IP}/reservation/test/${reservationid}`, config);
+              var eventSource = new EventSource(`${window.IP}/reservation/test/${reservationid}`, config);
               eventSource.addEventListener("open", (e) => {
                 console.log("Open SSE connection");
               });

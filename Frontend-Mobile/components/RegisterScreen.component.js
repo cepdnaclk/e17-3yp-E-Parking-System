@@ -22,7 +22,7 @@ export default function Login({ history, navigation }){
         confirm_passwordTextEntry: true,
     });
 
-    const { signIn } = React.useContext(AuthContext);
+    const { signUp } = React.useContext(AuthContext);
 
     const { colors } = useTheme();
 
@@ -111,8 +111,9 @@ export default function Login({ history, navigation }){
               const name = data.name;
               const email = data.email;
               const password = data.password;
-              const userdata = await axios.post(`http://${window.IP}/registeredcustomers/add`, {name, email, password});
-              signIn(email, userdata.data["token"]);
+              const userdata = await axios.post(`${window.IP}/registeredcustomers/add`, {name, email, password});
+              console.log("User Registered!!!");
+              signUp(userdata.data["token"]);
             }else{
               alert('Passwords should be the same');
             }
