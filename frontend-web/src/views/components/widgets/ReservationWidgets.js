@@ -24,14 +24,12 @@ const ReservationWidgets = () => {
       },
     }
 
-    const totalSpots = (await axios.get('http://44.199.161.77:5000/parkingspots/count', config))[
-      'data'
-    ]
+    const totalSpots = (await axios.get(`${window.BackendIP}/parkingspots/count`, config))['data']
     const reservationCount = (
-      await axios.get('http://44.199.161.77:5000/reservation/getcountall', config)
+      await axios.get(`${window.BackendIP}/reservation/getcountall`, config)
     )['data']
     const occupiedCount = (
-      await axios.get('http://44.199.161.77:5000/reservation/getOccupiedcount', config)
+      await axios.get(`${window.BackendIP}/reservation/getOccupiedcount`, config)
     )['data']
 
     setTotal(totalSpots)

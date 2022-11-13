@@ -81,7 +81,7 @@ const ParkingSpotWidgets = () => {
     //alert(JSON.stringify(config))
 
     try {
-      const { data } = await axios.get('http://44.199.161.77:5000/parkingspots/states', config)
+      const { data } = await axios.get(`${window.BackendIP}/parkingspots/states`, config)
       setSpotInfo(data)
     } catch (error) {}
   }
