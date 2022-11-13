@@ -14,7 +14,7 @@ export default function HistoryScreen({props}){
                     authorization: `bearer ${result}`
                 }
             }
-            axios.get(`http://${window.IP}/registeredcustomers/user`, config).then((res) => {
+            axios.get(`${window.IP}/registeredcustomers/user`, config).then((res) => {
                 console.log(res.data.name);
             }).catch((err) => {
                 alert(err.message);

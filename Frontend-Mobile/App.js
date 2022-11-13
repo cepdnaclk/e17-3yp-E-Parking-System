@@ -11,8 +11,8 @@ import HomeScreen from './components/HomeScreen';
 import HistoryScreen from './components/HistoryScreen';
 import 'localstorage-polyfill'; 
 
-window.IP = "172.20.10.12:5000";
-
+window.IP = "https://www.quickpark.tk/api";
+// window.IP = "192.168.8.112:5000";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
