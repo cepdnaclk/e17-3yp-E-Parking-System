@@ -5,6 +5,8 @@ import './scss/style.scss'
 //Private Route
 import PrivateRoute from './components/PrivateRoute'
 
+window.BackendIP = 'https://www.quickpark.tk/api'
+
 const loading = (
   <div className="pt-3 text-center">
     <div className="sk-spinner sk-spinner-pulse"></div>
@@ -15,7 +17,6 @@ const loading = (
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
 // Pages
-
 const Login = React.lazy(() => import('./views/pages/login/Login'))
 const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
