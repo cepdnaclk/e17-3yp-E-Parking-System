@@ -10,6 +10,7 @@ const { Console } = require('console');
 const collect = require('collect.js'); 
 const { waitForDebugger } = require('inspector');
 //const asyncForEach = require("async-for-each");
+const axios = require('axios');
 
 const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
 const asyncForEach = async (array, callback) => {
@@ -151,7 +152,10 @@ router.route("/add").post(async(req, res) => {
                 childPy.stdout.on('data', (data) => {
                     const newspot = data.toString();
 
+                    //mqtt rq for entrance node(guests)
                     console.log(newspot);
+                    const Mqtt_to_entrance = await axios.post('https://quickpark/abcmall/spotnumber/', {spotnumber: newspot});
+                    console.log(Mqtt_to_entrance);
                     
                     if(newspot == "Car Park is full"){
                         return res.status(400).json("Car Park is full");
@@ -204,7 +208,10 @@ router.route("/add").post(async(req, res) => {
 
                         const newspot = data.toString(); 
                         
+                        //mqtt rq for entrance node(registered users)
                         console.log(newspot);
+                        const Mqtt_to_entrance = await axios.post('https://quickpark/abcmall/spotnumber/', {spotnumber: newspot});
+                        console.log(Mqtt_to_entrance);
 
 
                         if(newspot == "Car Park is full"){
@@ -241,6 +248,10 @@ router.route("/add").post(async(req, res) => {
                 const parkingspotID = reserved["parkingspotID"];
                 const cost = 0;
                 const checkin = checkintime;
+
+                //mqtt rq for entrance node(reservations)
+                const Mqtt_to_entrance = await axios.post('https://quickpark/abcmall/spotnumber/', {spotnumber: parkingspotID});
+                console.log(Mqtt_to_entrance);
             
                 const newAssign = new AssignSpot({
                     customerID,
@@ -347,6 +358,10 @@ async function completeassignspot(customerIDfromuser, checkout){
     const currenttime = Date.now();
     const diffTime = Math.abs(currenttime - checkoutdetails["created"]);
     let calccost = (diffTime/3600000)*50;
+
+    //mqtt rq for exit node(all)
+    const Mqtt_to_entrance = await axios.post('https://quickpark/abcmall/payment', {amout: calccost});
+    console.log(Mqtt_to_entrance);
     checkoutdetails.cost = calccost;
     checkoutdetails.checkout = checkout;
     checkoutdetails.duration = diffTime;
