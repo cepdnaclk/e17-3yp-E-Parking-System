@@ -35,12 +35,12 @@ const Reservations = () => {
       },
     }
 
-    const activeData = (
-      await axios.get('http://44.199.161.77:5000/reservation/getoccupied', config)
-    )['data']
-    const completedData = (
-      await axios.get('http://44.199.161.77:5000/reservation/getcompleted', config)
-    )['data']
+    const activeData = (await axios.get(`${window.BackendIP}/reservation/getoccupied`, config))[
+      'data'
+    ]
+    const completedData = (await axios.get(`${window.BackendIP}/reservation/getcompleted`, config))[
+      'data'
+    ]
 
     setActive(activeData)
     setCompleted(completedData)
