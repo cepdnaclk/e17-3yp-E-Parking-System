@@ -70,7 +70,6 @@ const Dashboard = () => {
               <h4 id="traffic" className="card-title mb-0">
                 Traffic
               </h4>
-              <div className="small text-medium-emphasis">January - July 2021</div>
             </CCol>
             <CCol sm={7} className="d-none d-md-block">
               <CButtonGroup className="float-end me-3">
@@ -101,7 +100,7 @@ const Dashboard = () => {
               ],
               datasets: [
                 {
-                  label: 'My First dataset',
+                  label: 'Count',
                   backgroundColor: hexToRgba(getStyle('--cui-info'), 10),
                   borderColor: getStyle('--cui-info'),
                   pointHoverBackgroundColor: getStyle('--cui-info'),
