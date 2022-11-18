@@ -110,7 +110,7 @@
                 
                 <img src="images/SolArch.png" class="d-block rounded w-100 mb-5"  alt="Solution Architecture">
                 <ul>
-                 <p>Our solution architecture consists of entrance/exit nodes, the parking spot nodes, the mobile app and management portal representing the frontend of the system 
+                 <p>Our solution architecture consists of entrance/exit nodes, the parking spot nodes, the mobile application and management portal representing the frontend of the system 
                    and the cloud server. The hardware nodes have been given their own power supplies and the all the frontend software and the hardware nodes 
                    are connected to the cloud server via Wi-Fi.
                  </p>
@@ -246,7 +246,7 @@
               <ul>
                 <p>The data and control flow of the system gets initiated at the entrance node once a user enters into the parking lot. The license plate number 
                   of that vehicle will be read by the entrance node and it will be sent to the server along with the check-in time. In the meantime, the mobile app 
-                  will authenticates the user using their location. Once an empty parking spot number is sent by the server, the user will be guided to that spot through the use of clear images using the 
+                  will authenticate the user using their location. Once an empty parking spot number is sent by the server, the user will be guided to that spot through the use of clear images using the 
                   mobile app and the necessary updates will be made in the management portal. Once the user reaches the parking spot, the spot node will check and update the status of the spot (occupied or not). 
                   Once the user leaves their assigned spot and reaches the exit node, the exit node will obtain the license plate number and the check-out time and will send that information to the server. 
                   Once the cost has been processed by the server based on the hourly rate set by the managers of the parking lot, the amount to be paid will be sent to the mobile app and will be displayed on the LCD display.
@@ -273,7 +273,7 @@
                   will get the license plate image. This image will be processed at the Raspberry Pi 4 (Python and Tessaract OCR will be used for the Automatic Number Plate Recognition in the Raspberry Pi) and the necessary data will be send 
                   to the server. Once a spot number is received from the server, the Raspberry Pi 4 will signal the servo motor to open the gate while
                   displaying the spot number on the LCD display. Each hardware node has an AC-DC power supply attached and the components operate on 5V DC.
-                  We will have secure WiFi with standard WPA2 encryption to avoid unauthorized access.
+                  We will have secure Wi-Fi with standard WPA2 encryption to avoid unauthorized access.
                 </p>
                 
               </ul>
@@ -284,7 +284,7 @@
                   The NodeMCU ESP8266 will decide the parking spot status based on the sensor data received from the HC-SR04 ultrasonic distance sensor and the 
                   spot status will be sent to the server. We will be creating an ESP-MESH to create a Wi-Fi mesh network and will be using the in-built Wi-Fi module for connectivity.
                   NodeMCU ESP8266 takes in 5VDC power but operates on 3V3DC power. Similar to the entrance/exit node, power will be provided using and AC-DC power supply. Unauthorized parties may intercept communication between the nodes and the server. To prevent this, as mentioned before, 
-                  secure WiFi channels with standard WPA encryption will be used to ensure secure connection to the server.
+                  secure Wi-Fi channels with standard WPA encryption will be used to ensure secure connection to the server.
 
                 </p>
                 
@@ -293,6 +293,38 @@
           </div>
       </div>
   </section>
+
+
+  <section class="ftco-section testimony-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6 heading-section text-center ftco-animate">
+                <span class="subheading">More hardware designs</span>
+                <h2>PCB Designs</h2>    
+            </div>
+            
+            
+            <img src="images/PCB_Designs/PCB_4.png" class="d-block rounded w-100 mb-5"  alt="Solution Architecture">
+            
+            
+            <ul>
+             <p>The PCB designs were developed for the Spot Node. 
+              The designs shown above were developed using Proteus software. 
+              The design includes connections to the NodeMCU ESP 8266 and several headers which can be used to provide connections 
+              for the servo motor and the proximity sensor. An additional set of headers was used to provide power for this unit 
+              via a micro-USB breakout board.
+
+
+
+             </p>
+            </ul>
+
+            
+
+            
+        </div>
+    </div>
+</section>
 
 
 
@@ -356,7 +388,7 @@
 
             <ul>
               <p>During a power outage, if the car park management decides to keep the car park open despite the hardware nodes being down, they can manually enter the data 
-                into the system through the management portal to keep the system up-to-date so that it can recover properly and continue operation once it is back online. 
+                into the system through the management portal to keep the system up to date so that it can recover properly and continue operation once it is back online. 
                 Hardware node online/offline status will be detected by the transmission of an MQTT “heartbeat” message every 5 mins.
 
               </p>
@@ -393,10 +425,10 @@
             <img src="images/security2.png" class="d-block rounded w-100 mb-5 mt-5"  alt="Solution Architecture">
             <ul>
              <p>Validatorjs is used in order to validate user input to limit SQL injections and XSS attacks.
-               This is done to validate every input for the frontend since some attackers can send sql commands or harmful java script code to execute. 
+               This is done to validate every input for the frontend since some attackers can send SQL commands or harmful java script code to execute. 
                Validatorjs is used to prevent such attacks by checking whether the input is a valid email.
                Using npm to manage our application’s dependencies is powerful and convenient. But the packages that we use may contain critical security vulnerabilities that could also affect our application.
-              To avoid such vulnerabilities, we will be using Snyk which offers both a command-line tool and a Github integration that checks our application against Snyk’s open source vulnerability database for 
+              To avoid such vulnerabilities, we will be using Snyk which offers both a command-line tool and a GitHub integration that checks our application against Snyk’s open-source vulnerability database for 
               any known vulnerabilities in our dependencies.
 
               X-Powered-By reveals information about the technologies used in an app. 
