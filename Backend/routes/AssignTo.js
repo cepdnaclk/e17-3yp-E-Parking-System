@@ -149,7 +149,7 @@ router.route("/add").post(async(req, res) => {
                 const { spawn } = require('child_process');    
 
                 const childPy = spawn('python3', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
-                childPy.stdout.on('data', (data) => {
+                childPy.stdout.on('data', async(data) => {
                     const newspot = data.toString();
 
                     //mqtt rq for entrance node(guests)
@@ -204,7 +204,7 @@ router.route("/add").post(async(req, res) => {
                 try{
                     const { spawn } = require('child_process');    
                     const childPy = spawn('python3', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
-                    childPy.stdout.on('data', (data) => {
+                    childPy.stdout.on('data', async(data) => {
 
                         const newspot = data.toString(); 
                         
