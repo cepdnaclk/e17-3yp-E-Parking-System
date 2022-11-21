@@ -160,7 +160,8 @@ router.route("/add").post(async(req, res) => {
 
             try{
                 const { spawn } = require('child_process');    
-
+                console.log(LastAssignedSpot[0]['parkingspotID']);
+                console.log(AllParkingSpots);
                 const childPy = spawn('python3', [path.join(__dirname, '../algorithms/spot_picking_algo.py'), LastAssignedSpot[0]['parkingspotID'], JSON.stringify(AllParkingSpots)]);
                 childPy.stdout.on('data', async(data) => {
                     const newspot = data.toString();
@@ -168,7 +169,6 @@ router.route("/add").post(async(req, res) => {
                     //mqtt rq for entrance node(guests)
                     console.log(newspot);
                     const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com:8443/topics/quickpark/abcmall/spotnumber?qos=0', {spotnumber: newspot}, config);
-                    console.log(Mqtt_to_entrance);
                     
                     if(newspot == "Car Park is full"){
                         return res.status(400).json("Car Park is full");
@@ -224,7 +224,7 @@ router.route("/add").post(async(req, res) => {
                         //mqtt rq for entrance node(registered users)
                         console.log(newspot);
                         const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com:8443/topics/quickpark/abcmall/spotnumber/', {spotnumber: newspot}, config);
-                        console.log(Mqtt_to_entrance);                   
+                                       
 
                         if(newspot == "Car Park is full"){
                             return res.status(400).json("Car Park is full");
@@ -263,7 +263,7 @@ router.route("/add").post(async(req, res) => {
 
                 //mqtt rq for entrance node(reservations)
                 const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com:8443/topics/quickpark/abcmall/spotnumber/', {spotnumber: parkingspotID}, config);
-                console.log(Mqtt_to_entrance);
+      
 
                 const newAssign = new AssignSpot({
                     customerID,
@@ -373,7 +373,7 @@ async function completeassignspot(customerIDfromuser, checkout){
 
     //mqtt rq for exit node(all)
     const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com:8443/topics/quickpark/abcmall/payment', {amout: calccost}, config);
-    console.log(Mqtt_to_entrance);
+    
     checkoutdetails.cost = calccost;
     checkoutdetails.checkout = checkout;
     checkoutdetails.duration = diffTime;
