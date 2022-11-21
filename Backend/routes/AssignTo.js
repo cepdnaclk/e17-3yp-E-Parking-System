@@ -167,7 +167,7 @@ router.route("/add").post(async(req, res) => {
 
                     //mqtt rq for entrance node(guests)
                     console.log(newspot);
-                    const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com/topics/quickpark/abcmall/spotnumber?qos=0', {spotnode: newspot}, config);
+                    const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com:8443/topics/quickpark/abcmall/spotnumber?qos=0', {spotnumber: newspot}, config);
                     console.log(Mqtt_to_entrance);
                     
                     if(newspot == "Car Park is full"){
@@ -223,7 +223,7 @@ router.route("/add").post(async(req, res) => {
                         
                         //mqtt rq for entrance node(registered users)
                         console.log(newspot);
-                        const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com/topics/quickpark/abcmall/spotnumber/', {spotnumber: newspot}, config);
+                        const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com:8443/topics/quickpark/abcmall/spotnumber/', {spotnumber: newspot}, config);
                         console.log(Mqtt_to_entrance);                   
 
                         if(newspot == "Car Park is full"){
@@ -262,7 +262,7 @@ router.route("/add").post(async(req, res) => {
                 const checkin = checkintime;
 
                 //mqtt rq for entrance node(reservations)
-                const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com/topics/quickpark/abcmall/spotnumber/', {spotnumber: parkingspotID}, config);
+                const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com:8443/topics/quickpark/abcmall/spotnumber/', {spotnumber: parkingspotID}, config);
                 console.log(Mqtt_to_entrance);
 
                 const newAssign = new AssignSpot({
@@ -372,7 +372,7 @@ async function completeassignspot(customerIDfromuser, checkout){
     let calccost = (diffTime/3600000)*50;
 
     //mqtt rq for exit node(all)
-    const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com/topics/quickpark/abcmall/payment', {amout: calccost}, config);
+    const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com:8443/topics/quickpark/abcmall/payment', {amout: calccost}, config);
     console.log(Mqtt_to_entrance);
     checkoutdetails.cost = calccost;
     checkoutdetails.checkout = checkout;
