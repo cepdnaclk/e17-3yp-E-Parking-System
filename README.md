@@ -12,8 +12,11 @@ ____
   * [Real world problem](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#real-world-problem)
   * [Project objective](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#project-objective)
 * [Solution Architecure](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#solution-architecture)
-* [Hardware Designs](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#hardware-designs)
+* [Hardware Designs](https://github.com/RavishaHR/e17-3yp-E-Parking-System#hardware-designs)
+* [PCB Designs](https://github.com/RavishaHR/e17-3yp-E-Parking-System#pcb-designs)
+* [CAD Designs](https://github.com/RavishaHR/e17-3yp-E-Parking-System#cad-designs)
 * [Network Architecture](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#network-architecture)
+* [Algorithms](https://github.com/RavishaHR/e17-3yp-E-Parking-System#algorithms)
 * [Security Aspects](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#security-aspects)
 * [Bill of Materials](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#bill-of-materials)
 * [Future Improvements](https://github.com/cepdnaclk/e17-3yp-E-Parking-System#future-improvements)
@@ -118,7 +121,7 @@ Whenever a customer arrives at the Entrance Node, the backend server is expected
 
 It is possible for registered car park users to make reservations through the mobile application. For a user to make such a reservation, the following prerequisites need to be satisfied: the reservation must be on the same day, have to be made more than one hour before the reservation time, reservations are not a guarantee for a parking spot.
 
-![Reservations](https://github.com/cepdnaclk/e17-3yp-E-Parking-System/blob/main/docs/images/reservations_2.png)
+
 
 
 
