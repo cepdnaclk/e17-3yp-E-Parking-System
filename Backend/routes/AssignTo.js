@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const path = require('path');
+const fs = require('fs');
 const { protect } = require('../middlewere/auth');
 let AssignSpot = require('../models/AssignTo.model.js');
 let ParkingSpot = require('../models/ParkingSpot.model.js');
@@ -9,8 +10,20 @@ let GuestUser = require('../models/GuestCustomer.model');
 const { Console } = require('console');
 const collect = require('collect.js'); 
 const { waitForDebugger } = require('inspector');
+const { device } = require('aws-iot-device-sdk');
 //const asyncForEach = require("async-for-each");
 const axios = require('axios');
+const https = require('https');
+const { fstat } = require('fs');
+
+// configure request
+const config = {
+    httpsAgent : new https.Agent({
+        cert: fs.readFileSync('0aa35f850c1a369a84e1e06a7e034cb584661eb487ce49680cb357318a2418e9-certificate.pem.crt',{ encoding: "utf8" }),
+        key: fs.readFileSync('0aa35f850c1a369a84e1e06a7e034cb584661eb487ce49680cb357318a2418e9-private.pem.key', { encoding: "utf8" }),
+        ca: fs.readFileSync('AmazonRootCA1.pem', { encoding: "utf8" })
+    })
+}
 
 const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
 const asyncForEach = async (array, callback) => {
@@ -94,7 +107,7 @@ router.route('/getweeklycount').get(async(req, res) => {
         waitFor(50);
         let currentdate = new Date();
         let prevdate = new Date(); 
-        currentdate =  new Date(currentdate.setDate(currentdate.getDate() - i));
+        currentdate = new Date(currentdate.setDate(currentdate.getDate() - i));
         prevdate = new Date(prevdate.setDate(prevdate.getDate() - (i+1)));
         const cc = await AssignSpot.countDocuments({$and: [{created: {$lte: currentdate}}, {created: {$gt: prevdate}}]})
         weeklycc[currentdate.getDay()]["count"] = cc;
@@ -154,7 +167,7 @@ router.route("/add").post(async(req, res) => {
 
                     //mqtt rq for entrance node(guests)
                     console.log(newspot);
-                    const Mqtt_to_entrance = await axios.post('https://quickpark/abcmall/spotnumber/', {spotnumber: newspot});
+                    const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com/topics/quickpark/abcmall/spotnumber?qos=0', {spotnode: newspot}, config);
                     console.log(Mqtt_to_entrance);
                     
                     if(newspot == "Car Park is full"){
@@ -210,9 +223,8 @@ router.route("/add").post(async(req, res) => {
                         
                         //mqtt rq for entrance node(registered users)
                         console.log(newspot);
-                        const Mqtt_to_entrance = await axios.post('https://quickpark/abcmall/spotnumber/', {spotnumber: newspot});
-                        console.log(Mqtt_to_entrance);
-
+                        const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com/topics/quickpark/abcmall/spotnumber/', {spotnumber: newspot}, config);
+                        console.log(Mqtt_to_entrance);                   
 
                         if(newspot == "Car Park is full"){
                             return res.status(400).json("Car Park is full");
@@ -250,9 +262,9 @@ router.route("/add").post(async(req, res) => {
                 const checkin = checkintime;
 
                 //mqtt rq for entrance node(reservations)
-                const Mqtt_to_entrance = await axios.post('https://quickpark/abcmall/spotnumber/', {spotnumber: parkingspotID});
+                const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com/topics/quickpark/abcmall/spotnumber/', {spotnumber: parkingspotID}, config);
                 console.log(Mqtt_to_entrance);
-            
+
                 const newAssign = new AssignSpot({
                     customerID,
                     parkingspotID,
@@ -360,7 +372,7 @@ async function completeassignspot(customerIDfromuser, checkout){
     let calccost = (diffTime/3600000)*50;
 
     //mqtt rq for exit node(all)
-    const Mqtt_to_entrance = await axios.post('https://quickpark/abcmall/payment', {amout: calccost});
+    const Mqtt_to_entrance = await axios.post('https://a3g8eiqf453gf3-ats.iot.ap-south-1.amazonaws.com/topics/quickpark/abcmall/payment', {amout: calccost}, config);
     console.log(Mqtt_to_entrance);
     checkoutdetails.cost = calccost;
     checkoutdetails.checkout = checkout;

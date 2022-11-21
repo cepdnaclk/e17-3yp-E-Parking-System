@@ -1,7 +1,7 @@
+require('dotenv').config({ path: "./config.env"});
 const express = require('express');
 const https = require('https');
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, "./config.env")});
 const fs = require('fs');
 const cors = require('cors');
 const proxy = require("http-proxy-middleware");
