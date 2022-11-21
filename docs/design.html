@@ -314,13 +314,8 @@
               for the servo motor and the proximity sensor. An additional set of headers was used to provide power for this unit 
               via a micro-USB breakout board.
 
-
-
              </p>
             </ul>
-
-            
-
             
         </div>
     </div>
@@ -397,6 +392,47 @@
         </div>
     </div>
   </section>
+
+  <section class="ftco-section testimony-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6 heading-section text-center ftco-animate">
+                <span class="subheading">Design decisions</span>
+                <h2>Algorithms</h2>    
+            </div>
+            
+            
+            <img src="images/algorithms.png" class="d-block rounded w-100 mb-5"  alt="Solution Architecture">
+            
+            
+            <ul>
+             <p><strong>Spot Picking Algorithm</strong> <br><br>
+              Whenever a customer arrives at the Entrance Node, the backend server is expected to find a suitable unoccupied spot 
+              (unless it is reserved) for the customer. This process is done considering the possibility of a customer parking at the 
+              wrong spot once they are inside the parking lot. To avoid such a situation, the spot picking algorithm tries to find the 
+              furthest spot from the last allocated spot for the most recent user. <br><br><br>
+
+              <strong>Reservation Algorithm</strong><br><br>
+              It is possible for registered car park users to make reservations through the mobile application. 
+              For a user to make such a reservation, the following prerequisites need to be satisfied:
+              the reservation must be on the same day,
+              have to be made more than one hour before the reservation time,
+              reservations are not a guarantee for a parking spot.<br><br>
+
+              <img src="images/reservations_2.png" class="d-block rounded w-100 mb-5"  alt="Solution Architecture">
+
+
+
+             </p>
+            </ul>
+            
+        </div>
+    </div>
+</section>
+
+
+
+
 
   <section class="ftco-section testimony-section bg-light">
     <div class="container">
